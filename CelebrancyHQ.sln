@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "QLoveServices.UI", "QLoveServices.UI\QLoveServices.UI.esproj", "{F89E6D5A-F4DD-4945-9A79-D5E4CC107904}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CelebrancyHQ.UI", "CelebrancyHQ.UI\CelebrancyHQ.UI.esproj", "{F89E6D5A-F4DD-4945-9A79-D5E4CC107904}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
