@@ -4,6 +4,7 @@ import { DependencyService } from "../../services/dependencies/dependency.servic
 
 export class Login extends React.Component<LoginProps, LoginState> {
     private authenticationService = DependencyService.getInstance().getDependency<AuthenticationService>(AuthenticationService.serviceName);
+    private loginForm: React.RefObject<HTMLFormElement>;
 
     constructor(props: LoginProps) {
         super(props);
@@ -11,11 +12,15 @@ export class Login extends React.Component<LoginProps, LoginState> {
         this.state = {
             emailAddress: '',
             password: '',
+            formSubmitted: false,
+            loginFailed: false
         };
 
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.login = this.login.bind(this);
+
+        this.loginForm = React.createRef<HTMLFormElement>();
     }
 
     setEmail(event: React.ChangeEvent<HTMLInputElement>) {
@@ -29,8 +34,17 @@ export class Login extends React.Component<LoginProps, LoginState> {
     async login(event: React.ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const result = await this.authenticationService.login(this.state.emailAddress, this.state.password);
+        this.setState({ formSubmitted: true })
 
+        if (this.loginForm.current && this.loginForm.current.checkValidity()) {
+            try {
+                await this.authenticationService.login(this.state.emailAddress, this.state.password);
+                this.setState({ loginFailed: false });
+            } catch {
+                this.setState({ loginFailed: true });
+            }
+        }
+        
         // TODO: Handle invalid login details here.
     }
 
@@ -39,14 +53,20 @@ export class Login extends React.Component<LoginProps, LoginState> {
         return (
             <main>
                 <h1>Login</h1>
-                <form id="login-form" onSubmit={this.login}>
+                <div className={`alert alert-danger ${!this.state.loginFailed ? 'd-none' : ''}`}>
+                    Your user name and/or password were incorrect. Please try again.
+                </div>
+                <form id="login-form" ref={this.loginForm} className={`needs-validation ${this.state.formSubmitted ? 'was-validated' : ''}`} noValidate onSubmit={this.login}>
                     <div className="container-fluid p-0">
                         <div className="row form-group">
                             <div className="col-lg-2 col-sm-3 col-12">
                                 <label htmlFor="email-address" className="col-form-label">Email address:</label>
                             </div>
                             <div className="col-lg-10 col-sm-9 col-12">
-                                <input id="email-address" type="email" className="form-control" value={this.state.emailAddress} onChange={this.setEmail} />
+                                <input id="email-address" type="email" className="form-control" required value={this.state.emailAddress} onChange={this.setEmail} />
+                                <div className="invalid-feedback">
+                                    Please provide an email address.
+                                </div>
                             </div>
                         </div>
                         <div className="row form-group">
@@ -54,7 +74,10 @@ export class Login extends React.Component<LoginProps, LoginState> {
                                 <label htmlFor="password" className="col-form-label">Password:</label>
                             </div>
                             <div className="col-lg-10 col-sm-9 col-12">
-                                <input id="password" type="password" className="form-control" value={this.state.password} onChange={this.setPassword} />
+                                <input id="password" type="password" className="form-control" required value={this.state.password} onChange={this.setPassword} />
+                                <div className="invalid-feedback">
+                                    Please provide a password.
+                                </div>
                             </div>
                         </div>
                         <div className="row">
@@ -76,4 +99,6 @@ interface LoginProps {
 interface LoginState {
     emailAddress: string;
     password: string;
+    formSubmitted: boolean;
+    loginFailed: boolean;
 }

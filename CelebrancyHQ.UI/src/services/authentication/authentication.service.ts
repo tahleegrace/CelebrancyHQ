@@ -15,16 +15,19 @@ export class AuthenticationService {
 
     public async login(emailAddress: string, password: string): Promise<User | null> {
         // TODO: Call a web service to login.
-        // TODO: Handle invalid login details here.
-        const user: User = {
-            id: 1,
-            firstName: 'Tahlee-Joy',
-            lastName: 'Grace',
-            emailAddress: emailAddress
-        };
+        if (emailAddress === 'error@example.com') {
+            throw new Error('User name or password is incorrect');
+        } else {
+            const user: User = {
+                id: 1,
+                firstName: 'Tahlee-Joy',
+                lastName: 'Grace',
+                emailAddress: emailAddress
+            };
 
-        this.storageService.setItem(AuthenticationService.currentUserKey, user);
+            this.storageService.setItem(AuthenticationService.currentUserKey, user);
 
-        return user;
+            return user;
+        }
     }
 }
