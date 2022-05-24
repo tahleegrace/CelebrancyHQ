@@ -14,6 +14,7 @@
     <Folder Include="src\interfaces\" />
     <Folder Include="src\pages\login\" />
     <Folder Include="src\services\dependencies\" />
+    <Folder Include="src\services\authentication\" />
     <Folder Include="src\services\storage\" />
   </ItemGroup>
   <!-- This target is copied from the ASP.NET SPA template in order to ensure node_modules are in place. -->
