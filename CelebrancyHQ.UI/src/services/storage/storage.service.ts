@@ -1,6 +1,8 @@
 import * as _ from "lodash";
 
 export class StorageService {
+    static serviceName = 'storage-service';
+
     getItem<ItemType>(key: string): ItemType | null {
         const item = sessionStorage.getItem(key);
 
@@ -11,7 +13,7 @@ export class StorageService {
         return null;
     }
 
-    setItem<ItemType>(key: string, data: ItemType ) {
+    setItem<ItemType>(key: string, data: ItemType) {
         sessionStorage.setItem(key, JSON.stringify(data))
     }
 }
