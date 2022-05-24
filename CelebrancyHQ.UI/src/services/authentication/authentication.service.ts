@@ -7,21 +7,24 @@ export class AuthenticationService {
 
     private static currentUserKey = 'currentUser';
 
-    private _storageService = DependencyService.getInstance().getDependency<StorageService>(StorageService.name);
+    private storageService = DependencyService.getInstance().getDependency<StorageService>(StorageService.serviceName);
 
     public currentUser(): User | null {
-        return this._storageService.getItem<User>(AuthenticationService.currentUserKey);
+        return this.storageService.getItem<User>(AuthenticationService.currentUserKey);
     }
 
-    public async login(emailAddress: string, password: string) {
+    public async login(emailAddress: string, password: string): Promise<User | null> {
         // TODO: Call a web service to login.
+        // TODO: Handle invalid login details here.
         const user: User = {
             id: 1,
             firstName: 'Tahlee-Joy',
             lastName: 'Grace',
-            emailAddress: 'tahlee.grace@gmail.com'
+            emailAddress: emailAddress
         };
 
-        this._storageService.setItem(AuthenticationService.currentUserKey, user);
+        this.storageService.setItem(AuthenticationService.currentUserKey, user);
+
+        return user;
     }
 }
