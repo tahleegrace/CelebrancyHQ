@@ -4,6 +4,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
 import { Login } from './pages/login/login';
 import reportWebVitals from './reportWebVitals';
+import configureDependencies from './services/configure-dependencies';
+
+configureDependencies();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
