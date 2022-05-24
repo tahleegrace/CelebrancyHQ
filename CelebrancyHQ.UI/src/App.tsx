@@ -1,4 +1,5 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
             </nav>
         </header>
         <div className="container m-0">
-            Placeholder for page content.
+            <Outlet />
         </div>
     </div>
   );
