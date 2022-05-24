@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-export class SessionStorage {
+export class StorageService {
     getItem<ItemType>(key: string): ItemType | null {
         const item = sessionStorage.getItem(key);
 
