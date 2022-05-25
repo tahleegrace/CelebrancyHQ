@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import { AuthenticationService } from "../../services/authentication/authentication.service";
 import { DependencyService } from "../../services/dependencies/dependency.service";
 
@@ -13,7 +14,8 @@ export class Login extends React.Component<LoginProps, LoginState> {
             emailAddress: '',
             password: '',
             formSubmitted: false,
-            loginFailed: false
+            loginFailed: false,
+            loginSuccessful: false
         };
 
         this.setEmail = this.setEmail.bind(this);
@@ -39,9 +41,11 @@ export class Login extends React.Component<LoginProps, LoginState> {
         if (this.loginForm.current && this.loginForm.current.checkValidity()) {
             try {
                 await this.authenticationService.login(this.state.emailAddress, this.state.password);
-                this.setState({ loginFailed: false });
+                this.setState({ loginFailed: false, loginSuccessful: true });
+
+                //return ();
             } catch {
-                this.setState({ loginFailed: true });
+                this.setState({ loginFailed: true, loginSuccessful: false });
             }
         }
         
@@ -51,6 +55,8 @@ export class Login extends React.Component<LoginProps, LoginState> {
     // TODO: Add validation to this page.
     render() {
         return (
+            this.state.loginSuccessful ?
+            <Navigate to = "/dashboard" /> :
             <main>
                 <h1>Login</h1>
                 <div className={`alert alert-danger ${!this.state.loginFailed ? 'd-none' : ''}`}>
@@ -101,4 +107,5 @@ interface LoginState {
     password: string;
     formSubmitted: boolean;
     loginFailed: boolean;
+    loginSuccessful: boolean;
 }
