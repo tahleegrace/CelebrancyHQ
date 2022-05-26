@@ -1,19 +1,10 @@
+import { ContextProps } from "../../context/context";
 import { User } from "../../interfaces/user";
-import { DependencyService } from "../dependencies/dependency.service";
-import { StorageService } from "../storage/storage.service";
 
 export class AuthenticationService {
     static serviceName = 'authentication-service';
 
-    private static currentUserKey = 'currentUser';
-
-    private storageService = DependencyService.getInstance().getDependency<StorageService>(StorageService.serviceName);
-
-    public currentUser(): User | null {
-        return this.storageService.getItem<User>(AuthenticationService.currentUserKey);
-    }
-
-    public async login(emailAddress: string, password: string): Promise<User | null> {
+    public async login(emailAddress: string, password: string, context: ContextProps): Promise<User | null> {
         // TODO: Call a web service to login.
         if (emailAddress === 'error@example.com') {
             throw new Error('User name or password is incorrect');
@@ -22,10 +13,11 @@ export class AuthenticationService {
                 id: 1,
                 firstName: 'Tahlee-Joy',
                 lastName: 'Grace',
+                businessName: 'Q Celebrancy',
                 emailAddress: emailAddress
             };
 
-            this.storageService.setItem(AuthenticationService.currentUserKey, user);
+            context.setCurrentUser(user);
 
             return user;
         }

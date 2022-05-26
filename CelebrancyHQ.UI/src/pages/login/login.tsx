@@ -1,9 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { CelebrancyHQContext, ContextProps } from "../../context/context";
 import { AuthenticationService } from "../../services/authentication/authentication.service";
 import { DependencyService } from "../../services/dependencies/dependency.service";
 
 export class Login extends React.Component<LoginProps, LoginState> {
+    static contextType = CelebrancyHQContext;
+
     private authenticationService = DependencyService.getInstance().getDependency<AuthenticationService>(AuthenticationService.serviceName);
     private loginForm: React.RefObject<HTMLFormElement>;
 
@@ -40,10 +43,8 @@ export class Login extends React.Component<LoginProps, LoginState> {
 
         if (this.loginForm.current && this.loginForm.current.checkValidity()) {
             try {
-                await this.authenticationService.login(this.state.emailAddress, this.state.password);
+                await this.authenticationService.login(this.state.emailAddress, this.state.password, (this.context as ContextProps));
                 this.setState({ loginFailed: false, loginSuccessful: true });
-
-                //return ();
             } catch {
                 this.setState({ loginFailed: true, loginSuccessful: false });
             }
