@@ -1,16 +1,33 @@
 import React from "react";
 import { CeremoniesSummary } from "../../components/ceremonies-summary/ceremonies-summary";
+import { CeremonySummary } from "../../interfaces/ceremony-summary";
+import { CeremoniesService } from "../../services/ceremonies/ceremonies.service";
+import { DependencyService } from "../../services/dependencies/dependency.service";
 import { CommonPage } from "../common-page/common-page";
 
 export class Dashboard extends CommonPage<DashboardProps, DashboardState> {
     static pageName = 'dashboard';
+    private ceremoniesService = DependencyService.getInstance().getDependency<CeremoniesService>(CeremoniesService.serviceName);
 
     constructor(props: DashboardProps) {
         super(props);
+
+        this.state = {
+            ceremoniesThisWeek: [],
+            ceremoniesNextWeek: []
+        };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.setCurrentPage(Dashboard.pageName);
+
+        const ceremoniesThisWeek = await this.ceremoniesService.listCeremonies(true);
+        const ceremoniesNextWeek = await this.ceremoniesService.listCeremonies(false);
+
+        this.setState({
+            ceremoniesThisWeek: ceremoniesThisWeek,
+            ceremoniesNextWeek: ceremoniesNextWeek
+        });
     }
 
     render() {
@@ -18,8 +35,8 @@ export class Dashboard extends CommonPage<DashboardProps, DashboardState> {
             <main>
                 <h1>Dashboard</h1>
 
-                <CeremoniesSummary title="This week" />
-                <CeremoniesSummary title="Next week" />
+                <CeremoniesSummary key="this-weeks-ceremonies" title="This week" ceremonies={this.state.ceremoniesThisWeek} />
+                <CeremoniesSummary key="next-weeks-ceremonies" title="Next week" ceremonies={this.state.ceremoniesNextWeek} />
 
                 <div className="container-fluid p-0">
                     <h2>Tasks</h2>
@@ -42,5 +59,6 @@ interface DashboardProps {
 }
 
 interface DashboardState {
-
+    ceremoniesThisWeek: CeremonySummary[];
+    ceremoniesNextWeek: CeremonySummary[];
 }

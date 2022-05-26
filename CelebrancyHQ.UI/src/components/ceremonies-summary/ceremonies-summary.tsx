@@ -1,8 +1,17 @@
-import React from "react";
+import moment from "moment";
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
+import { CeremonySummary } from "../../interfaces/ceremony-summary";
 
 export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, CeremoniesSummaryState> {
     constructor(props: CeremoniesSummaryProps) {
         super(props);
+    }
+
+    getCeremonyDescription(ceremony: CeremonySummary) {
+        const dateString = moment(ceremony.date).format('dddd MMMM YYYY h:mm A');
+
+        return `${dateString} - ${ceremony.ceremonyName}: ${ceremony.clientName}, ${ceremony.venueName}, ${ceremony.address}`;
     }
 
     render() {
@@ -10,15 +19,16 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
             <div className="container-fluid pt-0 pb-3 pl-0 pr-0">
                 <h2>{this.props.title}</h2>
                 <ul className="list-group">
-                    <a className="list-group-item list-group-item-action">
-                        Thursday 26 May 2:00PM - Wedding: John Smith and Angela Jones, 12 Bank Rd, Graceville
-                    </a>
-                    <a className="list-group-item list-group-item-action">
-                        Thursday 26 May 2:00PM - Wedding: John Smith and Angela Jones, 12 Bank Rd, Graceville
-                    </a>
-                    <a className="list-group-item list-group-item-action">
-                        Thursday 26 May 2:00PM - Wedding: John Smith and Angela Jones, 12 Bank Rd, Graceville
-                    </a>
+                    {this.props.ceremonies && this.props.ceremonies.length > 0 ?
+                        <Fragment>
+                            {this.props.ceremonies.map(ceremony =>
+                            (<Link key={ceremony.id} to={`/ceremonies/${ceremony.id}`} className="list-group-item list-group-item-action">
+                                {this.getCeremonyDescription(ceremony)}
+                            </Link>))
+                            }
+                        </Fragment>
+                        : <a className="list-group-item">No ceremonies</a>
+                    }
                 </ul>
             </div>
         );
@@ -27,6 +37,7 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
 
 interface CeremoniesSummaryProps {
     title: string;
+    ceremonies: CeremonySummary[];
 }
 
 interface CeremoniesSummaryState {

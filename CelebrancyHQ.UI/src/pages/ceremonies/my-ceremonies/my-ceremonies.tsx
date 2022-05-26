@@ -1,4 +1,4 @@
-import { CommonPage } from "../common-page/common-page";
+import { CommonPage } from "../../common-page/common-page";
 
 export class MyCeremonies extends CommonPage<MyCeremoniesProps, MyCeremoniesState> {
     static pageName = 'my-ceremonies';

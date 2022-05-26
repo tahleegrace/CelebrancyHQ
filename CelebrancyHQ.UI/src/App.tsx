@@ -43,7 +43,7 @@ export class App extends React.Component<AppProps, AppState> {
                                             <Link className="nav-link" to="/dashboard">Dashboard</Link>
                                         </li>
                                         <li className={`nav-item ${this.isPageActive('my-ceremonies') ? 'active' : ''}`}>
-                                            <Link className="nav-link" to="/my-ceremonies">My Ceremonies</Link>
+                                            <Link className="nav-link" to="/ceremonies">My Ceremonies</Link>
                                         </li>
                                         <li className={`nav-item ${this.isPageActive('my-business') ? 'active' : ''}`}>
                                             <a className="nav-link" href="#">My Business</a>
