@@ -3,9 +3,11 @@ import { Navigate } from "react-router-dom";
 import { CelebrancyHQContext, ContextProps } from "../../context/context";
 import { AuthenticationService } from "../../services/authentication/authentication.service";
 import { DependencyService } from "../../services/dependencies/dependency.service";
+import { CommonPage } from "../common-page/common-page";
 
-export class Login extends React.Component<LoginProps, LoginState> {
+export class Login extends CommonPage<LoginProps, LoginState> {
     static contextType = CelebrancyHQContext;
+    static pageName = 'login';
 
     private authenticationService = DependencyService.getInstance().getDependency<AuthenticationService>(AuthenticationService.serviceName);
     private loginForm: React.RefObject<HTMLFormElement>;
@@ -49,11 +51,12 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 this.setState({ loginFailed: true, loginSuccessful: false });
             }
         }
-        
-        // TODO: Handle invalid login details here.
     }
 
-    // TODO: Add validation to this page.
+    componentDidMount() {
+        this.setCurrentPage(Login.pageName);
+    }
+
     render() {
         return (
             this.state.loginSuccessful ?

@@ -1,8 +1,15 @@
 import React from "react";
+import { CommonPage } from "../common-page/common-page";
 
-export class Dashboard extends React.Component<DashboardProps, DashboardState> {
+export class Dashboard extends CommonPage<DashboardProps, DashboardState> {
+    static pageName = 'dashboard';
+
     constructor(props: DashboardProps) {
         super(props);
+    }
+
+    componentDidMount() {
+        this.setCurrentPage(Dashboard.pageName);
     }
 
     render() {

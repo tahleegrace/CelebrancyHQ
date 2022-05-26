@@ -10,10 +10,19 @@ export class App extends React.Component<AppProps, AppState> {
 
         this.state = {
             currentUser: null,
-            setCurrentUser: (user: User) => {
+            setCurrentUser: (user: User | null) => {
                 this.setState({ currentUser: user })
+            },
+
+            currentPage: null,
+            setCurrentPage: (page: string) => {
+                this.setState({ currentPage: page })
             }
         };
+    }
+
+    isPageActive(page: string) {
+        return this.state.currentPage === page;
     }
 
     render() {
@@ -30,16 +39,16 @@ export class App extends React.Component<AppProps, AppState> {
                             {this.state.currentUser ?
                                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul className="navbar-nav mr-auto">
-                                        <li className="nav-item active">
+                                        <li className={`nav-item ${this.isPageActive('dashboard') ? 'active' : ''}`}>
                                             <a className="nav-link" href="#">Dashboard</a>
                                         </li>
-                                        <li className="nav-item">
+                                        <li className={`nav-item ${this.isPageActive('my-ceremonies') ? 'active' : ''}`}>
                                             <a className="nav-link" href="#">My Ceremonies</a>
                                         </li>
-                                        <li className="nav-item">
+                                        <li className={`nav-item ${this.isPageActive('my-business') ? 'active' : ''}`}>
                                             <a className="nav-link" href="#">My Business</a>
                                         </li>
-                                        <li className="nav-item">
+                                        <li className={`nav-item ${this.isPageActive('my-account') ? 'active' : ''}`}>
                                             <a className="nav-link" href="#">My Account</a>
                                         </li>
                                         <li className="nav-item">
