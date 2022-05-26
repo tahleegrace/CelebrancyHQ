@@ -13,6 +13,8 @@
   <ItemGroup>
     <Folder Include="src\interfaces\" />
     <Folder Include="src\context\" />
+    <Folder Include="src\pages\ceremonies\" />
+    <Folder Include="src\pages\common-page\" />
     <Folder Include="src\utilities\" />
     <Folder Include="src\pages\login\" />
     <Folder Include="src\pages\dashboard\" />

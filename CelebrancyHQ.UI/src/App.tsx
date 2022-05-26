@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { CelebrancyHQContext, ContextProps } from './context/context';
 import { User } from './interfaces/user';
 import { getUserFullName } from './utilities/format';
@@ -40,10 +40,10 @@ export class App extends React.Component<AppProps, AppState> {
                                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul className="navbar-nav mr-auto">
                                         <li className={`nav-item ${this.isPageActive('dashboard') ? 'active' : ''}`}>
-                                            <a className="nav-link" href="#">Dashboard</a>
+                                            <Link className="nav-link" to="/dashboard">Dashboard</Link>
                                         </li>
                                         <li className={`nav-item ${this.isPageActive('my-ceremonies') ? 'active' : ''}`}>
-                                            <a className="nav-link" href="#">My Ceremonies</a>
+                                            <Link className="nav-link" to="/my-ceremonies">My Ceremonies</Link>
                                         </li>
                                         <li className={`nav-item ${this.isPageActive('my-business') ? 'active' : ''}`}>
                                             <a className="nav-link" href="#">My Business</a>
