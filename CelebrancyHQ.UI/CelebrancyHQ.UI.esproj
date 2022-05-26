@@ -11,6 +11,7 @@
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\components\ceremonies-summary\" />
     <Folder Include="src\interfaces\" />
     <Folder Include="src\context\" />
     <Folder Include="src\pages\ceremonies\" />
