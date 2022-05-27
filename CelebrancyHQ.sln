@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CelebrancyHQ.UI", "CelebrancyHQ.UI\CelebrancyHQ.UI.esproj", "{F89E6D5A-F4DD-4945-9A79-D5E4CC107904}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrancyHQ.API", "CelebrancyHQ.API\CelebrancyHQ.API.csproj", "{5BD997EA-65DA-475B-9E21-9D090ED6EA8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{F89E6D5A-F4DD-4945-9A79-D5E4CC107904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F89E6D5A-F4DD-4945-9A79-D5E4CC107904}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F89E6D5A-F4DD-4945-9A79-D5E4CC107904}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5BD997EA-65DA-475B-9E21-9D090ED6EA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD997EA-65DA-475B-9E21-9D090ED6EA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD997EA-65DA-475B-9E21-9D090ED6EA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD997EA-65DA-475B-9E21-9D090ED6EA8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
