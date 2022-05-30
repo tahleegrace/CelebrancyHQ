@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { CelebrancyHQContext, ContextProps } from './context/context';
-import { User } from './interfaces/user';
+import { UserDTO } from './interfaces/user';
 import { getUserFullName } from './utilities/format';
 
 export class App extends React.Component<AppProps, AppState> {
@@ -10,7 +10,7 @@ export class App extends React.Component<AppProps, AppState> {
 
         this.state = {
             currentUser: null,
-            setCurrentUser: (user: User | null) => {
+            setCurrentUser: (user: UserDTO | null) => {
                 this.setState({ currentUser: user })
             },
 

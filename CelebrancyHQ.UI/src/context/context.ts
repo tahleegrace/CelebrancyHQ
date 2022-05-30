@@ -1,9 +1,9 @@
 import React from "react";
-import { User } from "../interfaces/user";
+import { UserDTO } from "../interfaces/user";
 
 export interface ContextProps {
-    currentUser: User | null;
-    setCurrentUser: (user: User | null) => void;
+    currentUser: UserDTO | null;
+    setCurrentUser: (user: UserDTO | null) => void;
 
     currentPage: string | null;
     setCurrentPage: (page: string) => void;
@@ -11,7 +11,7 @@ export interface ContextProps {
 
 const contextData: ContextProps = {
     currentUser: null,
-    setCurrentUser: (user: User | null) => { },
+    setCurrentUser: (user: UserDTO | null) => { },
 
     currentPage: null,
     setCurrentPage: (page: string) => { }
