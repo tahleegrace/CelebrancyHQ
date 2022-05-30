@@ -1,25 +1,23 @@
 import { ContextProps } from "../../context/context";
+import { LoginDetailsDTO } from "../../interfaces/login-details";
 import { UserDTO } from "../../interfaces/user";
+import { DependencyService } from "../dependencies/dependency.service";
+import { HttpService } from "../http/http.service";
 
 export class AuthenticationService {
     static serviceName = 'authentication-service';
 
-    public async login(emailAddress: string, password: string, context: ContextProps): Promise<UserDTO | null> {
-        // TODO: Call a web service to login.
-        if (emailAddress === 'error@example.com') {
-            throw new Error('User name or password is incorrect');
-        } else {
-            const user: UserDTO = {
-                id: 1,
-                firstName: 'Tahlee-Joy',
-                lastName: 'Grace',
-                businessName: 'Q Celebrancy',
-                emailAddress: emailAddress
-            };
+    private httpService = DependencyService.getInstance().getDependency<HttpService>(HttpService.serviceName);
 
-            context.setCurrentUser(user);
+    public async login(emailAddress: string, password: string, context: ContextProps): Promise<UserDTO> {
+        const request: LoginDetailsDTO = {
+            emailAddress: emailAddress,
+            password: password
+        };
 
-            return user;
-        }
+        const result = await this.httpService.post<LoginDetailsDTO, UserDTO>("auth/login", request);
+        context.setCurrentUser(result);
+
+        return result;
     }
 }

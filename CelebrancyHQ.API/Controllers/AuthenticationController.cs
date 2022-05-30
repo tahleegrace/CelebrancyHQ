@@ -19,6 +19,7 @@ namespace CelebrancyHQ.API.Controllers
         /// <param name="loginDetails">The login details of the user.</param>
         /// <returns>The details of the user who has logged in.</returns>
         [HttpPost]
+        [Route("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDetailsDTO loginDetails)
         {
             if (loginDetails == null)
@@ -29,7 +30,7 @@ namespace CelebrancyHQ.API.Controllers
             // TODO: Check the database here.
             if (loginDetails.EmailAddress == "error@example.com")
             {
-                return Unauthorized("Email address or password incorrect");
+                return Unauthorized("Email address or password incorrect.");
             }
             else
             {
