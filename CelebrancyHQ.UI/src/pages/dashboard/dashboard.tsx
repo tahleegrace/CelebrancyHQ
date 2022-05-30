@@ -1,6 +1,6 @@
 import React from "react";
 import { CeremoniesSummary } from "../../components/ceremonies-summary/ceremonies-summary";
-import { CeremonySummary } from "../../interfaces/ceremony-summary";
+import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 import { CeremoniesService } from "../../services/ceremonies/ceremonies.service";
 import { DependencyService } from "../../services/dependencies/dependency.service";
 import { CommonPage } from "../common-page/common-page";
@@ -59,6 +59,6 @@ interface DashboardProps {
 }
 
 interface DashboardState {
-    ceremoniesThisWeek: CeremonySummary[];
-    ceremoniesNextWeek: CeremonySummary[];
+    ceremoniesThisWeek: CeremonySummaryDTO[];
+    ceremoniesNextWeek: CeremonySummaryDTO[];
 }

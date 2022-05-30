@@ -1,12 +1,12 @@
-import { CeremonySummary } from "../../interfaces/ceremony-summary";
+import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 
 export class CeremoniesService {
     static serviceName = 'ceremonies-service';
 
-    public async listCeremonies(thisWeeksCeremonies: boolean): Promise<CeremonySummary[]> {
+    public async listCeremonies(thisWeeksCeremonies: boolean): Promise<CeremonySummaryDTO[]> {
         // TODO: Call a web service to retrieve a list of ceremonies.
         // TODO: Add support for a custom date range.
-        let ceremonies: CeremonySummary[] = [];
+        let ceremonies: CeremonySummaryDTO[] = [];
 
         if (thisWeeksCeremonies) {
             ceremonies = [

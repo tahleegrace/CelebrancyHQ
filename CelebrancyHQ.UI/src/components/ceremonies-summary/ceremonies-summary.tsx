@@ -1,14 +1,14 @@
 import moment from "moment";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { CeremonySummary } from "../../interfaces/ceremony-summary";
+import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 
 export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, CeremoniesSummaryState> {
     constructor(props: CeremoniesSummaryProps) {
         super(props);
     }
 
-    getCeremonyDescription(ceremony: CeremonySummary) {
+    getCeremonyDescription(ceremony: CeremonySummaryDTO) {
         const dateString = moment(ceremony.date).format('dddd MMMM YYYY h:mm A');
 
         return `${dateString} - ${ceremony.ceremonyName}: ${ceremony.clientName}, ${ceremony.venueName}, ${ceremony.address}`;
@@ -37,7 +37,7 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
 
 interface CeremoniesSummaryProps {
     title: string;
-    ceremonies: CeremonySummary[];
+    ceremonies: CeremonySummaryDTO[];
 }
 
 interface CeremoniesSummaryState {

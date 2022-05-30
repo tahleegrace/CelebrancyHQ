@@ -1,4 +1,4 @@
-export interface CeremonySummary {
+export interface CeremonySummaryDTO {
     id: number;
     ceremonyName: string;
     date: Date,
