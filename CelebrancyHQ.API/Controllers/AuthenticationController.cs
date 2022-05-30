@@ -13,15 +13,15 @@ namespace CelebrancyHQ.API.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private ITokenService _tokenService;
+        private readonly IAuthenticationService _authenticationService;
 
         /// <summary>
         /// Creates a new instance of AuthenticationController.
         /// </summary>
         /// <param name="tokenService">The token service.</param>
-        public AuthenticationController(ITokenService tokenService)
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
-            this._tokenService = tokenService;
+            this._authenticationService = authenticationService;
         }
 
         /// <summary>
@@ -38,23 +38,15 @@ namespace CelebrancyHQ.API.Controllers
                 return BadRequest();
             }
 
-            // TODO: Check the database here.
-            if (loginDetails.EmailAddress == "error@example.com")
+            var result = this._authenticationService.Login(loginDetails);
+
+            if (result == null)
             {
-                return Unauthorized("Email address or password incorrect.");
-            }
+                return Unauthorized("Email address or password invalid.");
+            } 
             else
             {
-                var user = new UserDTO()
-                {
-                    Id = 1,
-                    FirstName = "Tahlee-Joy",
-                    LastName = "Grace",
-                    BusinessName = "Q Celebrancy",
-                    EmailAddress = "tahlee.grace@gmail.com"
-                };
-
-                return this._tokenService.Generate(user);
+                return result;
             }
         }
     }

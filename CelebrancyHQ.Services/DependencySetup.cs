@@ -10,6 +10,7 @@ namespace CelebrancyHQ.Services
         public static void AddCelebrancyHQServices(this IServiceCollection services)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
     }
 }
