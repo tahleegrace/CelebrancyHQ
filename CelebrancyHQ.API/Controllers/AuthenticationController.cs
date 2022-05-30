@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using CelebrancyHQ.Models.DTOs.Authentication;
 using CelebrancyHQ.Models.DTOs.Users;
+using CelebrancyHQ.Services.Authentication;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -13,6 +13,17 @@ namespace CelebrancyHQ.API.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private ITokenService _tokenService;
+
+        /// <summary>
+        /// Creates a new instance of AuthenticationController.
+        /// </summary>
+        /// <param name="tokenService">The token service.</param>
+        public AuthenticationController(ITokenService tokenService)
+        {
+            this._tokenService = tokenService;
+        }
+
         /// <summary>
         /// Logs into CelebrancyHQ.
         /// </summary>
@@ -20,7 +31,7 @@ namespace CelebrancyHQ.API.Controllers
         /// <returns>The details of the user who has logged in.</returns>
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<UserDTO>> Login(LoginDetailsDTO loginDetails)
+        public async Task<ActionResult<AuthTokenDTO>> Login(LoginDetailsDTO loginDetails)
         {
             if (loginDetails == null)
             {
@@ -34,7 +45,7 @@ namespace CelebrancyHQ.API.Controllers
             }
             else
             {
-                return new UserDTO()
+                var user = new UserDTO()
                 {
                     Id = 1,
                     FirstName = "Tahlee-Joy",
@@ -42,6 +53,8 @@ namespace CelebrancyHQ.API.Controllers
                     BusinessName = "Q Celebrancy",
                     EmailAddress = "tahlee.grace@gmail.com"
                 };
+
+                return this._tokenService.Generate(user);
             }
         }
     }

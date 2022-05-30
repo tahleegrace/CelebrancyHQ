@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CelebrancyHQ.Models\CelebrancyHQ.Models.csproj" />
+    <ProjectReference Include="..\CelebrancyHQ.Services\CelebrancyHQ.Services.csproj" />
   </ItemGroup>
 
 </Project>
