@@ -1,9 +1,9 @@
 import React from "react";
-import { UserDTO } from "../interfaces/user";
+import { AuthTokenDTO } from "../interfaces/auth-token";
 
 export interface ContextProps {
-    currentUser: UserDTO | null;
-    setCurrentUser: (user: UserDTO | null) => void;
+    currentUser: AuthTokenDTO | null;
+    setCurrentUser: (user: AuthTokenDTO | null) => void;
 
     currentPage: string | null;
     setCurrentPage: (page: string) => void;
@@ -11,7 +11,7 @@ export interface ContextProps {
 
 const contextData: ContextProps = {
     currentUser: null,
-    setCurrentUser: (user: UserDTO | null) => { },
+    setCurrentUser: (user: AuthTokenDTO | null) => { },
 
     currentPage: null,
     setCurrentPage: (page: string) => { }

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { CelebrancyHQContext, ContextProps } from './context/context';
-import { UserDTO } from './interfaces/user';
+import { AuthTokenDTO } from './interfaces/auth-token';
 import { getUserFullName } from './utilities/format';
 
 export class App extends React.Component<AppProps, AppState> {
@@ -10,7 +10,7 @@ export class App extends React.Component<AppProps, AppState> {
 
         this.state = {
             currentUser: null,
-            setCurrentUser: (user: UserDTO | null) => {
+            setCurrentUser: (user: AuthTokenDTO | null) => {
                 this.setState({ currentUser: user })
             },
 
@@ -56,7 +56,7 @@ export class App extends React.Component<AppProps, AppState> {
                                         </li>
                                     </ul>
                                     <div className="inline">
-                                        {getUserFullName(this.state.currentUser)}
+                                        {getUserFullName(this.state.currentUser.user)}
                                     </div>
                                 </div>
                                 : <Fragment />
