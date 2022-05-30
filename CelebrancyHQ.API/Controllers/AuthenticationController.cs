@@ -21,16 +21,27 @@ namespace CelebrancyHQ.API.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDTO>> Login(LoginDetailsDTO loginDetails)
         {
-            // TODO: Check the database here.
-            // TODO: Check for invalid user details.
-            return new UserDTO()
+            if (loginDetails == null)
             {
-                Id = 1,
-                FirstName = "Tahlee-Joy",
-                LastName = "Grace",
-                BusinessName = "Q Celebrancy",
-                EmailAddress = "tahlee.grace@gmail.com"
-            };
+                return BadRequest();
+            }
+
+            // TODO: Check the database here.
+            if (loginDetails.EmailAddress == "error@example.com")
+            {
+                return Unauthorized("Email address or password incorrect");
+            }
+            else
+            {
+                return new UserDTO()
+                {
+                    Id = 1,
+                    FirstName = "Tahlee-Joy",
+                    LastName = "Grace",
+                    BusinessName = "Q Celebrancy",
+                    EmailAddress = "tahlee.grace@gmail.com"
+                };
+            }
         }
     }
 }
