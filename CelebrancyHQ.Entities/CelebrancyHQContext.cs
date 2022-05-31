@@ -22,6 +22,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Person> Persons { get; set; }
 
         /// <summary>
+        /// The organisations table.
+        /// </summary>
+        public DbSet<Organisation> Organisations { get; set; }
+
+        /// <summary>
         /// Creates a new instance of CelebrancyHQContext.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
@@ -37,6 +42,7 @@ namespace CelebrancyHQ.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }

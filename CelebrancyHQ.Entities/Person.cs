@@ -32,5 +32,15 @@ namespace CelebrancyHQ.Entities
         /// </summary>
         [Required]
         public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organisation of the person.
+        /// </summary>
+        public Organisation? Organisation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the organisation ID of the person.
+        /// </summary>
+        public int? OrganisationId { get; set; }
     }
 }
