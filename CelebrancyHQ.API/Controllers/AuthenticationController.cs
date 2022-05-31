@@ -38,7 +38,7 @@ namespace CelebrancyHQ.API.Controllers
                 return BadRequest();
             }
 
-            var result = this._authenticationService.Login(loginDetails);
+            var result = await this._authenticationService.Login(loginDetails);
 
             if (result == null)
             {

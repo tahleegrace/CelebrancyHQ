@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CelebrancyHQ.Entities\CelebrancyHQ.Entities.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Models\CelebrancyHQ.Models.csproj" />
+    <ProjectReference Include="..\CelebrancyHQ.Repository\CelebrancyHQ.Repository.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Services\CelebrancyHQ.Services.csproj" />
   </ItemGroup>
 

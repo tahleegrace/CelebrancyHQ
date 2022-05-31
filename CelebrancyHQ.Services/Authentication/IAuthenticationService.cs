@@ -12,6 +12,6 @@ namespace CelebrancyHQ.Services.Authentication
         /// </summary>
         /// <param name="loginDetails">The login details of the user.</param>
         /// <returns>The details of the user who has logged in.</returns>
-        AuthTokenDTO? Login(LoginDetailsDTO loginDetails);
+        Task<AuthTokenDTO?> Login(LoginDetailsDTO loginDetails);
     }
 }
