@@ -1,4 +1,5 @@
-﻿using CelebrancyHQ.Repository.Users;
+﻿using CelebrancyHQ.Repository.Persons;
+using CelebrancyHQ.Repository.Users;
 
 namespace CelebrancyHQ.Repository
 {
@@ -13,6 +14,7 @@ namespace CelebrancyHQ.Repository
         public static void AddCelebrancyHQRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using CelebrancyHQ.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
+using CelebrancyHQ.Entities;
 
 namespace CelebrancyHQ.Repository.Users
 {

@@ -36,6 +36,11 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the person for the user.
         /// </summary>
-        public Person? Person { get; set; }
+        public Person Person { get; set; }
+
+        /// <summary>
+        /// The ID of the person for the user.
+        /// </summary>
+        public int PersonId { get; set; }
     }
 }
