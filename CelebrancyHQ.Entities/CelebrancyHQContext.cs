@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+using CelebrancyHQ.Entities.Configuration;
+
 namespace CelebrancyHQ.Entities
 {
     /// <summary>
@@ -14,6 +16,10 @@ namespace CelebrancyHQ.Entities
         /// </summary>
         public DbSet<User> Users { get; set; }
 
+        /// <summary>
+        /// Creates a new instance of CelebrancyHQContext.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public CelebrancyHQContext(IConfiguration configuration)
         {
             this._configuration = configuration;
@@ -22,6 +28,11 @@ namespace CelebrancyHQ.Entities
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer(this._configuration.GetConnectionString("CelebrancyHQContext"));
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

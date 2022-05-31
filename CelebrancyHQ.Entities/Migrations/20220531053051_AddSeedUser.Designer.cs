@@ -4,6 +4,7 @@ using CelebrancyHQ.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CelebrancyHQ.Entities.Migrations
 {
     [DbContext(typeof(CelebrancyHQContext))]
-    partial class CelebrancyHQContextModelSnapshot : ModelSnapshot
+    [Migration("20220531053051_AddSeedUser")]
+    partial class AddSeedUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
