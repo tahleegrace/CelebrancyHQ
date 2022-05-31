@@ -20,7 +20,6 @@ namespace CelebrancyHQ.Repository.Persons
             this._context = context;
         }
 
-
         /// <summary>
         /// Finds the person with the specified ID.
         /// </summary>
