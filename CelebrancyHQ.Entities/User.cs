@@ -32,5 +32,10 @@ namespace CelebrancyHQ.Entities
         /// </summary>
         [Required]
         public string PasswordSalt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person for the user.
+        /// </summary>
+        public Person? Person { get; set; }
     }
 }

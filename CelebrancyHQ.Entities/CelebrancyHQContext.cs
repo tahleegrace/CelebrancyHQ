@@ -17,6 +17,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<User> Users { get; set; }
 
         /// <summary>
+        /// The persons table.
+        /// </summary>
+        public DbSet<Person> Persons { get; set; }
+
+        /// <summary>
         /// Creates a new instance of CelebrancyHQContext.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
@@ -32,6 +37,7 @@ namespace CelebrancyHQ.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }

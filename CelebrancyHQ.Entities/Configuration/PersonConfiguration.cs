@@ -4,20 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace CelebrancyHQ.Entities.Configuration
 {
     /// <summary>
-    /// Sets up seed data for the users table.
+    /// Sets up seed data for the persons table.
     /// </summary>
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class PersonConfiguration : IEntityTypeConfiguration<Person>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Person> builder)
         {
             builder.HasData
             (
-                new User() // TODO: Use a proper hashed password with salt here.
+                new Person()
                 {
                     Id = 1,
+                    FirstName = "CelebrancyHQ",
+                    LastName = "System Administrator",
                     EmailAddress = "system.admin@celebrancyhq.co",
-                    PasswordHash = "testpassword",
-                    PasswordSalt = "passwordsalt",
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
                 }
