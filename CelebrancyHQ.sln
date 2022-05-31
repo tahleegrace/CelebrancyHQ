@@ -7,9 +7,11 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CelebrancyHQ.UI", "Celebran
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelebrancyHQ.API", "CelebrancyHQ.API\CelebrancyHQ.API.csproj", "{5BD997EA-65DA-475B-9E21-9D090ED6EA8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrancyHQ.Models", "CelebrancyHQ.Models\CelebrancyHQ.Models.csproj", "{94162408-3250-462C-87BF-7986F22CEC08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelebrancyHQ.Models", "CelebrancyHQ.Models\CelebrancyHQ.Models.csproj", "{94162408-3250-462C-87BF-7986F22CEC08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrancyHQ.Services", "CelebrancyHQ.Services\CelebrancyHQ.Services.csproj", "{9BBBC589-02FB-417F-BD3B-FBCE1DDB53EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelebrancyHQ.Services", "CelebrancyHQ.Services\CelebrancyHQ.Services.csproj", "{9BBBC589-02FB-417F-BD3B-FBCE1DDB53EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrancyHQ.Entities", "CelebrancyHQ.Entities\CelebrancyHQ.Entities.csproj", "{2EB3ED4D-ACD2-4E5A-9735-1BDEB433472B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{9BBBC589-02FB-417F-BD3B-FBCE1DDB53EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BBBC589-02FB-417F-BD3B-FBCE1DDB53EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BBBC589-02FB-417F-BD3B-FBCE1DDB53EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB3ED4D-ACD2-4E5A-9735-1BDEB433472B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB3ED4D-ACD2-4E5A-9735-1BDEB433472B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB3ED4D-ACD2-4E5A-9735-1BDEB433472B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB3ED4D-ACD2-4E5A-9735-1BDEB433472B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
