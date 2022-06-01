@@ -27,6 +27,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Organisation> Organisations { get; set; }
 
         /// <summary>
+        /// The ceremony types table.
+        /// </summary>
+        public DbSet<CeremonyType> CeremonyTypes { get; set; }
+
+        /// <summary>
         /// Creates a new instance of CelebrancyHQContext.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
@@ -45,6 +50,7 @@ namespace CelebrancyHQ.Entities
             modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new CeremonyTypeConfiguration());
         }
     }
 }
