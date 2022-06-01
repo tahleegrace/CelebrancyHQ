@@ -1,4 +1,6 @@
-﻿using CelebrancyHQ.Models.DTOs.Authentication;
+﻿using System.Security.Claims;
+
+using CelebrancyHQ.Models.DTOs.Authentication;
 using CelebrancyHQ.Models.DTOs.Users;
 using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;
@@ -65,6 +67,21 @@ namespace CelebrancyHQ.Services.Authentication
             };
 
             return this._tokenService.Generate(userDTO);
+        }
+
+        /// <summary>
+        /// Gets the ID of the currently logged in user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>The ID of the currently logged in user.</returns>
+        public int? GetCurrentUserId(ClaimsPrincipal user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+
+            return int.Parse(user.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
     }
 }

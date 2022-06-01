@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 using CelebrancyHQ.Models.DTOs.Authentication;
 using CelebrancyHQ.Services.Authentication;
@@ -60,10 +59,8 @@ namespace CelebrancyHQ.API.Controllers
         [Route("test")]
         public async Task<ActionResult<string>> TestAuth()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var test = $"Hello World {userId}";
-
-            return test;
+            var userId = this._authenticationService.GetCurrentUserId(User);
+            return $"Hello World {userId}";
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CelebrancyHQ.Models.DTOs.Authentication;
+﻿using System.Security.Claims;
+
+using CelebrancyHQ.Models.DTOs.Authentication;
 
 namespace CelebrancyHQ.Services.Authentication
 {
@@ -13,5 +15,12 @@ namespace CelebrancyHQ.Services.Authentication
         /// <param name="loginDetails">The login details of the user.</param>
         /// <returns>The details of the user who has logged in.</returns>
         Task<AuthTokenDTO?> Login(LoginDetailsDTO loginDetails);
+
+        /// <summary>
+        /// Gets the ID of the currently logged in user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns>The ID of the currently logged in user.</returns>
+        int? GetCurrentUserId(ClaimsPrincipal user);
     }
 }
