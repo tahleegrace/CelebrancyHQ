@@ -34,7 +34,7 @@ namespace CelebrancyHQ.Services.Authentication
             List<Claim> claims = new List<Claim>() {
                 new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim (JwtRegisteredClaimNames.Email, user.EmailAddress),
-                new Claim (JwtRegisteredClaimNames.Sub, user.Id.ToString())
+                new Claim (JwtRegisteredClaimNames.NameId, user.Id.ToString())
             };
 
             JwtSecurityToken token = new TokenBuilder()

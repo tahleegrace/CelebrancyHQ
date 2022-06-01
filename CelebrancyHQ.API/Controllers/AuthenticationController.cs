@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 using CelebrancyHQ.Models.DTOs.Authentication;
-using CelebrancyHQ.Models.DTOs.Users;
 using CelebrancyHQ.Services.Authentication;
 
 namespace CelebrancyHQ.API.Controllers
@@ -48,6 +49,21 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Test method for verifying an auth token. Do not have this in production.
+        /// </summary>
+        /// <returns>The string 'Hello World' and the user's ID.</returns>
+        [HttpGet]
+        [Authorize]
+        [Route("test")]
+        public async Task<ActionResult<string>> TestAuth()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var test = $"Hello World {userId}";
+
+            return test;
         }
     }
 }

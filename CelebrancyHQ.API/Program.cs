@@ -1,6 +1,7 @@
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Repository;
 using CelebrancyHQ.Services;
+using CelebrancyHQ.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddBearerAuthentication(builder.Configuration);
 builder.Services.AddDbContext<CelebrancyHQContext>();
 builder.Services.AddCelebrancyHQRepositories();
 builder.Services.AddCelebrancyHQServices();
@@ -29,6 +31,7 @@ app.UseCors(x => x.WithOrigins(builder.Configuration.GetSection("AllowedOrigins"
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
