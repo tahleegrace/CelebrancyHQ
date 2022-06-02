@@ -33,5 +33,10 @@ namespace CelebrancyHQ.Entities
         /// If an organisation is not set - all users of CelebrancyHQ can offer this ceremony type.
         /// </summary>
         public Organisation? Organisation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the organisation that the ceremony is restricted to.
+        /// </summary>
+        public int? OrganisationId { get; set; }
     }
 }
