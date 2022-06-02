@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddBearerAuthentication(builder.Configuration);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<CelebrancyHQContext>();
 builder.Services.AddCelebrancyHQRepositories();
 builder.Services.AddCelebrancyHQServices();

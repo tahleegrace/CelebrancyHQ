@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CelebrancyHQ.Entities\CelebrancyHQ.Entities.csproj" />
+    <ProjectReference Include="..\CelebrancyHQ.Mappings\CelebrancyHQ.Mappings.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Models\CelebrancyHQ.Models.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Repository\CelebrancyHQ.Repository.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Services\CelebrancyHQ.Services.csproj" />
