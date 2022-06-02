@@ -1,4 +1,5 @@
 using CelebrancyHQ.Entities;
+using CelebrancyHQ.Mappings;
 using CelebrancyHQ.Repository;
 using CelebrancyHQ.Services;
 using CelebrancyHQ.Services.Authentication;
@@ -12,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddBearerAuthentication(builder.Configuration);
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(MappingsSetup).Assembly);
 builder.Services.AddDbContext<CelebrancyHQContext>();
 builder.Services.AddCelebrancyHQRepositories();
 builder.Services.AddCelebrancyHQServices();

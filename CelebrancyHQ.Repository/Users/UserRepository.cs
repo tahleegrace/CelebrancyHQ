@@ -21,6 +21,18 @@ namespace CelebrancyHQ.Repository.Users
         }
 
         /// <summary>
+        /// Finds the user with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the user.</param>
+        /// <returns>The user with the specified ID.</returns>
+        public async Task<User?> FindById(int id)
+        {
+            var user = await this._context.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        /// <summary>
         /// Finds the user with the specified email address.
         /// </summary>
         /// <param name="emailAddress">The email address of the user.</param>

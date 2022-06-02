@@ -12,6 +12,6 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// </summary>
         /// <param name="organisationId">The ID of the organisation.</param>
         /// <returns>The ceremony types that can be offered by the specified organisation.</returns>
-        Task<List<CeremonyType>> FindByOrganisationId(int organisationId);
+        Task<List<CeremonyType>> FindByOrganisationId(int? organisationId);
     }
 }

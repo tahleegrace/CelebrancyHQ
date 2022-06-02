@@ -1,4 +1,5 @@
-﻿using CelebrancyHQ.Repository.Organisations;
+﻿using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;
 
@@ -17,6 +18,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IOrganisationRepository, OrganisationRepository>();
+            services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
         }
     }
 }

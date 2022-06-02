@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Services.Authentication;
+using CelebrancyHQ.Services.Ceremonies;
 
 namespace CelebrancyHQ.Services
 {
@@ -14,6 +15,7 @@ namespace CelebrancyHQ.Services
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ICeremonyTypeService, CeremonyTypeService>();
         }
     }
 }
