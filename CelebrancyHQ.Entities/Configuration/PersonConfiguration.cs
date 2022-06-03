@@ -18,6 +18,9 @@ namespace CelebrancyHQ.Entities.Configuration
                     FirstName = "CelebrancyHQ",
                     LastName = "System Administrator",
                     EmailAddress = "system.admin@celebrancyhq.co",
+                    PreferredName = "System Administrator",
+                    Title = "Mx",
+                    Gender = "Other",
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
                 }

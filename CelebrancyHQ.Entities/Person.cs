@@ -28,6 +28,22 @@ namespace CelebrancyHQ.Entities
         public string LastName { get; set; }
 
         /// <summary>
+        /// Gets or sets the preferred name of the person.
+        /// </summary>
+        public string? PreferredName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title of the person.
+        /// </summary>
+        public string? Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the gender the person identifies as.
+        /// </summary>
+        [Required]
+        public string Gender { get; set; }
+
+        /// <summary>
         /// Gets or sets the email address of the person.
         /// </summary>
         [Required]
