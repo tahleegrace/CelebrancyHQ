@@ -32,6 +32,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyType> CeremonyTypes { get; set; }
 
         /// <summary>
+        /// The ceremony type participants table.
+        /// </summary>
+        public DbSet<CeremonyTypeParticipant> CeremonyTypeParticipants { get; set; }
+
+        /// <summary>
         /// The ceremonies table.
         /// </summary>
         public DbSet<Ceremony> Ceremonies { get; set; }
@@ -56,6 +61,7 @@ namespace CelebrancyHQ.Entities
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CeremonyTypeParticipantConfiguration());
         }
     }
 }

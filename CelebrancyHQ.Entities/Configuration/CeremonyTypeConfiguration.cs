@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using CelebrancyHQ.Entities.Constants;
+
 namespace CelebrancyHQ.Entities.Configuration
 {
     /// <summary>
@@ -14,7 +16,7 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyType()
                 {
-                    Id = 1,
+                    Id = CeremonyTypeConstants.MarriageCeremonyId,
                     Name = "Marriage Ceremony",
                     Code = "Marriage",
                     Description = "A ceremony to celebrate the joining of two persons in marriage.",
@@ -28,7 +30,7 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyType()
                 {
-                    Id = 2,
+                    Id = CeremonyTypeConstants.FuneralCeremonyId,
                     Name = "Funeral Ceremony",
                     Code = "Funeral",
                     Description = "A ceremony to celebrate the life of and remember a person who has recently passed way.",
