@@ -42,5 +42,11 @@ namespace CelebrancyHQ.Entities
         /// The ID of the person for the user.
         /// </summary>
         public int PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the user has been deleted.
+        /// </summary>
+        [Required]
+        public bool Deleted { get; set; } = false;
     }
 }

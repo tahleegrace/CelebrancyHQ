@@ -27,7 +27,7 @@ namespace CelebrancyHQ.Repository.Persons
         /// <returns>The person with the specified ID.</returns>
         public async Task<Person?> FindById(int id)
         {
-            var person = await this._context.Persons.Where(p => p.Id == id).FirstOrDefaultAsync();
+            var person = await this._context.Persons.Where(p => p.Id == id && !p.Deleted).FirstOrDefaultAsync();
 
             return person;
         }

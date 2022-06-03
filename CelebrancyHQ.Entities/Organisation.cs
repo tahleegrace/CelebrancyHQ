@@ -20,5 +20,11 @@ namespace CelebrancyHQ.Entities
         /// </summary>
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the organisation has been deleted.
+        /// </summary>
+        [Required]
+        public bool Deleted { get; set; } = false;
     }
 }

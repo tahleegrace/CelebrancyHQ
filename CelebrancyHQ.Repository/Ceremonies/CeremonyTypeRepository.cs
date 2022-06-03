@@ -31,11 +31,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             if (organisationId == null)
             {
-                ceremonyTypes = await this._context.CeremonyTypes.Where(t => t.OrganisationId == null).ToListAsync();
+                ceremonyTypes = await this._context.CeremonyTypes.Where(t => t.OrganisationId == null && !t.Deleted).ToListAsync();
             }
             else
             {
-                ceremonyTypes = await this._context.CeremonyTypes.Where(t => t.OrganisationId == organisationId || t.OrganisationId == null).ToListAsync();
+                ceremonyTypes = await this._context.CeremonyTypes.Where(t => (t.OrganisationId == organisationId || t.OrganisationId == null) && !t.Deleted).ToListAsync();
             }
 
             return ceremonyTypes;

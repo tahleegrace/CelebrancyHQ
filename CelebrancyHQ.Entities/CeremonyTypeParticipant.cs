@@ -43,5 +43,11 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets the description of the ceremony type participant.
         /// </summary>
         public string? Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the ceremony type participant has been deleted.
+        /// </summary>
+        [Required]
+        public bool Deleted { get; set; } = false;
     }
 }

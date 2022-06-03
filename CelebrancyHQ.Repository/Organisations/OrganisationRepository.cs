@@ -27,7 +27,7 @@ namespace CelebrancyHQ.Repository.Organisations
         /// <returns>The organisation with the specified ID.</returns>
         public async Task<Organisation?> FindById(int id)
         {
-            var organisation = await this._context.Organisations.Where(o => o.Id == id).FirstOrDefaultAsync();
+            var organisation = await this._context.Organisations.Where(o => o.Id == id && !o.Deleted).FirstOrDefaultAsync();
 
             return organisation;
         }
