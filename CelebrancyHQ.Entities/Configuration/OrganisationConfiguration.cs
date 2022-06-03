@@ -16,6 +16,9 @@ namespace CelebrancyHQ.Entities.Configuration
                 {
                     Id = 1,
                     Name = "CelebrancyHQ",
+                    Type = "Celebrant",
+                    EmailAddress = "info@celebrancyhq.co",
+                    Website = "https://www.celebrancyhq.co",
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
                 }
