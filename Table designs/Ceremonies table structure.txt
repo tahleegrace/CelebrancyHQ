@@ -79,6 +79,7 @@ Address - an address for a couple, celebrant, venue, etc
 --------
 ID
 StreetAddress
+Suburb
 PostCode
 State
 Country
