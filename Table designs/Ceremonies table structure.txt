@@ -1,3 +1,13 @@
+Person - an individual person
+-----------------------------
+ID
+FirstName
+LastName
+PreferredName
+EmailAddress
+Title
+Gender
+
 Ceremony - an individual ceremony
 ----------------------------------
 ID
@@ -39,19 +49,20 @@ CeremonyTypeDate
 Date
 Notes
 
-Venue - a venue a ceremony can be hosted at
+Organisation - a venue a ceremony can be hosted at and/or a celebrant's employer / business
 -----
 ID
+Type - e.g. whether this a venue or a celebrant's employer / business
 Name
 Address
 EmailAddress
 Website
 Notes
 
-VenuePhoneNumber - a phone number for a venue - a venue can have one or more phone numbers
+OrganisationPhoneNumber - a phone number for a venue or organisation - a venue can have one or more phone numbers
 ----------
 ID
-Venue
+Organisation
 Type (e.g. mobile, landline, other)
 Description (e.g. after-hours phone number)
 PhoneNumber
