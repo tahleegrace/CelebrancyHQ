@@ -16,6 +16,7 @@ namespace CelebrancyHQ.Entities.Configuration
                 {
                     Id = 1,
                     Name = "Marriage Ceremony",
+                    Code = "Marriage",
                     Description = "A ceremony to celebrate the joining of two persons in marriage.",
                     Organisation = null,
                     Created = DateTime.UtcNow,
@@ -29,6 +30,7 @@ namespace CelebrancyHQ.Entities.Configuration
                 {
                     Id = 2,
                     Name = "Funeral Ceremony",
+                    Code = "Funeral",
                     Description = "A ceremony to celebrate the life of and remember a person who has recently passed way.",
                     Organisation = null,
                     Created = DateTime.UtcNow,

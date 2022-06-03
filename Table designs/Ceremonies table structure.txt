@@ -11,6 +11,7 @@ CeremonyTypeParticipants - the types of participants that a ceremony can have (e
 --------------------------
 ID
 CeremonyType
+Code
 Name
 Description
 
@@ -26,6 +27,7 @@ CeremonyTypeDates - the types of dates that can be stored for a ceremony (e.g. c
 --------------------------------
 ID
 CeremonyType
+Code
 Name
 Description
 

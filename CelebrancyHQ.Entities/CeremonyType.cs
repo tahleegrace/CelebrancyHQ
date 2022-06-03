@@ -22,6 +22,12 @@ namespace CelebrancyHQ.Entities
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the code of the ceremony type.
+        /// </summary>
+        [Required]
+        public string Code { get; set; }
+
+        /// <summary>
         /// Gets or sets the description of the ceremony that can be offered.
         /// </summary>
         public string Description { get; set; }
