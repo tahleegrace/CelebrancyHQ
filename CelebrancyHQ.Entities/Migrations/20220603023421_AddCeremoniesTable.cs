@@ -33,41 +33,6 @@ namespace CelebrancyHQ.Entities.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
-                table: "CeremonyTypes",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(3083), new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(3084) });
-
-            migrationBuilder.UpdateData(
-                table: "CeremonyTypes",
-                keyColumn: "Id",
-                keyValue: 2,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(3096), new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(3097) });
-
-            migrationBuilder.UpdateData(
-                table: "Organisations",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(2527), new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(2528) });
-
-            migrationBuilder.UpdateData(
-                table: "Persons",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(2815), new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(2815) });
-
-            migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(2947), new DateTime(2022, 6, 3, 2, 34, 20, 589, DateTimeKind.Utc).AddTicks(2947) });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Ceremonies_CeremonyTypeId",
                 table: "Ceremonies",
@@ -78,41 +43,6 @@ namespace CelebrancyHQ.Entities.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Ceremonies");
-
-            migrationBuilder.UpdateData(
-                table: "CeremonyTypes",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3162), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3162) });
-
-            migrationBuilder.UpdateData(
-                table: "CeremonyTypes",
-                keyColumn: "Id",
-                keyValue: 2,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3172), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3173) });
-
-            migrationBuilder.UpdateData(
-                table: "Organisations",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2627), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2633) });
-
-            migrationBuilder.UpdateData(
-                table: "Persons",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2942), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2943) });
-
-            migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3051), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3052) });
         }
     }
 }

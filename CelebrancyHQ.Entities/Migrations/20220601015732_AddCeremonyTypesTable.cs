@@ -40,27 +40,6 @@ namespace CelebrancyHQ.Entities.Migrations
                     { 2, new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3172), "A ceremony to celebrate the life of and remember a person who has recently passed way.", "Funeral Ceremony", null, new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3173) }
                 });
 
-            migrationBuilder.UpdateData(
-                table: "Organisations",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2627), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2633) });
-
-            migrationBuilder.UpdateData(
-                table: "Persons",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2942), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(2943) });
-
-            migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3051), new DateTime(2022, 6, 1, 1, 57, 31, 953, DateTimeKind.Utc).AddTicks(3052) });
-
             migrationBuilder.CreateIndex(
                 name: "IX_CeremonyTypes_OrganisationId",
                 table: "CeremonyTypes",
@@ -71,27 +50,6 @@ namespace CelebrancyHQ.Entities.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CeremonyTypes");
-
-            migrationBuilder.UpdateData(
-                table: "Organisations",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(3892), new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(3894) });
-
-            migrationBuilder.UpdateData(
-                table: "Persons",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(4203), new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(4204) });
-
-            migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(4323), new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(4323) });
         }
     }
 }

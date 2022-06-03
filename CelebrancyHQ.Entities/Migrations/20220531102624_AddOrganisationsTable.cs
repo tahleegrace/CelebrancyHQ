@@ -45,13 +45,6 @@ namespace CelebrancyHQ.Entities.Migrations
                 columns: new[] { "Id", "Created", "Name", "Updated" },
                 values: new object[] { 1, new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(3892), "CelebrancyHQ", new DateTime(2022, 5, 31, 10, 26, 24, 395, DateTimeKind.Utc).AddTicks(3894) });
 
-            migrationBuilder.UpdateData(
-                table: "Persons",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 10, 16, 43, 766, DateTimeKind.Utc).AddTicks(5525), new DateTime(2022, 5, 31, 10, 16, 43, 766, DateTimeKind.Utc).AddTicks(5527) });
-
             migrationBuilder.Sql("Update Persons SET OrganisationId = (Select Id From Organisations Where Name = 'CelebrancyHQ') Where EmailAddress = 'system.admin@celebrancyhq.co'");
 
             migrationBuilder.CreateIndex(
@@ -91,13 +84,6 @@ namespace CelebrancyHQ.Entities.Migrations
                 nullable: true,
                 oldClrType: typeof(int),
                 oldType: "int");
-
-            migrationBuilder.UpdateData(
-                table: "Persons",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 9, 38, 39, 665, DateTimeKind.Utc).AddTicks(586), new DateTime(2022, 5, 31, 9, 38, 39, 665, DateTimeKind.Utc).AddTicks(589) });
         }
     }
 }

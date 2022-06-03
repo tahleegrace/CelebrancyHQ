@@ -37,13 +37,6 @@ namespace CelebrancyHQ.Entities.Migrations
                 columns: new[] { "Id", "Created", "EmailAddress", "FirstName", "LastName", "Updated" },
                 values: new object[] { 1, new DateTime(2022, 5, 31, 9, 38, 39, 665, DateTimeKind.Utc).AddTicks(586), "system.admin@celebrancyhq.co", "CelebrancyHQ", "System Administrator", new DateTime(2022, 5, 31, 9, 38, 39, 665, DateTimeKind.Utc).AddTicks(589) });
 
-            migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 9, 38, 39, 665, DateTimeKind.Utc).AddTicks(798), new DateTime(2022, 5, 31, 9, 38, 39, 665, DateTimeKind.Utc).AddTicks(798) });
-
             migrationBuilder.Sql("Update Users SET PersonId = (Select Id From Persons Where EmailAddress = 'system.admin@celebrancyhq.co') Where EmailAddress = 'system.admin@celebrancyhq.co'");
 
             migrationBuilder.AlterColumn<int>(
@@ -81,13 +74,6 @@ namespace CelebrancyHQ.Entities.Migrations
             migrationBuilder.DropColumn(
                 name: "PersonId",
                 table: "Users");
-
-            migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                columns: new[] { "Created", "Updated" },
-                values: new object[] { new DateTime(2022, 5, 31, 5, 30, 51, 617, DateTimeKind.Utc).AddTicks(8393), new DateTime(2022, 5, 31, 5, 30, 51, 617, DateTimeKind.Utc).AddTicks(8396) });
         }
     }
 }
