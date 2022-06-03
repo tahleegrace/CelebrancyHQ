@@ -1,0 +1,69 @@
+Ceremony - an individual ceremony
+----------------------------------
+ID
+Name
+CeremonyDate
+CeremonyType
+-- Additional fields that can be customised (stored in separate table)
+
+CeremonyTypeParticipants - the types of participants that a ceremony can have (e.g. celebrant, couple, organiser, witnesses, bridal party, invited guest, person who has passed away, other)
+--------------------------
+ID
+CeremonyType
+Name
+Description
+
+CeremonyParticipants - any participants for the ceremony
+--------------------------------
+ID
+Ceremony
+Person
+ParticipantType
+Notes
+
+CeremonyTypeDates - the types of dates that can be stored for a ceremony (e.g. ceremony date, rehearsal date, initial interview, other etc)
+--------------------------------
+ID
+CeremonyType
+Name
+Description
+
+CeremonyDates - any dates for a ceremony
+-------------
+ID
+Ceremony
+CeremonyTypeDate
+Date
+Notes
+
+Venue - a venue a ceremony can be hosted at
+-----
+ID
+Name
+Address
+EmailAddress
+Website
+Notes
+
+VenuePhoneNumber - a phone number for a venue - a venue can have one or more phone numbers
+----------
+ID
+Venue
+Type (e.g. mobile, landline, other)
+Description (e.g. after-hours phone number)
+PhoneNumber
+
+Address - an address for a couple, celebrant, venue, etc
+--------
+ID
+StreetAddress
+PostCode
+State
+Country
+
+CeremonyVenue - the venues an individual ceremony is hosted at - a ceremony can have one or more venues
+--------------
+ID
+Ceremony
+Venue
+Notes
