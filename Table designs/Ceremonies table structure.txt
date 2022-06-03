@@ -8,6 +8,14 @@ EmailAddress
 Title
 Gender
 
+PersonPhoneNumbers - a phone number for a person - a person can have one or more phone numbers
+----------
+ID
+Organisation
+Type (e.g. mobile, landline, other)
+Description (e.g. after-hours phone number)
+PhoneNumber
+
 Ceremony - an individual ceremony
 ----------------------------------
 ID
@@ -59,7 +67,7 @@ EmailAddress
 Website
 Notes
 
-OrganisationPhoneNumber - a phone number for a venue or organisation - a venue can have one or more phone numbers
+OrganisationPhoneNumbers - a phone number for a venue or organisation - a venue can have one or more phone numbers
 ----------
 ID
 Organisation
