@@ -50,6 +50,11 @@ namespace CelebrancyHQ.Entities
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets the date of birth of the person.
+        /// </summary>
+        public DateTime? DateOfBirth { get; set; }
+
+        /// <summary>
         /// Gets or sets the organisation of the person.
         /// </summary>
         public Organisation? Organisation { get; set; }

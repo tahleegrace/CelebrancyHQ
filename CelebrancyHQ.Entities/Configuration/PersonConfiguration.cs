@@ -21,6 +21,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     PreferredName = "System Administrator",
                     Title = "Mx",
                     Gender = "Other",
+                    DateOfBirth = new DateTime(2022, 5, 9).ToUniversalTime(),
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
                 }
