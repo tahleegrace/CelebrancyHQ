@@ -45,6 +45,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotFoundException(userId);
             }
 
+            // TODO: Retrieve the venue name and address here.
             var participantTypeIds = !String.IsNullOrEmpty(participantTypeCode) ? await this._ceremonyTypeParticipantRepository.FindIdsByCode(participantTypeCode) : new List<int>();
             var ceremonies = await this._ceremonyRepository.GetAll(user.PersonId, participantTypeIds, from, to);
 

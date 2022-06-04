@@ -9,9 +9,9 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
     }
 
     getCeremonyDescription(ceremony: CeremonySummaryDTO) {
-        const dateString = moment(ceremony.date).format('dddd MMMM DD YYYY h:mm A');
+        const dateString = moment(ceremony.ceremonyDate).format('dddd MMMM DD YYYY h:mm A');
 
-        return `${dateString} - ${ceremony.ceremonyName}: ${ceremony.clientName}, ${ceremony.venueName}, ${ceremony.address}`;
+        return `${dateString} - ${ceremony.name}: ${ceremony.primaryVenueName}, ${ceremony.primaryAddress}`;
     }
 
     render() {
