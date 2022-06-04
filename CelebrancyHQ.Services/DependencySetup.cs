@@ -16,6 +16,7 @@ namespace CelebrancyHQ.Services
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ICeremonyTypeService, CeremonyTypeService>();
+            services.AddScoped<ICeremonyService, CeremonyService>();
         }
     }
 }

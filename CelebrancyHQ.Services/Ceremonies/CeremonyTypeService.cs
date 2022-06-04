@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;

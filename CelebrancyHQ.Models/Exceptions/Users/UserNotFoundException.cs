@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Repository.Users
+﻿namespace CelebrancyHQ.Models.Exceptions.Users
 {
     /// <summary>
     /// An exception that occurs when a user is not found.
