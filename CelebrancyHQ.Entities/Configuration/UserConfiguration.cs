@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using CelebrancyHQ.Entities.Constants;
+
 namespace CelebrancyHQ.Entities.Configuration
 {
     /// <summary>
@@ -18,8 +20,8 @@ namespace CelebrancyHQ.Entities.Configuration
                     EmailAddress = "system.admin@celebrancyhq.co",
                     PasswordHash = "testpassword",
                     PasswordSalt = "passwordsalt",
-                    Created = DateTime.UtcNow,
-                    Updated = DateTime.UtcNow
+                    Created = GeneralConstants.SeedDataCreationDate,
+                    Updated = GeneralConstants.SeedDataCreationDate
                 }
             );
         }

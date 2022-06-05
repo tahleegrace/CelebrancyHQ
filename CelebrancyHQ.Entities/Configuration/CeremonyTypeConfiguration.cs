@@ -21,8 +21,8 @@ namespace CelebrancyHQ.Entities.Configuration
                     Code = "Marriage",
                     Description = "A ceremony to celebrate the joining of two persons in marriage.",
                     Organisation = null,
-                    Created = DateTime.UtcNow,
-                    Updated = DateTime.UtcNow
+                    Created = GeneralConstants.SeedDataCreationDate,
+                    Updated = GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -35,8 +35,8 @@ namespace CelebrancyHQ.Entities.Configuration
                     Code = "Funeral",
                     Description = "A ceremony to celebrate the life of and remember a person who has recently passed way.",
                     Organisation = null,
-                    Created = DateTime.UtcNow,
-                    Updated = DateTime.UtcNow
+                    Created = GeneralConstants.SeedDataCreationDate,
+                    Updated = GeneralConstants.SeedDataCreationDate
                 }
             );
         }

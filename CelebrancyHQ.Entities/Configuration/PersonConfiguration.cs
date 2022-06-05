@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using CelebrancyHQ.Entities.Constants;
+
 namespace CelebrancyHQ.Entities.Configuration
 {
     /// <summary>
@@ -22,8 +24,8 @@ namespace CelebrancyHQ.Entities.Configuration
                     Title = "Mx",
                     Gender = "Other",
                     DateOfBirth = new DateTime(2022, 5, 9).ToUniversalTime(),
-                    Created = DateTime.UtcNow,
-                    Updated = DateTime.UtcNow
+                    Created = GeneralConstants.SeedDataCreationDate,
+                    Updated = GeneralConstants.SeedDataCreationDate
                 }
             );
         }

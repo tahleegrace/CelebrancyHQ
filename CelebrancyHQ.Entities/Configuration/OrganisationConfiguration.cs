@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using CelebrancyHQ.Entities.Constants;
+
 namespace CelebrancyHQ.Entities.Configuration
 {
     /// <summary>
@@ -19,8 +21,8 @@ namespace CelebrancyHQ.Entities.Configuration
                     Type = "Celebrant",
                     EmailAddress = "info@celebrancyhq.co",
                     Website = "https://www.celebrancyhq.co",
-                    Created = DateTime.UtcNow,
-                    Updated = DateTime.UtcNow
+                    Created = GeneralConstants.SeedDataCreationDate,
+                    Updated = GeneralConstants.SeedDataCreationDate
                 }
             );
         }
