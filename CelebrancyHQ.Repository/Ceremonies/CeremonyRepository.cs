@@ -39,9 +39,19 @@ namespace CelebrancyHQ.Repository.Ceremonies
             }
 
             var ceremonyIds = await participantsQuery.Select(cp => cp.CeremonyId).Distinct().ToListAsync();
-            var ceremonies = await this._context.Ceremonies.Where(c => ceremonyIds.Contains(c.Id) && !c.Deleted).ToListAsync();
+            var ceremoniesQuery = this._context.Ceremonies.Where(c => ceremonyIds.Contains(c.Id) && !c.Deleted);
 
-            return ceremonies;
+            if (from != null)
+            {
+                ceremoniesQuery = ceremoniesQuery.Where(c => c.CeremonyDate >= from);
+            }
+
+            if (to != null)
+            {
+                ceremoniesQuery = ceremoniesQuery.Where(c => c.CeremonyDate <= to);
+            }
+
+            return await ceremoniesQuery.ToListAsync();
         }
     }
 }
