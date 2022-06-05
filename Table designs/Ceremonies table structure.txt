@@ -89,4 +89,5 @@ CeremonyVenue - the venues an individual ceremony is hosted at - a ceremony can 
 ID
 Ceremony
 Venue
+IsPrimary - whether this is the venue where all the participants meet first for the ceremony.
 Notes
