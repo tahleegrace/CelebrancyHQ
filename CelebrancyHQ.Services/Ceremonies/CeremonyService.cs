@@ -46,6 +46,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             // TODO: Retrieve the venue name and address here.
+            // TODO: Convert the dates to UTC time here based on the user's time zone setting.
             var participantTypeIds = !String.IsNullOrEmpty(participantTypeCode) ? await this._ceremonyTypeParticipantRepository.FindIdsByCode(participantTypeCode) : new List<int>();
             var ceremonies = await this._ceremonyRepository.GetAll(user.PersonId, participantTypeIds, from, to);
 

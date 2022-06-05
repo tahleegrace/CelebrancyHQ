@@ -27,8 +27,8 @@ export class Dashboard extends CommonPage<DashboardProps, DashboardState> {
     async componentDidMount() {
         this.setCurrentPage(Dashboard.pageName);
 
-        const ceremoniesThisWeek = await this.ceremoniesService.listCeremonies(true, 'celebrant', (this.context as ContextProps));
-        const ceremoniesNextWeek = [] as CeremonySummaryDTO[]; // TODO: Retrieve next week's ceremonies.
+        const ceremoniesThisWeek = await this.ceremoniesService.listCeremonies(0, 'celebrant', (this.context as ContextProps));
+        const ceremoniesNextWeek = await this.ceremoniesService.listCeremonies(1, 'celebrant', (this.context as ContextProps));
         const ceremonyTypes = await this.ceremonyTypesService.getAll((this.context as ContextProps));
 
         this.setState({
