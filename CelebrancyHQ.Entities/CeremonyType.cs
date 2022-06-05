@@ -30,7 +30,7 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the description of the ceremony that can be offered.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the organisation that the ceremony is restricted to.

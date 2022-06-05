@@ -11,7 +11,7 @@ Gender
 PersonPhoneNumbers - a phone number for a person - a person can have one or more phone numbers
 ----------
 ID
-Organisation
+Person
 Type (e.g. mobile, landline, other)
 Description (e.g. after-hours phone number)
 PhoneNumber
@@ -41,7 +41,7 @@ Person
 ParticipantType
 Notes
 
-CeremonyTypeDates - the types of dates that can be stored for a ceremony (e.g. ceremony date, rehearsal date, initial interview, other etc)
+CeremonyTypeDates - the types of dates that can be stored for a ceremony (e.g. ceremony date, rehearsal date, initial interview, reception, other etc)
 --------------------------------
 ID
 CeremonyType
@@ -89,5 +89,6 @@ CeremonyVenue - the venues an individual ceremony is hosted at - a ceremony can 
 ID
 Ceremony
 Venue
+Name
 IsPrimary - whether this is the venue where all the participants meet first for the ceremony.
 Notes
