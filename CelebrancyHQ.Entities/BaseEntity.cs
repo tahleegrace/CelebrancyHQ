@@ -1,4 +1,6 @@
-﻿namespace CelebrancyHQ.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CelebrancyHQ.Entities
 {
     /// <summary>
     /// An entity in CelebrancyHQ.
@@ -14,5 +16,11 @@
         /// The date the entity was last modified.
         /// </summary>
         public DateTime Updated { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the entity has been deleted.
+        /// </summary>
+        [Required]
+        public bool Deleted { get; set; } = false;
     }
 }

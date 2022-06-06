@@ -55,11 +55,5 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets any notes about the participant.
         /// </summary>
         public string? Notes { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the ceremony participant has been deleted.
-        /// </summary>
-        [Required]
-        public bool Deleted { get; set; } = false;
     }
 }

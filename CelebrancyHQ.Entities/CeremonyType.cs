@@ -44,11 +44,5 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets the ID of the organisation that the ceremony is restricted to.
         /// </summary>
         public int? OrganisationId { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the ceremony type has been deleted.
-        /// </summary>
-        [Required]
-        public bool Deleted { get; set; } = false;
     }
 }

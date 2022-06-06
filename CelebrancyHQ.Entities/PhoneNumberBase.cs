@@ -31,11 +31,5 @@ namespace CelebrancyHQ.Entities
         /// </summary>
         [Required]
         public string PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the phone number has been deleted.
-        /// </summary>
-        [Required]
-        public bool Deleted { get; set; } = false;
     }
 }
