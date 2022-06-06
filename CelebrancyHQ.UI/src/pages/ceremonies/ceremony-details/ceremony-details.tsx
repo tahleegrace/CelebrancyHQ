@@ -33,6 +33,9 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                             <a className="nav-link">Participants</a>
                         </li>
                         <li className="nav-item">
+                            <a className="nav-link">Guests</a>
+                        </li>                     
+                        <li className="nav-item">
                             <a className="nav-link">Service Providers</a>
                         </li>
                         <li className="nav-item">
