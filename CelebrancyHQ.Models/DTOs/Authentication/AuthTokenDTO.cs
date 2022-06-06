@@ -1,4 +1,4 @@
-﻿using CelebrancyHQ.Models.DTOs.Users;
+﻿using CelebrancyHQ.Models.DTOs.Persons;
 
 namespace CelebrancyHQ.Models.DTOs.Authentication
 {
@@ -13,6 +13,6 @@ namespace CelebrancyHQ.Models.DTOs.Authentication
 
         public int ExpiresIn { get; set; }
 
-        public UserDTO User { get; set; }
+        public PersonDTO User { get; set; }
     }
 }

@@ -1,5 +1,6 @@
-export interface UserDTO {
-    id: number;
+export interface PersonDTO {
+    personId: number;
+    userId?: number;
     firstName: string;
     lastName: string;
     businessName?: string;

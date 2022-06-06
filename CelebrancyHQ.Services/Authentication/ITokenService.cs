@@ -1,5 +1,5 @@
 ﻿using CelebrancyHQ.Models.DTOs.Authentication;
-using CelebrancyHQ.Models.DTOs.Users;
+using CelebrancyHQ.Models.DTOs.Persons;
 
 namespace CelebrancyHQ.Services.Authentication
 {
@@ -15,6 +15,6 @@ namespace CelebrancyHQ.Services.Authentication
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>An authentication token for the specified user.</returns>
-        AuthTokenDTO Generate(UserDTO user);
+        AuthTokenDTO Generate(PersonDTO user);
     }
 }

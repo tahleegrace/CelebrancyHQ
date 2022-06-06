@@ -2,7 +2,7 @@
 using System.Security.Claims;
 
 using CelebrancyHQ.Models.DTOs.Authentication;
-using CelebrancyHQ.Models.DTOs.Users;
+using CelebrancyHQ.Models.DTOs.Persons;
 
 namespace CelebrancyHQ.Services.Authentication
 {
@@ -29,12 +29,12 @@ namespace CelebrancyHQ.Services.Authentication
         /// </summary>
         /// <param name="user">The user.</param>
         /// <returns>An authentication token for the specified user.</returns>
-        public AuthTokenDTO Generate(UserDTO user)
+        public AuthTokenDTO Generate(PersonDTO user)
         {
             List<Claim> claims = new List<Claim>() {
                 new Claim (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim (JwtRegisteredClaimNames.Email, user.EmailAddress),
-                new Claim (JwtRegisteredClaimNames.NameId, user.Id.ToString())
+                new Claim (JwtRegisteredClaimNames.NameId, user.UserId.ToString())
             };
 
             JwtSecurityToken token = new TokenBuilder()

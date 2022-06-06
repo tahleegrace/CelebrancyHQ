@@ -1,7 +1,7 @@
-import { UserDTO } from "./user";
+import { PersonDTO } from "./person";
 
 export interface AuthTokenDTO {
     token: string;
     expiresIn: number;
-    user: UserDTO;
+    user: PersonDTO;
 }

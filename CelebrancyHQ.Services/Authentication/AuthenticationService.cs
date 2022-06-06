@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 
 using CelebrancyHQ.Models.DTOs.Authentication;
-using CelebrancyHQ.Models.DTOs.Users;
+using CelebrancyHQ.Models.DTOs.Persons;
 using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;
@@ -57,9 +57,10 @@ namespace CelebrancyHQ.Services.Authentication
             // Find the organisation for the specified user.
             var organisation = person.OrganisationId != null ? await this._organisationRepository.FindById(person.OrganisationId.Value) : null; 
 
-            var userDTO = new UserDTO()
+            var userDTO = new PersonDTO()
             {
-                Id = user.Id,
+                UserId = user.Id,
+                PersonId = person.Id,
                 EmailAddress = user.EmailAddress,
                 FirstName = person.FirstName,
                 LastName = person.LastName,

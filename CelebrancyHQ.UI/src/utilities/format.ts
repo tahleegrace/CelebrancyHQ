@@ -1,7 +1,7 @@
 import { AddressDTO } from "../interfaces/address";
-import { UserDTO } from "../interfaces/user";
+import { PersonDTO } from "../interfaces/person";
 
-export function getUserFullName(user: UserDTO) {
+export function getUserFullName(user: PersonDTO) {
     return `${user.firstName} ${user.lastName} ${user.businessName ? `(${user.businessName})` : ''}`;
 };
 
