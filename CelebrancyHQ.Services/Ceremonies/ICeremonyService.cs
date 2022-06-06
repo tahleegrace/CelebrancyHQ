@@ -16,5 +16,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="to">The to date.</param>
         /// <returns>The ceremonies matching the specified criteria.</returns>
         Task<List<CeremonySummaryDTO>> GetAll(int userId, string? participantTypeCode, DateTime? from, DateTime? to);
+
+        /// <summary>
+        /// Gets the key details for the ceremony with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The key details for the ceremony with the specified ID.</returns>
+        Task<CeremonyKeyDetailsDTO?> GetCeremonyKeyDetails(int ceremonyId, int currentUserId);
     }
 }

@@ -52,5 +52,17 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             return await ceremoniesQuery.ToListAsync();
         }
+
+        /// <summary>
+        /// Gets the ceremony with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The ceremony with the specified ID.</returns>
+        public async Task<Ceremony?> FindById(int ceremonyId)
+        {
+            return await this._context.Ceremonies.Include(c => c.CeremonyType)
+                                                 .Where(c => c.Id == ceremonyId && !c.Deleted)
+                                                 .FirstOrDefaultAsync();
+        }
     }
 }

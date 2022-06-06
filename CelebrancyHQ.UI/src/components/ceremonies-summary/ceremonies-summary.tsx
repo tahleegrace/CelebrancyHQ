@@ -12,7 +12,7 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
     getCeremonyDescription(ceremony: CeremonySummaryDTO) {
         const dateString = moment(ceremony.ceremonyDate).format('dddd MMMM DD YYYY h:mm A');
 
-        return `${dateString} - ${ceremony.name}: ${ceremony.primaryVenueName}, ${formatAddress(ceremony.primaryAddress)}`;
+        return `${dateString} - ${ceremony.name}: ${ceremony.primaryVenueName}, ${formatAddress(ceremony.primaryVenueAddress)}`;
     }
 
     render() {

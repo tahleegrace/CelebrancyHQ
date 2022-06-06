@@ -5,5 +5,5 @@ export interface CeremonySummaryDTO {
     name: string;
     ceremonyDate: Date,
     primaryVenueName: string;
-    primaryAddress: AddressDTO;
+    primaryVenueAddress: AddressDTO;
 }

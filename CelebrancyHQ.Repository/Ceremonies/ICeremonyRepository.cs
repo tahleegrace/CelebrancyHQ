@@ -16,5 +16,12 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="to">The to date.</param>
         /// <returns>The ceremonies matching the specified criteria.</returns>
         Task<List<Ceremony>> GetAll(int personId, List<int> participantTypeIds, DateTime? from, DateTime? to);
+
+        /// <summary>
+        /// Gets the ceremony with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The ceremony with the specified ID.</returns>
+        Task<Ceremony?> FindById(int ceremonyId);
     }
 }

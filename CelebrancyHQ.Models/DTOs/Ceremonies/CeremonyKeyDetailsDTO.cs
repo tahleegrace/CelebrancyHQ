@@ -3,9 +3,9 @@
 namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
     /// <summary>
-    /// Stores details about a ceremony to be displayed on a list of ceremonies.
+    /// Stores details about a ceremony to be displayed on the key details tab of the ceremony details page.
     /// </summary>
-    public class CeremonySummaryDTO
+    public class CeremonyKeyDetailsDTO
     {
         /// <summary>
         /// Gets or sets the ID of the ceremony.
@@ -18,7 +18,12 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the date of the ceremony.
+        /// Gets or sets the name of the ceremony type.
+        /// </summary>
+        public string CeremonyTypeName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ceremony date.
         /// </summary>
         public DateTime CeremonyDate { get; set; }
 

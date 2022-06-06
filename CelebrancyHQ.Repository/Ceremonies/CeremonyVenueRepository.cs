@@ -21,6 +21,20 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets the primary venue for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The primary venue for the specified ceremony.</returns>
+        public async Task<Organisation?> GetPrimaryVenueForCeremony(int ceremonyId)
+        {
+            return await this._context.CeremonyVenues.Include(cv => cv.Organisation)
+                                                     .Include(cv => cv.Organisation.Address)
+                                                     .Where(cv => cv.CeremonyId == ceremonyId && !cv.Deleted && cv.IsPrimary)
+                                                     .Select(cv => cv.Organisation)
+                                                     .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Gets the primary venues for the specified ceremonies.
         /// </summary>
         /// <param name="ceremonyIds">The IDs of the ceremonies.</param>

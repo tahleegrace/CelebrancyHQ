@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+
 using CelebrancyHQ.Models.DTOs.Addresses;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Users;
@@ -16,6 +18,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
         private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
+        private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -27,12 +30,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
-            ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, IMapper mapper)
+            ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
+            IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyRepository = ceremonyRepository;
             this._ceremonyVenuesRepository = ceremonyVenuesRepository;
+            this._ceremonyParticipantRepository = ceremonyParticipantRepository;
             this._mapper = mapper;
         }
 
@@ -53,7 +58,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotFoundException(userId);
             }
 
-            // TODO: Convert the dates to UTC time here based on the user's time zone setting.
+            // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
             var participantTypeIds = !String.IsNullOrEmpty(participantTypeCode) ? await this._ceremonyTypeParticipantRepository.FindIdsByCode(participantTypeCode) : new List<int>();
             var ceremonies = await this._ceremonyRepository.GetAll(user.PersonId, participantTypeIds, from, to);
             var ceremonyIds = ceremonies.Select(c => c.Id).ToList();
@@ -69,11 +74,55 @@ namespace CelebrancyHQ.Services.Ceremonies
                     Name = c.Name,
                     CeremonyDate = c.CeremonyDate,
                     PrimaryVenueName = venue?.Name,
-                    PrimaryAddress = this._mapper.Map<AddressDTO>(venue?.Address)
+                    PrimaryVenueAddress = this._mapper.Map<AddressDTO>(venue?.Address)
                 };
             }).ToList();
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the key details for the ceremony with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The key details for the ceremony with the specified ID.</returns>
+        public async Task<CeremonyKeyDetailsDTO?> GetCeremonyKeyDetails(int ceremonyId, int currentUserId)
+        {
+            // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
+            var user = await this._userRepository.FindById(currentUserId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException(currentUserId);
+            }
+
+            var ceremony = await this._ceremonyRepository.FindById(ceremonyId);
+
+            if (ceremony == null)
+            {
+                throw new CeremonyNotFoundException(ceremonyId);
+            }
+
+            // Make sure the current user is a participant in the ceremony.
+            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremonyId);
+
+            if (!canAccessCeremony)
+            {
+                throw new UserNotCeremonyParticipantException(ceremonyId);
+            }
+
+            var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
+
+            return new CeremonyKeyDetailsDTO()
+            {
+                Id = ceremony.Id,
+                Name = ceremony.Name,
+                CeremonyTypeName = ceremony.CeremonyType.Name,
+                CeremonyDate = ceremony.CeremonyDate,
+                PrimaryVenueName = primaryVenue?.Name,
+                PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address)
+            };
         }
     }
 }

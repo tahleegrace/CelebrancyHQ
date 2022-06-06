@@ -5,6 +5,7 @@ using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Services.Authentication;
 using CelebrancyHQ.Services.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
+using CelebrancyHQ.Models.Exceptions.Ceremonies;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -49,6 +50,30 @@ namespace CelebrancyHQ.API.Controllers
             catch (UserNotFoundException)
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Gets the key details of the ceremony with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The key details of the ceremony with the specified ID.</returns>
+        [HttpGet("{ceremonyId}/key-details")]
+        public async Task<ActionResult<CeremonyKeyDetailsDTO>> GetKeyDetailsById(int ceremonyId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremoniesService.GetCeremonyKeyDetails(ceremonyId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (UserNotCeremonyParticipantException)
+            {
+                return Forbid();
             }
         }
     }
