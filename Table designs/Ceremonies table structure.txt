@@ -93,11 +93,18 @@ Name
 IsPrimary - whether this is the venue where all the participants meet first for the ceremony.
 Notes
 
-CeremonyServiceProvider - a service provider for a ceremony - a ceremony can have one or more service providers
+CeremonyTypeServiceProviders - the types of service providers that a ceremony can have (e.g. funeral director, florist, photographer, videographer, musician, caterer, other, etc).
+------------
+ID
+CeremonyType
+Code
+Name
+Description
+
+CeremonyServiceProviders - a service provider for a ceremony - a ceremony can have one or more service providers
 ---------------------
 ID
 Ceremony
+CeremonyTypeServiceProvider
 Organisation
-Name
-Type
 Notes
