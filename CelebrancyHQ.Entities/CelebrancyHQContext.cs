@@ -22,6 +22,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Person> Persons { get; set; }
 
         /// <summary>
+        /// The person phone numbers table.
+        /// </summary>
+        public DbSet<PersonPhoneNumber> PersonPhoneNumbers { get; set; }
+
+        /// <summary>
         /// The addresses table.
         /// </summary>
         public DbSet<Address> Addresses { get; set; }
