@@ -72,6 +72,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyVenue> CeremonyVenues { get; set; }
 
         /// <summary>
+        /// The ceremony dates table.
+        /// </summary>
+        public DbSet<CeremonyDate> CeremonyDates { get; set; }
+
+        /// <summary>
         /// Creates a new instance of CelebrancyHQContext.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
