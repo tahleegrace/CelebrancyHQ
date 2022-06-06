@@ -3,7 +3,6 @@
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
-using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;
 
 namespace CelebrancyHQ.Services.Ceremonies
@@ -14,7 +13,6 @@ namespace CelebrancyHQ.Services.Ceremonies
     public class CeremonyTypeService : ICeremonyTypeService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPersonRepository _personRepository;
         private readonly ICeremonyTypeRepository _ceremonyTypeRepository;
         private readonly IMapper _mapper;
 
@@ -22,14 +20,11 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// Creates a new instance of CeremonyTypeService.
         /// </summary>
         /// <param name="userRepository">The users repository.</param>
-        /// <param name="personRepository">The persons repository.</param>
         /// <param name="ceremonyTypeRepository">The ceremony types repository.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyTypeService(IUserRepository userRepository, IPersonRepository personRepository, ICeremonyTypeRepository ceremonyTypeRepository,
-            IMapper mapper)
+        public CeremonyTypeService(IUserRepository userRepository, ICeremonyTypeRepository ceremonyTypeRepository, IMapper mapper)
         {
             this._userRepository = userRepository;
-            this._personRepository = personRepository;
             this._ceremonyTypeRepository = ceremonyTypeRepository;
             this._mapper = mapper;
         }
@@ -48,14 +43,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotFoundException(userId);
             }
 
-            var person = await this._personRepository.FindById(user.PersonId);
-
-            if (person == null)
-            {
-                throw new UserNotFoundException(userId);
-            }
-
-            var ceremonyTypes = await this._ceremonyTypeRepository.FindByOrganisationId(person.OrganisationId);
+            var ceremonyTypes = await this._ceremonyTypeRepository.FindByOrganisationId(user.Person.OrganisationId);
             var result = this._mapper.Map<List<CeremonyTypeDTO>>(ceremonyTypes);
 
             return result;

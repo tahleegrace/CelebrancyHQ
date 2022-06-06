@@ -27,7 +27,10 @@ namespace CelebrancyHQ.Repository.Users
         /// <returns>The user with the specified ID.</returns>
         public async Task<User?> FindById(int id)
         {
-            var user = await this._context.Users.Where(u => u.Id == id && !u.Deleted).FirstOrDefaultAsync();
+            var user = await this._context.Users.Include(u => u.Person)
+                                                .Include(u => u.Person.Organisation)
+                                                .Where(u => u.Id == id && !u.Deleted)
+                                                .FirstOrDefaultAsync();
 
             return user;
         }
@@ -39,7 +42,9 @@ namespace CelebrancyHQ.Repository.Users
         /// <returns>The user with the specified email address.</returns>
         public async Task<User?> FindByEmailAddress(string emailAddress)
         {
-            var user = await this._context.Users.Where(u => u.EmailAddress == emailAddress && !u.Deleted).FirstOrDefaultAsync();
+            var user = await this._context.Users.Include(u => u.Person)
+                                                .Include(u => u.Person.Organisation)
+                                                .Where(u => u.EmailAddress == emailAddress && !u.Deleted).FirstOrDefaultAsync();
 
             return user;
         }

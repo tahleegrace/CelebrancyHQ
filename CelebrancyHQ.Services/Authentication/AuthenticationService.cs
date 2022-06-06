@@ -1,9 +1,10 @@
 ﻿using System.Security.Claims;
 
+using AutoMapper;
+
 using CelebrancyHQ.Models.DTOs.Authentication;
 using CelebrancyHQ.Models.DTOs.Persons;
-using CelebrancyHQ.Repository.Organisations;
-using CelebrancyHQ.Repository.Persons;
+using CelebrancyHQ.Models.Exceptions.Authentication;
 using CelebrancyHQ.Repository.Users;
 
 namespace CelebrancyHQ.Services.Authentication
@@ -14,24 +15,20 @@ namespace CelebrancyHQ.Services.Authentication
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPersonRepository _personRepository;
-        private readonly IOrganisationRepository _organisationRepository;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates a new instance of AuthenticationService.
         /// </summary>
         /// <param name="userRepository">The users repository.</param>
-        /// <param name="personRepository">The persons repository.</param>
-        /// <param name="organisationRepository">The organisations repository.</param>
         /// <param name="tokenService">The token service.</param>
-        public AuthenticationService(IUserRepository userRepository, IPersonRepository personRepository, IOrganisationRepository organisationRepository, 
-            ITokenService tokenService)
+        /// <param name="mapper">The mapper.</param>
+        public AuthenticationService(IUserRepository userRepository, ITokenService tokenService, IMapper mapper)
         {
             this._userRepository = userRepository;
-            this._personRepository = personRepository;
-            this._organisationRepository = organisationRepository;
             this._tokenService = tokenService;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -48,24 +45,11 @@ namespace CelebrancyHQ.Services.Authentication
 
             if (user == null || user.PasswordHash != loginDetails.Password)
             {
-                return null;
+                throw new LoginDetailsIncorrectException(loginDetails.EmailAddress);
             }
 
-            // Find the person for the specified user.
-            var person = await this._personRepository.FindById(user.PersonId);
-
-            // Find the organisation for the specified user.
-            var organisation = person.OrganisationId != null ? await this._organisationRepository.FindById(person.OrganisationId.Value) : null; 
-
-            var userDTO = new PersonDTO()
-            {
-                UserId = user.Id,
-                PersonId = person.Id,
-                EmailAddress = user.EmailAddress,
-                FirstName = person.FirstName,
-                LastName = person.LastName,
-                BusinessName = organisation?.Name
-            };
+            var userDTO = this._mapper.Map<PersonDTO>(user.Person);
+            userDTO.UserId = user.Id;
 
             return this._tokenService.Generate(userDTO);
         }

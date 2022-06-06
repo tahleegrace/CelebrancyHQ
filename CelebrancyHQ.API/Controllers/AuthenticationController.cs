@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using CelebrancyHQ.Models.DTOs.Authentication;
 using CelebrancyHQ.Services.Authentication;
+using CelebrancyHQ.Models.Exceptions.Authentication;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -38,15 +39,15 @@ namespace CelebrancyHQ.API.Controllers
                 return BadRequest();
             }
 
-            var result = await this._authenticationService.Login(loginDetails);
+            try
+            {
+                var result = await this._authenticationService.Login(loginDetails);
 
-            if (result == null)
+                return result;
+            }
+            catch (LoginDetailsIncorrectException)
             {
                 return Unauthorized("Email address or password invalid.");
-            } 
-            else
-            {
-                return result;
             }
         }
 
