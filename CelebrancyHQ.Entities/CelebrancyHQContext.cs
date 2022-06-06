@@ -37,6 +37,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Organisation> Organisations { get; set; }
 
         /// <summary>
+        /// The organisation phone numbers table.
+        /// </summary>
+        public DbSet<OrganisationPhoneNumber> OrganisationPhoneNumbers { get; set; }
+
+        /// <summary>
         /// The ceremony types table.
         /// </summary>
         public DbSet<CeremonyType> CeremonyTypes { get; set; }
