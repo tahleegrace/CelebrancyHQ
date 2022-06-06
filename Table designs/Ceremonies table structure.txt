@@ -88,7 +88,16 @@ CeremonyVenue - the venues an individual ceremony is hosted at - a ceremony can 
 --------------
 ID
 Ceremony
-Venue
+Organisation
 Name
 IsPrimary - whether this is the venue where all the participants meet first for the ceremony.
+Notes
+
+CeremonyServiceProvider - a service provider for a ceremony - a ceremony can have one or more service providers
+---------------------
+ID
+Ceremony
+Organisation
+Name
+Type
 Notes
