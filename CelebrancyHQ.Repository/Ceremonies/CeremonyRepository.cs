@@ -30,7 +30,6 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremonies matching the specified criteria.</returns>
         public async Task<List<Ceremony>> GetAll(int personId, List<int> participantTypeIds, DateTime? from, DateTime? to)
         {
-            // TODO: Handle the from and to date here.
             var participantsQuery = this._context.CeremonyParticipants.Where(cp => cp.PersonId == personId && !cp.Deleted);
 
             if (participantTypeIds.Count > 0)

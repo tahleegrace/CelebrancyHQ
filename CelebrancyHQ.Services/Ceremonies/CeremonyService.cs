@@ -1,4 +1,6 @@
-﻿using CelebrancyHQ.Models.DTOs.Ceremonies;
+﻿using AutoMapper;
+using CelebrancyHQ.Models.DTOs.Addresses;
+using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Users;
@@ -13,6 +15,8 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IUserRepository _userRepository;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
+        private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates a new instance of CeremonyService.
@@ -20,12 +24,16 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="userRepository">The users repository.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
+        /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
+        /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
-            ICeremonyRepository ceremonyRepository)
+            ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyRepository = ceremonyRepository;
+            this._ceremonyVenuesRepository = ceremonyVenuesRepository;
+            this._mapper = mapper;
         }
 
         /// <summary>
@@ -45,16 +53,24 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotFoundException(userId);
             }
 
-            // TODO: Retrieve the venue name and address here.
             // TODO: Convert the dates to UTC time here based on the user's time zone setting.
             var participantTypeIds = !String.IsNullOrEmpty(participantTypeCode) ? await this._ceremonyTypeParticipantRepository.FindIdsByCode(participantTypeCode) : new List<int>();
             var ceremonies = await this._ceremonyRepository.GetAll(user.PersonId, participantTypeIds, from, to);
+            var ceremonyIds = ceremonies.Select(c => c.Id).ToList();
+            var ceremonyVenues = await this._ceremonyVenuesRepository.GetPrimaryVenuesForCeremonies(ceremonyIds);
 
-            var result = ceremonies.Select(c => new CeremonySummaryDTO()
+            var result = ceremonies.Select(c => 
             {
-                Id = c.Id,
-                Name = c.Name,
-                CeremonyDate = c.CeremonyDate
+                var venue = ceremonyVenues.ContainsKey(c.Id) ? ceremonyVenues[c.Id] : null;
+
+                return new CeremonySummaryDTO()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    CeremonyDate = c.CeremonyDate,
+                    PrimaryVenueName = venue?.Name,
+                    PrimaryAddress = this._mapper.Map<AddressDTO>(venue?.Address)
+                };
             }).ToList();
 
             return result;

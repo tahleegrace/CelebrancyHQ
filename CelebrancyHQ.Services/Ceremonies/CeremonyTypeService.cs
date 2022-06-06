@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
