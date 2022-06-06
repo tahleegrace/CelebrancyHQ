@@ -30,5 +30,20 @@ namespace CelebrancyHQ.Repository.Ceremonies
         {
             return await this._context.CeremonyParticipants.Where(cp => cp.PersonId == personId && cp.CeremonyId == ceremonyId && !cp.Deleted).AnyAsync();
         }
+
+        /// <summary>
+        /// Gets the participants for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The participants for the specified ceremony.</returns>
+        public async Task<List<CeremonyParticipant>> GetCeremonyParticipants(int ceremonyId)
+        {
+            return await this._context.CeremonyParticipants.Include(cp => cp.Person)
+                                                           .Include(cp => cp.Person.Organisation)
+                                                           .Include(cp => cp.CeremonyTypeParticipant)
+                                                           .Where(cp => cp.CeremonyId == ceremonyId && !cp.Deleted)
+                                                           .ToListAsync();
+                
+        }
     }
 }

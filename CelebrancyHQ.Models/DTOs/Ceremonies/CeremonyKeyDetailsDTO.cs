@@ -36,5 +36,10 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// Gets the address of the first venue the ceremony is hosted at.
         /// </summary>
         public AddressDTO PrimaryVenueAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participants for the ceremony.
+        /// </summary>
+        public List<CeremonyParticipantDTO> Participants { get; set; }
     }
 }

@@ -112,8 +112,20 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotCeremonyParticipantException(ceremonyId);
             }
 
+            // Get the participants in the ceremony.
+            var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId);
+            var participantDTOs = participants.Select(participant =>
+            {
+                var dto = this._mapper.Map<CeremonyParticipantDTO>(participant.Person);
+                this._mapper.Map(participant, dto);
+
+                return dto;
+            }).ToList();
+
+            // Get the primary venue for the ceremony.
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
+            // Return the ceremony details.
             return new CeremonyKeyDetailsDTO()
             {
                 Id = ceremony.Id,
@@ -121,7 +133,8 @@ namespace CelebrancyHQ.Services.Ceremonies
                 CeremonyTypeName = ceremony.CeremonyType.Name,
                 CeremonyDate = ceremony.CeremonyDate,
                 PrimaryVenueName = primaryVenue?.Name,
-                PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address)
+                PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address),
+                Participants = participantDTOs
             };
         }
     }
