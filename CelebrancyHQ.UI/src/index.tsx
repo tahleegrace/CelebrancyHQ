@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
 import CeremonyDetails from './pages/ceremonies/ceremony-details/ceremony-details';
+import CeremonyKeyDetails from './pages/ceremonies/ceremony-details/key-details/key-details';
 import { MyCeremonies } from './pages/ceremonies/my-ceremonies/my-ceremonies';
 import { Dashboard } from './pages/dashboard/dashboard';
 import DefaultPage from './pages/default/default-page';
@@ -26,7 +27,9 @@ root.render(
                     <Route path="login" element={<UnauthenticatedOnlyRoute><Login /></UnauthenticatedOnlyRoute>} />
                     <Route path="dashboard" element={<AuthenticatedRoute><Dashboard /></AuthenticatedRoute>} />
                     <Route path="ceremonies" element={<AuthenticatedRoute><MyCeremonies /></AuthenticatedRoute>} />
-                    <Route path="ceremonies/:ceremonyId" element={<AuthenticatedRoute><CeremonyDetails /></AuthenticatedRoute> } />
+                    <Route path="ceremonies/:ceremonyId" element={<AuthenticatedRoute><CeremonyDetails /></AuthenticatedRoute>}>
+                        <Route path="" element={<AuthenticatedRoute><CeremonyKeyDetails /></AuthenticatedRoute>} />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Outlet } from "react-router-dom";
 import { ContextProps } from "../../../context/context";
 import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
 import { CeremoniesService } from "../../../services/ceremonies/ceremonies.service";
@@ -82,7 +83,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                                     </li>
                                 </ul>
                                 <div className="container pt-2 pb-0 pl-0 pr-0">
-                                    Insert tab content here.
+                                    <Outlet />
                                 </div>
                             </div>
                         </Fragment>
