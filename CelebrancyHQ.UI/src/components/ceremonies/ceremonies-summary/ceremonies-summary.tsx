@@ -1,8 +1,7 @@
-import moment from "moment";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
-import { formatAddress } from "../../utilities/format";
+import { CeremonySummaryDTO } from "../../../interfaces/ceremony-summary";
+import { formatAddress, formatDate } from "../../../utilities/format";
 
 export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, CeremoniesSummaryState> {
     constructor(props: CeremoniesSummaryProps) {
@@ -10,9 +9,7 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
     }
 
     getCeremonyDescription(ceremony: CeremonySummaryDTO) {
-        const dateString = moment(ceremony.ceremonyDate).format('dddd MMMM DD YYYY h:mm A');
-
-        return `${dateString} - ${ceremony.name}: ${ceremony.primaryVenueName}, ${formatAddress(ceremony.primaryVenueAddress)}`;
+        return `${formatDate(ceremony.ceremonyDate)} - ${ceremony.name}: ${ceremony.primaryVenueName}, ${formatAddress(ceremony.primaryVenueAddress)}`;
     }
 
     render() {

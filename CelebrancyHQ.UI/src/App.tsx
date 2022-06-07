@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { CelebrancyHQRootContext, RootContextProps } from './context/root-context';
 import { AuthTokenDTO } from './interfaces/auth-token';
-import { getUserFullName } from './utilities/format';
+import { getUserFullNameAndBusinessName } from './utilities/format';
 
 export class App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {
@@ -56,7 +56,7 @@ export class App extends React.Component<AppProps, AppState> {
                                         </li>
                                     </ul>
                                     <div className="inline">
-                                        {getUserFullName(this.state.currentUser.user)}
+                                        {getUserFullNameAndBusinessName(this.state.currentUser.user)}
                                     </div>
                                 </div>
                                 : <Fragment />

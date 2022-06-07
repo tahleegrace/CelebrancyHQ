@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
+import { CeremonyDetailsContext, CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../context/root-context";
-import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
 import { CeremoniesService } from "../../../services/ceremonies/ceremonies.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
 import { withRouter } from "../../../utilities/with-router";
@@ -13,16 +13,19 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
     private ceremoniesService = DependencyService.getInstance().getDependency<CeremoniesService>(CeremoniesService.serviceName);
 
     constructor(props: CeremonyDetailsProps) {
-        super({
-            params: {
-                ceremonyId: null
-            }
-        });
+        super(props);
 
         this.state = {
+            ceremonyId: null,
             ceremony: null,
             loading: true,
-            ceremonyNotAccessible: false
+            ceremonyNotAccessible: false,
+            rootContext: null,
+
+            currentTab: null,
+            setCurrentTab: (tab: string) => {
+                this.setState({ currentTab: tab })
+            }
         };
     }
 
@@ -30,7 +33,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
         try {
             const ceremony = await this.ceremoniesService.getKeyDetails(this.props.params.ceremonyId as number, (this.context as RootContextProps));
 
-            this.setState({ ceremony: ceremony, loading: false, ceremonyNotAccessible: false });
+            this.setState({ ceremonyId: this.props.params.ceremonyId, ceremony: ceremony, loading: false, ceremonyNotAccessible: false, rootContext: this.context as RootContextProps });
         }
         catch {
             this.setState({ loading: false, ceremonyNotAccessible: false })
@@ -83,7 +86,9 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                                     </li>
                                 </ul>
                                 <div className="container pt-2 pb-0 pl-0 pr-0">
-                                    <Outlet />
+                                    <CeremonyDetailsContext.Provider value={this.state}>
+                                        <Outlet />
+                                    </CeremonyDetailsContext.Provider>
                                 </div>
                             </div>
                         </Fragment>
@@ -102,8 +107,7 @@ interface CeremonyDetailsProps {
     }
 }
 
-interface CeremonyDetailsState {
-    ceremony: CeremonyKeyDetailsDTO | null;
+interface CeremonyDetailsState extends CeremonyDetailsContextProps {
     loading: boolean;
     ceremonyNotAccessible: boolean;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { CeremoniesSummary } from "../../components/ceremonies-summary/ceremonies-summary";
+import { CeremoniesSummary } from "../../components/ceremonies/ceremonies-summary/ceremonies-summary";
 import { RootContextProps } from "../../context/root-context";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 import { CeremonyTypeDTO } from "../../interfaces/ceremony-type";
