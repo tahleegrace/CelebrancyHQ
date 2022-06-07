@@ -1,4 +1,4 @@
-import { ContextProps } from "../../context/context";
+import { RootContextProps } from "../../context/root-context";
 import { AuthTokenDTO } from "../../interfaces/auth-token";
 import { LoginDetailsDTO } from "../../interfaces/login-details";
 import { DependencyService } from "../dependencies/dependency.service";
@@ -9,7 +9,7 @@ export class AuthenticationService {
 
     private httpService = DependencyService.getInstance().getDependency<HttpService>(HttpService.serviceName);
 
-    public async login(emailAddress: string, password: string, context: ContextProps): Promise<AuthTokenDTO> {
+    public async login(emailAddress: string, password: string, context: RootContextProps): Promise<AuthTokenDTO> {
         const request: LoginDetailsDTO = {
             emailAddress: emailAddress,
             password: password

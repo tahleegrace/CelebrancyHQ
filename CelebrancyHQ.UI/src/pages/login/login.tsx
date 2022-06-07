@@ -1,12 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { CelebrancyHQContext, ContextProps } from "../../context/context";
+import { CelebrancyHQRootContext, RootContextProps } from "../../context/root-context";
 import { AuthenticationService } from "../../services/authentication/authentication.service";
 import { DependencyService } from "../../services/dependencies/dependency.service";
 import { CommonPage } from "../common-page/common-page";
 
 export class Login extends CommonPage<LoginProps, LoginState> {
-    static contextType = CelebrancyHQContext;
+    static contextType = CelebrancyHQRootContext;
     static pageName = 'login';
 
     private authenticationService = DependencyService.getInstance().getDependency<AuthenticationService>(AuthenticationService.serviceName);
@@ -45,7 +45,7 @@ export class Login extends CommonPage<LoginProps, LoginState> {
 
         if (this.loginForm.current && this.loginForm.current.checkValidity()) {
             try {
-                await this.authenticationService.login(this.state.emailAddress, this.state.password, (this.context as ContextProps));
+                await this.authenticationService.login(this.state.emailAddress, this.state.password, (this.context as RootContextProps));
                 this.setState({ loginFailed: false, loginSuccessful: true });
             } catch {
                 this.setState({ loginFailed: true, loginSuccessful: false });

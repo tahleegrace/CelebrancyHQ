@@ -1,5 +1,5 @@
 import moment from "moment";
-import { ContextProps } from "../../context/context";
+import { RootContextProps } from "../../context/root-context";
 import { CeremonyKeyDetailsDTO } from "../../interfaces/ceremony-key-details";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 import { DependencyService } from "../dependencies/dependency.service";
@@ -10,7 +10,7 @@ export class CeremoniesService {
 
     private httpService = DependencyService.getInstance().getDependency<HttpService>(HttpService.serviceName);
 
-    public async listCeremonies(weeksInFuture: number, participantTypeCode: string, context: ContextProps): Promise<CeremonySummaryDTO[]> {
+    public async listCeremonies(weeksInFuture: number, participantTypeCode: string, context: RootContextProps): Promise<CeremonySummaryDTO[]> {
         let from = moment().add(weeksInFuture, 'weeks').startOf('isoWeek').format('YYYY-MM-DD');
         let to = moment().add(weeksInFuture, 'weeks').endOf('isoWeek').format('YYYY-MM-DD');
 
@@ -19,7 +19,7 @@ export class CeremoniesService {
         return await this.httpService.get<CeremonySummaryDTO[]>(url, context)
     }
 
-    public async getKeyDetails(ceremonyId: number, context: ContextProps): Promise<CeremonyKeyDetailsDTO> {
+    public async getKeyDetails(ceremonyId: number, context: RootContextProps): Promise<CeremonyKeyDetailsDTO> {
         const url = `ceremonies/${ceremonyId}/key-details`;
 
         return await this.httpService.get<CeremonyKeyDetailsDTO>(url, context);

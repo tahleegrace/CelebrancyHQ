@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { CelebrancyHQContext, ContextProps } from './context/context';
+import { CelebrancyHQRootContext, RootContextProps } from './context/root-context';
 import { AuthTokenDTO } from './interfaces/auth-token';
 import { getUserFullName } from './utilities/format';
 
@@ -27,7 +27,7 @@ export class App extends React.Component<AppProps, AppState> {
 
     render() {
         return (
-            <CelebrancyHQContext.Provider value={this.state}>
+            <CelebrancyHQRootContext.Provider value={this.state}>
                 <div className="container-fluid p-3 bg-light">
                     <header>
                         <nav className="navbar navbar-expand-lg navbar-light">
@@ -67,7 +67,7 @@ export class App extends React.Component<AppProps, AppState> {
                         <Outlet />
                     </div>
                 </div>
-            </CelebrancyHQContext.Provider>
+            </CelebrancyHQRootContext.Provider>
         );
     }
 }
@@ -76,5 +76,5 @@ interface AppProps {
 
 }
 
-interface AppState extends ContextProps {
+interface AppState extends RootContextProps {
 }

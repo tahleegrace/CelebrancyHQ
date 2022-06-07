@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
-import { ContextProps } from "../../../context/context";
+import { RootContextProps } from "../../../context/root-context";
 import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
 import { CeremoniesService } from "../../../services/ceremonies/ceremonies.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
@@ -28,7 +28,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
 
     async componentDidMount() {
         try {
-            const ceremony = await this.ceremoniesService.getKeyDetails(this.props.params.ceremonyId as number, (this.context as ContextProps));
+            const ceremony = await this.ceremoniesService.getKeyDetails(this.props.params.ceremonyId as number, (this.context as RootContextProps));
 
             this.setState({ ceremony: ceremony, loading: false, ceremonyNotAccessible: false });
         }

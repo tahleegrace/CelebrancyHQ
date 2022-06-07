@@ -1,6 +1,6 @@
 import React from "react";
 import { CeremoniesSummary } from "../../components/ceremonies-summary/ceremonies-summary";
-import { ContextProps } from "../../context/context";
+import { RootContextProps } from "../../context/root-context";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 import { CeremonyTypeDTO } from "../../interfaces/ceremony-type";
 import { CeremoniesService } from "../../services/ceremonies/ceremonies.service";
@@ -27,9 +27,9 @@ export class Dashboard extends CommonPage<DashboardProps, DashboardState> {
     async componentDidMount() {
         this.setCurrentPage(Dashboard.pageName);
 
-        const ceremoniesThisWeek = await this.ceremoniesService.listCeremonies(0, 'celebrant', (this.context as ContextProps));
-        const ceremoniesNextWeek = await this.ceremoniesService.listCeremonies(1, 'celebrant', (this.context as ContextProps));
-        const ceremonyTypes = await this.ceremonyTypesService.getAll((this.context as ContextProps));
+        const ceremoniesThisWeek = await this.ceremoniesService.listCeremonies(0, 'celebrant', (this.context as RootContextProps));
+        const ceremoniesNextWeek = await this.ceremoniesService.listCeremonies(1, 'celebrant', (this.context as RootContextProps));
+        const ceremonyTypes = await this.ceremonyTypesService.getAll((this.context as RootContextProps));
 
         this.setState({
             ceremoniesThisWeek: ceremoniesThisWeek,
