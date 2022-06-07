@@ -1,4 +1,4 @@
-export class CeremonyParticipantCode {
+export class CeremonyParticipantCodes {
     public static readonly Celebrant = "Celebrant";
     public static readonly Couple = "Couple";
     public static readonly Organiser = "Organiser";

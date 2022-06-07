@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { CelebrancyHQRootContext, RootContextProps } from './context/root-context';
 import { AuthTokenDTO } from './interfaces/auth-token';
-import { getUserFullNameAndBusinessName } from './utilities/format';
+import { getUserFullNameAndBusinessName } from './utilities/persons/person-helpers';
 
 export class App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {

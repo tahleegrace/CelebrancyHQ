@@ -1,3 +1,5 @@
+import { MarriageParticipantsSummary } from "../../../../components/ceremonies/marriage-participants-summary/marriage-participants-summary";
+import { CeremonyTypeCodes } from "../../../../constants/ceremonies/ceremony-type-codes";
 import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
 import { CeremonyKeyDetailsDTO } from "../../../../interfaces/ceremony-key-details";
 import { formatAddress, formatDate } from "../../../../utilities/format";
@@ -46,6 +48,7 @@ class CeremonyKeyDetails extends CommonTab<CeremonyKeyDetailsProps, CeremonyKeyD
                         {formatAddress(ceremony.primaryVenueAddress)}
                     </div>
                 </div>
+                {ceremony.ceremonyTypeCode === CeremonyTypeCodes.Marriage ? <MarriageParticipantsSummary ceremony={ceremony} /> : ''}
             </div>
         );
     }
