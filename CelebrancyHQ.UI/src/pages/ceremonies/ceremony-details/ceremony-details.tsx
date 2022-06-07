@@ -7,6 +7,7 @@ import { DependencyService } from "../../../services/dependencies/dependency.ser
 import { withRouter } from "../../../utilities/with-router";
 import { CommonPage } from "../../common-page/common-page";
 
+// TODO: Split the tab panel and tab links into a separate component.
 class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsState> {
     static pageName = 'my-ceremonies';
 
@@ -42,6 +43,10 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
         this.setCurrentPage(CeremonyDetails.pageName);
     }
 
+    isTabActive(tab: string) {
+        return this.state.currentTab === tab;
+    }
+
     render() {
         return (
             <main>
@@ -52,37 +57,37 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                             <div className="container-fluid p-0">
                                 <ul className="nav nav-tabs">
                                     <li className="nav-item">
-                                        <a className="nav-link active">Key Details</a>
+                                        <a className={`nav-link ${this.isTabActive('key-details') ? 'active' : ''}`}>Key Details</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Key Dates</a>
+                                        <a className={`nav-link ${this.isTabActive('key-dates') ? 'active' : ''}`}>Key Dates</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Participants</a>
+                                        <a className={`nav-link ${this.isTabActive('participants') ? 'active' : ''}`}>Participants</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Guests</a>
+                                        <a className={`nav-link ${this.isTabActive('guests') ? 'active' : ''}`}>Guests</a>
                                     </li>                     
                                     <li className="nav-item">
-                                        <a className="nav-link">Service Providers</a>
+                                        <a className={`nav-link ${this.isTabActive('service-providers') ? 'active' : ''}`}>Service Providers</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Order of Service</a>
+                                        <a className={`nav-link ${this.isTabActive('order-of-service') ? 'active' : ''}`}>Order of Service</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Meetings</a>
+                                        <a className={`nav-link ${this.isTabActive('meetings') ? 'active' : ''}`}>Meetings</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Documentation</a>
+                                        <a className={`nav-link ${this.isTabActive('documentation') ? 'active' : ''}`}>Documentation</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Checklists</a>
+                                        <a className={`nav-link ${this.isTabActive('checklists') ? 'active' : ''}`}>Checklists</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">Invoices and Payments</a>
+                                        <a className={`nav-link ${this.isTabActive('invoices') ? 'active' : ''}`}>Invoices and Payments</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link">History</a>
+                                        <a className={`nav-link ${this.isTabActive('history') ? 'active' : ''}`}>History</a>
                                     </li>
                                 </ul>
                                 <div className="container pt-2 pb-0 pl-0 pr-0">

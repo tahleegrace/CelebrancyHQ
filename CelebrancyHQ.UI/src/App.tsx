@@ -4,6 +4,7 @@ import { CelebrancyHQRootContext, RootContextProps } from './context/root-contex
 import { AuthTokenDTO } from './interfaces/auth-token';
 import { getUserFullNameAndBusinessName } from './utilities/persons/person-helpers';
 
+// TODO: Split the navbar and navbar links into a separate component.
 export class App extends React.Component<AppProps, AppState> {
     constructor(props: AppProps) {
         super(props);

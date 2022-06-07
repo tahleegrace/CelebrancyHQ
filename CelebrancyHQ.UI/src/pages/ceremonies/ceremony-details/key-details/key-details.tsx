@@ -7,8 +7,14 @@ import { withRouter } from "../../../../utilities/with-router";
 import { CommonTab } from "../common-tab/common-tab";
 
 class CeremonyKeyDetails extends CommonTab<CeremonyKeyDetailsProps, CeremonyKeyDetailsState> {
+    static tabName = 'key-details';
+
     constructor(props: CeremonyKeyDetailsProps) {
         super(props);
+    }
+
+    componentDidMount() {
+        this.setCurrentTab(CeremonyKeyDetails.tabName);
     }
 
     render() {
