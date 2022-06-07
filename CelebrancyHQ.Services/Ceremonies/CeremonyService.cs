@@ -126,11 +126,13 @@ namespace CelebrancyHQ.Services.Ceremonies
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
             // Return the ceremony details.
+            // TODO: Add a mapper for this.
             return new CeremonyKeyDetailsDTO()
             {
                 Id = ceremony.Id,
                 Name = ceremony.Name,
                 CeremonyTypeName = ceremony.CeremonyType.Name,
+                CeremonyTypeCode = ceremony.CeremonyType.Code,
                 CeremonyDate = ceremony.CeremonyDate,
                 PrimaryVenueName = primaryVenue?.Name,
                 PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address),

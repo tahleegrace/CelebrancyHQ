@@ -5,6 +5,7 @@
     /// </summary>
     public class PersonDTO
     {
+        // TODO: Add PreferredName, Title and Gender to this class.
         /// <summary>
         /// Gets or sets the ID of the person.
         /// </summary>
