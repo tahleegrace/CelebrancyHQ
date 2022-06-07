@@ -1,5 +1,6 @@
 import moment from "moment";
 import { ContextProps } from "../../context/context";
+import { CeremonyKeyDetailsDTO } from "../../interfaces/ceremony-key-details";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 import { DependencyService } from "../dependencies/dependency.service";
 import { HttpService } from "../http/http.service";
@@ -16,5 +17,11 @@ export class CeremoniesService {
         const url = `ceremonies/${participantTypeCode}?from=${from}&to=${to}`;
 
         return await this.httpService.get<CeremonySummaryDTO[]>(url, context)
+    }
+
+    public async getKeyDetails(ceremonyId: number, context: ContextProps): Promise<CeremonyKeyDetailsDTO> {
+        const url = `ceremonies/${ceremonyId}/key-details`;
+
+        return await this.httpService.get<CeremonyKeyDetailsDTO>(url, context);
     }
 }
