@@ -110,6 +110,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             // Get the participants in the ceremony.
+            // TODO: Return the participant phone numbers here.
             var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId);
             var participantDTOs = participants.Select(participant =>
             {
@@ -120,6 +121,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }).ToList();
 
             // Get the primary venue for the ceremony.
+            // TODO: Return the venue phone numbers here.
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
             // Return the ceremony details.
