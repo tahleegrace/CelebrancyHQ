@@ -64,18 +64,15 @@ namespace CelebrancyHQ.Services.Ceremonies
             var ceremonyIds = ceremonies.Select(c => c.Id).ToList();
             var ceremonyVenues = await this._ceremonyVenuesRepository.GetPrimaryVenuesForCeremonies(ceremonyIds);
 
-            var result = ceremonies.Select(c => 
+            var result = ceremonies.Select(ceremony => 
             {
-                var venue = ceremonyVenues.ContainsKey(c.Id) ? ceremonyVenues[c.Id] : null;
+                var venue = ceremonyVenues.ContainsKey(ceremony.Id) ? ceremonyVenues[ceremony.Id] : null;
+                var dto = this._mapper.Map<CeremonySummaryDTO>(ceremony);
 
-                return new CeremonySummaryDTO()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    CeremonyDate = c.CeremonyDate,
-                    PrimaryVenueName = venue?.Name,
-                    PrimaryVenueAddress = this._mapper.Map<AddressDTO>(venue?.Address)
-                };
+                dto.PrimaryVenueName = venue?.Name;
+                dto.PrimaryVenueAddress = this._mapper.Map<AddressDTO>(venue?.Address);
+
+                return dto;
             }).ToList();
 
             return result;
@@ -126,18 +123,12 @@ namespace CelebrancyHQ.Services.Ceremonies
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
             // Return the ceremony details.
-            // TODO: Add a mapper for this.
-            return new CeremonyKeyDetailsDTO()
-            {
-                Id = ceremony.Id,
-                Name = ceremony.Name,
-                CeremonyTypeName = ceremony.CeremonyType.Name,
-                CeremonyTypeCode = ceremony.CeremonyType.Code,
-                CeremonyDate = ceremony.CeremonyDate,
-                PrimaryVenueName = primaryVenue?.Name,
-                PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address),
-                Participants = participantDTOs
-            };
+            var dto = this._mapper.Map<CeremonyKeyDetailsDTO>(ceremony);
+            dto.PrimaryVenueName = primaryVenue?.Name;
+            dto.PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address);
+            dto.Participants = participantDTOs;
+
+            return dto;
         }
     }
 }
