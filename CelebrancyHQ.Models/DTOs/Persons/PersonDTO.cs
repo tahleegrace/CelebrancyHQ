@@ -49,5 +49,10 @@
         /// Gets or sets the email address of the user.
         /// </summary>
         public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary phone number of the user.
+        /// </summary>
+        public string? PrimaryPhoneNumber { get; set; }
     }
 }

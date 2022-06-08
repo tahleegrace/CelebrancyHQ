@@ -1,17 +1,28 @@
 USE CelebrancyHQ;
 
+INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (1, 'Mobile', 1, '0472581931', GETUTCDATE(), GETUTCDATE(), 0)
+
 /* Mock persons. */
 /*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
-VALUES ('Joseph', 'Biden', 'joebidentest@celebrancyhq.co', 'M', 'Joe', 'Mr', '1942-11-20', GETUTCDATE(), GETUTCDATE())
+VALUES ('Joseph', 'Biden', 'joebidentest@celebrancyhq.co', 'M', 'Joe', 'Mr', '1942-11-20', GETUTCDATE(), GETUTCDATE())*/
 
 DECLARE @JoeBidenId INT
-SET @JoeBidenId = SCOPE_IDENTITY()
+/*SET @JoeBidenId = SCOPE_IDENTITY()*/
+SET @JoeBidenId = 2
 
-INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
-VALUES ('Jill', 'Biden', 'jillbidentest@celebrancyhq.co', 'F', 'Jill', 'Mrs', '1951-06-03', GETUTCDATE(), GETUTCDATE())
+INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (@JoeBidenId, 'Mobile', 1, '0412345678', GETUTCDATE(), GETUTCDATE(), 0)
+
+/*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
+VALUES ('Jill', 'Biden', 'jillbidentest@celebrancyhq.co', 'F', 'Jill', 'Mrs', '1951-06-03', GETUTCDATE(), GETUTCDATE())*/
 
 DECLARE @JillBidenId INT
-SET @JillBidenId = SCOPE_IDENTITY()*/
+/*SET @JillBidenId = SCOPE_IDENTITY()*/
+SET @JillBidenId = 3
+
+INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (@JillBidenId, 'Mobile', 1, '0412987654', GETUTCDATE(), GETUTCDATE(), 0)
 
 /*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
 VALUES ('Barack', 'Obama', 'barackobamatest@celebrancyhq.co', 'M', 'Barack', 'Mr', '1961-08-04', GETUTCDATE(), GETUTCDATE())*/
@@ -77,8 +88,8 @@ DECLARE @OrganisationId INT
 /*SET @OrganisationId = SCOPE_IDENTITY()*/
 SET @OrganisationId = 3
 
-INSERT INTO OrganisationPhoneNumbers (OrganisationId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
-VALUES (@OrganisationId, 'Mobile', 1, '0472581931', GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO OrganisationPhoneNumbers (OrganisationId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (@OrganisationId, 'Mobile', 1, '0472581931', GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /*INSERT INTO CeremonyVenues (CeremonyId, OrganisationId, Name, IsPrimary, Created, Updated, Deleted)
 VALUES (@CeremonyId, @OrganisationId, 'Ceremony venue', 1, GETUTCDATE(), GETUTCDATE(), 0)*/

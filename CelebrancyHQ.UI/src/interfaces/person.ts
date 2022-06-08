@@ -8,4 +8,5 @@ export interface PersonDTO {
     gender: string;
     organisationName?: string;
     emailAddress: string;
+    primaryPhoneNumber?: string;
 }

@@ -6,6 +6,7 @@ using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Organisations;
+using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;
 
 namespace CelebrancyHQ.Services.Ceremonies
@@ -20,6 +21,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyRepository _ceremonyRepository;
         private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
+        private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
         private readonly IOrganisationPhoneNumberRepository _organisationPhoneNumberRepository;
         private readonly IMapper _mapper;
 
@@ -31,17 +33,19 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
         /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
+        /// <param name="personPhoneNumberRepository">The person phone numbers repository.</param>
         /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
-            IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, IMapper mapper)
+            IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyRepository = ceremonyRepository;
             this._ceremonyVenuesRepository = ceremonyVenuesRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
+            this._personPhoneNumberRepository = personPhoneNumberRepository;
             this._organisationPhoneNumberRepository = organisationPhoneNumberRepository;
             this._mapper = mapper;
         }
@@ -114,12 +118,16 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             // Get the participants in the ceremony.
-            // TODO: Return the participant phone numbers here.
             var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId);
+            var participantPhoneNumbers = await this._personPhoneNumberRepository.GetPrimaryPhoneNumbersForCeremonyParticipants(ceremonyId);
+
             var participantDTOs = participants.Select(participant =>
             {
                 var dto = this._mapper.Map<CeremonyParticipantDTO>(participant.Person);
+                var phoneNumber = participantPhoneNumbers.ContainsKey(participant.PersonId) ? participantPhoneNumbers[participant.PersonId] : null;
+
                 this._mapper.Map(participant, dto);
+                dto.PrimaryPhoneNumber = phoneNumber?.PhoneNumber;
 
                 return dto;
             }).ToList();

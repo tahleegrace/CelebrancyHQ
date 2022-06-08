@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { PersonDTO } from "../../interfaces/person";
 
 export function getUserFullName(user: PersonDTO, includePreferredName = false) {
@@ -16,10 +17,8 @@ export function getUserAndContactDetailsDisplay(user: PersonDTO) {
     return (
         <p className="mb-0">
             {getUserFullName(user, true)}
-            <br />
-            0472581931
-            <br />
-            john.smith@test.com
+            {user.primaryPhoneNumber ? (<Fragment><br /><a href={'tel:' + user.primaryPhoneNumber}>{user.primaryPhoneNumber}</a></Fragment>) : ''}
+            {user.emailAddress ? (<Fragment><br /><a href={'mailto:' + user.emailAddress}>{user.emailAddress}</a></Fragment>) : ''}
         </p>  
     );
 }
