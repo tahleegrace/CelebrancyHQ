@@ -1,5 +1,8 @@
 import React, { Fragment } from "react";
+import { CeremonyParticipantCodes } from "../../../constants/ceremonies/ceremony-participant-codes";
 import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
+import { findParticipantsByCode } from "../../../utilities/ceremonies/ceremony-participant-helpers";
+import { getFullNamesForUsers, getUserFullName } from "../../../utilities/persons/person-helpers";
 
 export class MarriageParticipantsSummary extends React.Component<MarriageParticipantsSummaryProps, MarriageParticipantsSummaryState> {
     constructor(props: MarriageParticipantsSummaryProps) {
@@ -7,38 +10,54 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
     }
 
     render() {
+        var celebrant = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Celebrant)[0];
+        var couple = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Couple);
+        var organiser = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Organiser)[0];
+        var bridalParty = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.BridalParty);
+        var witnesses = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Witness);
+
         return (
             <Fragment>
-                <div className="row form-group">
-                    <div className="col-lg-2 col-sm-3 col-12">
-                        <strong>Celebrant:</strong>
-                    </div>
-                    <div className="col-lg-10 col-sm-9 col-12">
-                        Add celebrant here.
-                    </div>
-                </div>
+                {celebrant ?
+                    (<div className="row form-group">
+                        <div className="col-lg-2 col-sm-3 col-12">
+                            <strong>Celebrant:</strong>
+                        </div>
+                        <div className="col-lg-10 col-sm-9 col-12">
+                            {getUserFullName(celebrant, true)}
+                        </div>
+                    </div>) : ""}
                 <div className="row form-group">
                     <div className="col-lg-2 col-sm-3 col-12">
                         <strong>Couple:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        Add couple here.
+                        {getFullNamesForUsers(couple, true)}
                     </div>
                 </div>
-                <div className="row form-group">
-                    <div className="col-lg-2 col-sm-3 col-12">
-                        <strong>Organiser:</strong>
-                    </div>
-                    <div className="col-lg-10 col-sm-9 col-12">
-                        Add organiser here.
-                    </div>
-                </div>
+                {organiser ?
+                    (<div className="row form-group">
+                        <div className="col-lg-2 col-sm-3 col-12">
+                            <strong>Organiser:</strong>
+                        </div>
+                        <div className="col-lg-10 col-sm-9 col-12">
+                            {getUserFullName(organiser, true)}
+                        </div>
+                    </div>) : ""}
                 <div className="row form-group">
                     <div className="col-lg-2 col-sm-3 col-12">
                         <strong>Bridal Party:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        Add bridal party here.
+                        {bridalParty.length > 0 ? getFullNamesForUsers(bridalParty, true) : "No bridal party"}
+                    </div>
+                </div>
+                <div className="row form-group">
+                    <div className="col-lg-2 col-sm-3 col-12">
+                        <strong>Witnesses:</strong>
+                    </div>
+                    <div className="col-lg-10 col-sm-9 col-12">
+                        {witnesses.length > 0 ? getFullNamesForUsers(witnesses, true) : "No witnesses"}
                     </div>
                 </div>
             </Fragment>
