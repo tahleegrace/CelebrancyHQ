@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { AddressDTO } from "../../../interfaces/address";
 import { CeremonySummaryDTO } from "../../../interfaces/ceremony-summary";
-import { formatAddress, formatDate } from "../../../utilities/format";
+import { formatAddress } from "../../../utilities/addresses/address-helper";
+import { formatDate } from "../../../utilities/format";
 
 export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, CeremoniesSummaryState> {
     constructor(props: CeremoniesSummaryProps) {
@@ -9,7 +11,7 @@ export class CeremoniesSummary extends React.Component<CeremoniesSummaryProps, C
     }
 
     getCeremonyDescription(ceremony: CeremonySummaryDTO) {
-        return `${formatDate(ceremony.ceremonyDate)} - ${ceremony.name}: ${ceremony.primaryVenueName}, ${formatAddress(ceremony.primaryVenueAddress)}`;
+        return `${formatDate(ceremony.ceremonyDate)} - ${ceremony.name}: ${ceremony.primaryVenue.name}, ${formatAddress(ceremony.primaryVenue.address as AddressDTO)}`;
     }
 
     render() {

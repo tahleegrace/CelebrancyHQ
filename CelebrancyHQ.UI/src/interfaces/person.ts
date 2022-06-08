@@ -6,6 +6,6 @@ export interface PersonDTO {
     preferredName?: string;
     title?: string;
     gender: string;
-    businessName?: string;
+    organisationName?: string;
     emailAddress: string;
 }

@@ -1,4 +1,4 @@
-﻿using CelebrancyHQ.Models.DTOs.Addresses;
+﻿using CelebrancyHQ.Models.DTOs.Organisations;
 
 namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
@@ -23,13 +23,8 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         public DateTime CeremonyDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the first venue the ceremony is hosted at.
+        /// Gets or sets the first venue the ceremony is hosted at.
         /// </summary>
-        public string PrimaryVenueName { get; set; }
-
-        /// <summary>
-        /// Gets the address of the first venue the ceremony is hosted at.
-        /// </summary>
-        public AddressDTO PrimaryVenueAddress { get; set; }
+        public OrganisationKeyDetailsDTO PrimaryVenue { get; set; }
     }
 }

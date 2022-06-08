@@ -9,5 +9,5 @@ export function getFullNamesForUsers(users: PersonDTO[], includePreferredNames =
 }
 
 export function getUserFullNameAndBusinessName(user: PersonDTO) {
-    return `${getUserFullName(user)} ${user.businessName ? `(${user.businessName})` : ''}`;
+    return `${getUserFullName(user)} ${user.organisationName ? `(${user.organisationName})` : ''}`;
 };

@@ -1,8 +1,10 @@
 import { MarriageParticipantsSummary } from "../../../../components/ceremonies/marriage-participants-summary/marriage-participants-summary";
 import { CeremonyTypeCodes } from "../../../../constants/ceremonies/ceremony-type-codes";
 import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
+import { AddressDTO } from "../../../../interfaces/address";
 import { CeremonyKeyDetailsDTO } from "../../../../interfaces/ceremony-key-details";
-import { formatAddress, formatDate } from "../../../../utilities/format";
+import { formatAddress } from "../../../../utilities/addresses/address-helper";
+import { formatDate } from "../../../../utilities/format";
 import { withRouter } from "../../../../utilities/with-router";
 import { CommonTab } from "../common-tab/common-tab";
 
@@ -43,7 +45,7 @@ class CeremonyKeyDetails extends CommonTab<CeremonyKeyDetailsProps, CeremonyKeyD
                         <strong>Venue:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {ceremony.primaryVenueName}
+                        {ceremony.primaryVenue.name}
                     </div>
                 </div>
                 <div className="row form-group">
@@ -51,7 +53,7 @@ class CeremonyKeyDetails extends CommonTab<CeremonyKeyDetailsProps, CeremonyKeyD
                         <strong>Venue Address:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {formatAddress(ceremony.primaryVenueAddress)}
+                        {formatAddress(ceremony.primaryVenue.address as AddressDTO)}
                     </div>
                 </div>
                 {ceremony.ceremonyTypeCode === CeremonyTypeCodes.Marriage ? <MarriageParticipantsSummary ceremony={ceremony} /> : ''}

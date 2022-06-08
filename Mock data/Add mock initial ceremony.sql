@@ -71,10 +71,14 @@ DECLARE @AddressId INT
 SET @AddressId = SCOPE_IDENTITY()
 
 INSERT INTO Organisations (Name, Type, AddressId, Created, Updated, Deleted)
-VALUES ('Queensland Parliament House', 'Venue', @AddressId, GETUTCDATE(), GETUTCDATE(), 0)
+VALUES ('Queensland Parliament House', 'Venue', @AddressId, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 DECLARE @OrganisationId INT
-SET @OrganisationId = SCOPE_IDENTITY()
+/*SET @OrganisationId = SCOPE_IDENTITY()*/
+SET @OrganisationId = 3
 
-INSERT INTO CeremonyVenues (CeremonyId, OrganisationId, Name, IsPrimary, Created, Updated, Deleted)
+INSERT INTO OrganisationPhoneNumbers (OrganisationId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (@OrganisationId, 'Mobile', 1, '0472581931', GETUTCDATE(), GETUTCDATE(), 0)
+
+/*INSERT INTO CeremonyVenues (CeremonyId, OrganisationId, Name, IsPrimary, Created, Updated, Deleted)
 VALUES (@CeremonyId, @OrganisationId, 'Ceremony venue', 1, GETUTCDATE(), GETUTCDATE(), 0)*/

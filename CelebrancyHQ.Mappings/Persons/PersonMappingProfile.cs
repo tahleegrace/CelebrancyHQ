@@ -15,11 +15,11 @@ namespace CelebrancyHQ.Mappings.Persons
         {
             CreateMap<Person, PersonDTO>()
                 .ForMember(dest => dest.PersonId, source => source.MapFrom(item => item.Id))
-                .ForMember(dest => dest.BusinessName, source => source.MapFrom(item => item.Organisation != null ? item.Organisation.Name : null));
+                .ForMember(dest => dest.OrganisationName, source => source.MapFrom(item => item.Organisation != null ? item.Organisation.Name : null));
 
             CreateMap<Person, CeremonyParticipantDTO>()
                 .ForMember(dest => dest.PersonId, source => source.MapFrom(item => item.Id))
-                .ForMember(dest => dest.BusinessName, source => source.MapFrom(item => item.Organisation != null ? item.Organisation.Name : null));
+                .ForMember(dest => dest.OrganisationName, source => source.MapFrom(item => item.Organisation != null ? item.Organisation.Name : null));
         }
     }
 }

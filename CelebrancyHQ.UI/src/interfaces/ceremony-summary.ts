@@ -1,9 +1,8 @@
-import { AddressDTO } from "./address";
+import { OrganisationKeyDetailsDTO } from "./organisation-key-details";
 
 export interface CeremonySummaryDTO {
     id: number;
     name: string;
     ceremonyDate: Date,
-    primaryVenueName: string;
-    primaryVenueAddress: AddressDTO;
+    primaryVenue: OrganisationKeyDetailsDTO;
 }

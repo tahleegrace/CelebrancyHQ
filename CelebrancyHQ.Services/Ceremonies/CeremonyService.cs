@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
-using CelebrancyHQ.Models.DTOs.Addresses;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.DTOs.Organisations;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
@@ -69,8 +69,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 var venue = ceremonyVenues.ContainsKey(ceremony.Id) ? ceremonyVenues[ceremony.Id] : null;
                 var dto = this._mapper.Map<CeremonySummaryDTO>(ceremony);
 
-                dto.PrimaryVenueName = venue?.Name;
-                dto.PrimaryVenueAddress = this._mapper.Map<AddressDTO>(venue?.Address);
+                dto.PrimaryVenue = this._mapper.Map<OrganisationKeyDetailsDTO>(venue);
 
                 return dto;
             }).ToList();
@@ -126,8 +125,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Return the ceremony details.
             var dto = this._mapper.Map<CeremonyKeyDetailsDTO>(ceremony);
-            dto.PrimaryVenueName = primaryVenue?.Name;
-            dto.PrimaryVenueAddress = this._mapper.Map<AddressDTO>(primaryVenue?.Address);
+            dto.PrimaryVenue = this._mapper.Map<OrganisationKeyDetailsDTO>(primaryVenue);
             dto.Participants = participantDTOs;
 
             return dto;

@@ -41,9 +41,9 @@
         public string Gender { get; set; }
 
         /// <summary>
-        /// Gets or sets the business name of the user.
+        /// Gets or sets the organisation name of the user.
         /// </summary>
-        public string? BusinessName { get; set; }
+        public string? OrganisationName { get; set; }
 
         /// <summary>
         /// Gets or sets the email address of the user.
