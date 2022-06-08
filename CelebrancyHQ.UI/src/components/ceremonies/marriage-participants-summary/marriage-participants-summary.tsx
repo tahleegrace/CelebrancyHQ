@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { CeremonyParticipantCodes } from "../../../constants/ceremonies/ceremony-participant-codes";
 import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
 import { findParticipantsByCode } from "../../../utilities/ceremonies/ceremony-participant-helpers";
-import { getFullNamesForUsers, getUserAndContactDetailsDisplay, getUserFullName } from "../../../utilities/persons/person-helpers";
+import { getFullNamesForUsers, getUserAndContactDetailsDisplay } from "../../../utilities/persons/person-helpers";
 
 export class MarriageParticipantsSummary extends React.Component<MarriageParticipantsSummaryProps, MarriageParticipantsSummaryState> {
     constructor(props: MarriageParticipantsSummaryProps) {
