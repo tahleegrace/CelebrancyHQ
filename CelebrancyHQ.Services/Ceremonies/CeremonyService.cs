@@ -5,6 +5,7 @@ using CelebrancyHQ.Models.DTOs.Organisations;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Users;
 
 namespace CelebrancyHQ.Services.Ceremonies
@@ -19,6 +20,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyRepository _ceremonyRepository;
         private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
+        private readonly IOrganisationPhoneNumberRepository _organisationPhoneNumberRepository;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -28,16 +30,19 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
         /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
+        /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
+        /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
-            IMapper mapper)
+            IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyRepository = ceremonyRepository;
             this._ceremonyVenuesRepository = ceremonyVenuesRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
+            this._organisationPhoneNumberRepository = organisationPhoneNumberRepository;
             this._mapper = mapper;
         }
 
@@ -120,12 +125,18 @@ namespace CelebrancyHQ.Services.Ceremonies
             }).ToList();
 
             // Get the primary venue for the ceremony.
-            // TODO: Return the venue phone numbers here.
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
             // Return the ceremony details.
             var dto = this._mapper.Map<CeremonyKeyDetailsDTO>(ceremony);
             dto.PrimaryVenue = this._mapper.Map<OrganisationKeyDetailsDTO>(primaryVenue);
+
+            if (primaryVenue != null)
+            {
+                var primaryVenuePhone = await this._organisationPhoneNumberRepository.GetOrganisationPrimaryPhoneNumber(primaryVenue.Id);
+                dto.PrimaryVenue.PrimaryPhoneNumber = primaryVenuePhone?.PhoneNumber;
+            }
+
             dto.Participants = participantDTOs;
 
             return dto;

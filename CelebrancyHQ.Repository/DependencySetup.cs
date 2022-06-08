@@ -18,6 +18,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IOrganisationRepository, OrganisationRepository>();
+            services.AddScoped<IOrganisationPhoneNumberRepository, OrganisationPhoneNumberRepository>();
             services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();
             services.AddScoped<ICeremonyRepository, CeremonyRepository>();
