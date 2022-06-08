@@ -22,9 +22,15 @@ namespace CelebrancyHQ.Entities
         public string Type { get; set; }
 
         /// <summary>
+        /// Gets or sets whether this is the primary phone number for the person or organisation.
+        /// </summary>
+        [Required]
+        public bool IsPrimary { get; set; }
+
+        /// <summary>
         /// Gets or sets the description of the phone number.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number.

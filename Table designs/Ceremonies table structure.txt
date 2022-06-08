@@ -12,6 +12,7 @@ PersonPhoneNumbers - a phone number for a person - a person can have one or more
 ----------
 ID
 Person
+IsPrimary
 Type (e.g. mobile, landline, other)
 Description (e.g. after-hours phone number)
 PhoneNumber
@@ -71,6 +72,7 @@ OrganisationPhoneNumbers - a phone number for a venue or organisation - a venue 
 ----------
 ID
 Organisation
+IsPrimary
 Type (e.g. mobile, landline, other)
 Description (e.g. after-hours phone number)
 PhoneNumber
