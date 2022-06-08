@@ -11,3 +11,15 @@ export function getFullNamesForUsers(users: PersonDTO[], includePreferredNames =
 export function getUserFullNameAndBusinessName(user: PersonDTO) {
     return `${getUserFullName(user)} ${user.organisationName ? `(${user.organisationName})` : ''}`;
 };
+
+export function getUserAndContactDetailsDisplay(user: PersonDTO) {
+    return (
+        <p>
+            {getUserFullName(user, true)}
+            <br />
+            0472581931
+            <br />
+            john.smith@test.com
+        </p>  
+    );
+}

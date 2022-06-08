@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { CeremonyParticipantCodes } from "../../../constants/ceremonies/ceremony-participant-codes";
 import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
 import { findParticipantsByCode } from "../../../utilities/ceremonies/ceremony-participant-helpers";
-import { getFullNamesForUsers, getUserFullName } from "../../../utilities/persons/person-helpers";
+import { getFullNamesForUsers, getUserAndContactDetailsDisplay, getUserFullName } from "../../../utilities/persons/person-helpers";
 
 export class MarriageParticipantsSummary extends React.Component<MarriageParticipantsSummaryProps, MarriageParticipantsSummaryState> {
     constructor(props: MarriageParticipantsSummaryProps) {
@@ -24,7 +24,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                             <strong>Celebrant:</strong>
                         </div>
                         <div className="col-lg-10 col-sm-9 col-12">
-                            {getUserFullName(celebrant, true)}
+                            {getUserAndContactDetailsDisplay(celebrant)}
                         </div>
                     </div>) : ""}
                 <div className="row form-group">
@@ -32,7 +32,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                         <strong>Couple:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {getFullNamesForUsers(couple, true)}
+                        {couple.map(participant => getUserAndContactDetailsDisplay(participant))}
                     </div>
                 </div>
                 {organiser ?
@@ -41,7 +41,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                             <strong>Organiser:</strong>
                         </div>
                         <div className="col-lg-10 col-sm-9 col-12">
-                            {getUserFullName(organiser, true)}
+                            {getUserAndContactDetailsDisplay(organiser)}
                         </div>
                     </div>) : ""}
                 <div className="row form-group">
