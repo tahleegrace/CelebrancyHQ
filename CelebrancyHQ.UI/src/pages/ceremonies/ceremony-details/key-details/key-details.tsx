@@ -5,6 +5,7 @@ import { AddressDTO } from "../../../../interfaces/address";
 import { CeremonyKeyDetailsDTO } from "../../../../interfaces/ceremony-key-details";
 import { formatAddress } from "../../../../utilities/addresses/address-helper";
 import { formatDate } from "../../../../utilities/format";
+import { getOrganisationAndContactDetailsDisplay } from "../../../../utilities/organisations/organisation-helpers";
 import { withRouter } from "../../../../utilities/with-router";
 import { CommonTab } from "../common-tab/common-tab";
 
@@ -45,7 +46,7 @@ class CeremonyKeyDetails extends CommonTab<CeremonyKeyDetailsProps, CeremonyKeyD
                         <strong>Venue:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {ceremony.primaryVenue.name}
+                        {getOrganisationAndContactDetailsDisplay(ceremony.primaryVenue)}
                     </div>
                 </div>
                 <div className="row form-group">

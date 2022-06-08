@@ -14,7 +14,7 @@ export function getUserFullNameAndBusinessName(user: PersonDTO) {
 
 export function getUserAndContactDetailsDisplay(user: PersonDTO) {
     return (
-        <p>
+        <p className="mb-0">
             {getUserFullName(user, true)}
             <br />
             0472581931
