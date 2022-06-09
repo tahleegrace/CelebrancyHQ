@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+using Innofactor.EfCoreJsonValueConverter;
+
 using CelebrancyHQ.Entities.Configuration;
+using CelebrancyHQ.Entities.Auditing;
 
 namespace CelebrancyHQ.Entities
 {
@@ -62,6 +65,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Ceremony> Ceremonies { get; set; }
 
         /// <summary>
+        /// The ceremony audit logs table.
+        /// </summary>
+        public DbSet<CeremonyAuditLog> CeremonyAuditLogs { get; set; }
+
+        /// <summary>
         /// The ceremony participants table.
         /// </summary>
         public DbSet<CeremonyParticipant> CeremonyParticipants { get; set; }
@@ -92,6 +100,7 @@ namespace CelebrancyHQ.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.AddJsonFields();
             modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());

@@ -3,7 +3,7 @@
     /// <summary>
     /// An audit log for an entity.
     /// </summary>
-    public abstract class AuditLog
+    public abstract class AuditEvent
     {
         /// <summary>
         /// Gets or sets the field name.
