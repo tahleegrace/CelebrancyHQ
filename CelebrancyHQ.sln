@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelebrancyHQ.Entities", "Ce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelebrancyHQ.Repository", "CelebrancyHQ.Repository\CelebrancyHQ.Repository.csproj", "{D3A26165-52C5-4CDE-BCE2-1AAEB9C51D8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrancyHQ.Mappings", "CelebrancyHQ.Mappings\CelebrancyHQ.Mappings.csproj", "{2A8D3B6D-8E22-4BDB-9D16-AB2005A4AC9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelebrancyHQ.Mappings", "CelebrancyHQ.Mappings\CelebrancyHQ.Mappings.csproj", "{2A8D3B6D-8E22-4BDB-9D16-AB2005A4AC9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrancyHQ.Entities.Auditing", "CelebrancyHQ.Entities.Auditing\CelebrancyHQ.Entities.Auditing.csproj", "{56FDD619-E22E-48FC-8723-3AB4F2B77795}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{2A8D3B6D-8E22-4BDB-9D16-AB2005A4AC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A8D3B6D-8E22-4BDB-9D16-AB2005A4AC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A8D3B6D-8E22-4BDB-9D16-AB2005A4AC9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56FDD619-E22E-48FC-8723-3AB4F2B77795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56FDD619-E22E-48FC-8723-3AB4F2B77795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56FDD619-E22E-48FC-8723-3AB4F2B77795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56FDD619-E22E-48FC-8723-3AB4F2B77795}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
