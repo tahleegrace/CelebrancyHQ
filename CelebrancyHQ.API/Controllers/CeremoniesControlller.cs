@@ -101,7 +101,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return BadRequest();
             }
-            catch (UserNotCeremonyParticipantException)
+            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
             {
                 return Forbid();
             }

@@ -202,6 +202,15 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotCeremonyParticipantException(ceremony.Id);
             }
 
+            // Make sure the user has permissions to edit the ceremony.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremony.Id, user.PersonId, "KeyDetails");
+
+            if (!effectivePermissions.CanEdit)
+            {
+                throw new UserCannotEditCeremonyException(ceremony.Id);
+            }
+
             // Generate audit logs for the ceremony.
             var auditEvents = this._ceremonyAuditingService.GenerateAuditEvents(existingCeremony, this._mapper.Map<Ceremony>(ceremony));
 
