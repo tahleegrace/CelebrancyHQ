@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CelebrancyHQ.Auditing\CelebrancyHQ.Auditing.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Entities\CelebrancyHQ.Entities.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Models\CelebrancyHQ.Models.csproj" />
     <ProjectReference Include="..\CelebrancyHQ.Repository\CelebrancyHQ.Repository.csproj" />

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Organisations;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
@@ -23,6 +25,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
         private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
         private readonly IOrganisationPhoneNumberRepository _organisationPhoneNumberRepository;
+        private readonly ICeremonyAuditingService _ceremonyAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -35,10 +38,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
         /// <param name="personPhoneNumberRepository">The person phone numbers repository.</param>
         /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
+        /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
-            IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, IMapper mapper)
+            IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, 
+            ICeremonyAuditingService ceremonyAuditingService, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
@@ -47,6 +52,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
             this._personPhoneNumberRepository = personPhoneNumberRepository;
             this._organisationPhoneNumberRepository = organisationPhoneNumberRepository;
+            this._ceremonyAuditingService = ceremonyAuditingService;
             this._mapper = mapper;
         }
 
@@ -158,7 +164,6 @@ namespace CelebrancyHQ.Services.Ceremonies
         public async Task Update(UpdateCeremonyRequest ceremony, int currentUserId)
         {
             // TODO: Check that the current user has permissions to update the ceremony here.
-            // TODO: Add an audit log for updating the details of the ceremony here.
             var user = await this._userRepository.FindById(currentUserId);
 
             if (user == null)
@@ -172,9 +177,9 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyNotProvidedException();
             }
 
-            var ceremonyToUpdate = await this._ceremonyRepository.FindById(ceremony.Id);
+            var existingCeremony = await this._ceremonyRepository.FindById(ceremony.Id);
 
-            if (ceremonyToUpdate == null)
+            if (existingCeremony == null)
             {
                 throw new CeremonyNotFoundException(ceremony.Id);
             }
@@ -187,9 +192,15 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new UserNotCeremonyParticipantException(ceremony.Id);
             }
 
-            this._mapper.Map(ceremony, ceremonyToUpdate);
+            // Generate audit logs for the ceremony.
+            var auditEvents = this._ceremonyAuditingService.GenerateAuditEvents(existingCeremony, this._mapper.Map<Ceremony>(ceremony));
 
-            await this._ceremonyRepository.Update(ceremonyToUpdate);
+            // Save the ceremony.
+            this._mapper.Map(ceremony, existingCeremony);
+            await this._ceremonyRepository.Update(existingCeremony);
+
+            // Save the audit logs for the ceremony.
+            await this._ceremonyAuditingService.SaveAuditEvents(existingCeremony, user.PersonId, auditEvents);
         }
     }
 }

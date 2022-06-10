@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Innofactor.EfCoreJsonValueConverter;
-
 using CelebrancyHQ.Entities.Configuration;
 using CelebrancyHQ.Entities.Auditing;
 
@@ -100,7 +98,6 @@ namespace CelebrancyHQ.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.AddJsonFields();
             modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());

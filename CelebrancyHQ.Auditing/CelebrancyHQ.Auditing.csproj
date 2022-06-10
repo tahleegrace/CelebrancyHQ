@@ -16,4 +16,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CelebrancyHQ.Entities\CelebrancyHQ.Entities.csproj" />
+    <ProjectReference Include="..\CelebrancyHQ.Repository\CelebrancyHQ.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

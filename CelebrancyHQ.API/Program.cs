@@ -1,3 +1,4 @@
+using CelebrancyHQ.Auditing;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Mappings;
 using CelebrancyHQ.Repository;
@@ -16,6 +17,7 @@ builder.Services.AddBearerAuthentication(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(MappingsSetup).Assembly);
 builder.Services.AddDbContext<CelebrancyHQContext>();
 builder.Services.AddCelebrancyHQRepositories();
+builder.Services.AddCelebrancyHQAuditingServices();
 builder.Services.AddCelebrancyHQServices();
 
 var app = builder.Build();

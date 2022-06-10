@@ -1,5 +1,4 @@
-﻿using Innofactor.EfCoreJsonValueConverter;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CelebrancyHQ.Entities.Auditing
@@ -44,7 +43,6 @@ namespace CelebrancyHQ.Entities.Auditing
         /// Gets or sets the events.
         /// </summary>
         [Required]
-        [JsonField]
-        public List<AuditEvent> Event { get; set; }
+        public string Event { get; set; }
     }
 }

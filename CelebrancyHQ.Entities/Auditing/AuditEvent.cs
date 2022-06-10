@@ -6,18 +6,18 @@
     public abstract class AuditEvent
     {
         /// <summary>
-        /// Gets or sets the field name.
+        /// Gets the field name.
         /// </summary>
-        public abstract string FieldName { get; set; }
+        public abstract string FieldName { get; }
 
         /// <summary>
-        /// Gets or sets the event name.
+        /// Gets the event name.
         /// </summary>
-        public abstract string EventName { get; set; }
+        public abstract string EventName { get; }
 
         /// <summary>
-        /// Gets or sets the event data.
+        /// Gets the event data.
         /// </summary>
-        public abstract Dictionary<string, object> EventData { get; set; }
+        public abstract Dictionary<string, object> EventData { get; }
     }
 }
