@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "CelebrancyHQ.Entities.Auditing": {
+    "CelebrancyHQ.Auditing": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
