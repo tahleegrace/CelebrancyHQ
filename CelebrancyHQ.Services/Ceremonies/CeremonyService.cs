@@ -92,7 +92,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The key details for the ceremony with the specified ID.</returns>
-        public async Task<CeremonyKeyDetailsDTO?> GetCeremonyKeyDetails(int ceremonyId, int currentUserId)
+        public async Task<CeremonyKeyDetailsDTO> GetCeremonyKeyDetails(int ceremonyId, int currentUserId)
         {
             // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
             var user = await this._userRepository.FindById(currentUserId);
@@ -148,6 +148,48 @@ namespace CelebrancyHQ.Services.Ceremonies
             dto.Participants = participantDTOs;
 
             return dto;
+        }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony.
+        /// </summary>
+        /// <param name="ceremony">The ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Update(UpdateCeremonyRequest ceremony, int currentUserId)
+        {
+            // TODO: Check that the current user has permissions to update the ceremony here.
+            // TODO: Add an audit log for updating the details of the ceremony here.
+            var user = await this._userRepository.FindById(currentUserId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException(currentUserId);
+            }
+
+            // Make sure the ceremony has been provided and has an ID.
+            if ((ceremony == null) || (ceremony.Id <= 0))
+            {
+                throw new CeremonyNotProvidedException();
+            }
+
+            var ceremonyToUpdate = await this._ceremonyRepository.FindById(ceremony.Id);
+
+            if (ceremonyToUpdate == null)
+            {
+                throw new CeremonyNotFoundException(ceremony.Id);
+            }
+
+            // Make sure the current user is a participant in the ceremony.
+            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremony.Id);
+
+            if (!canAccessCeremony)
+            {
+                throw new UserNotCeremonyParticipantException(ceremony.Id);
+            }
+
+            this._mapper.Map(ceremony, ceremonyToUpdate);
+
+            await this._ceremonyRepository.Update(ceremonyToUpdate);
         }
     }
 }

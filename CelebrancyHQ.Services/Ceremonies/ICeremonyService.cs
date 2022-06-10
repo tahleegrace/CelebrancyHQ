@@ -23,6 +23,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The key details for the ceremony with the specified ID.</returns>
-        Task<CeremonyKeyDetailsDTO?> GetCeremonyKeyDetails(int ceremonyId, int currentUserId);
+        Task<CeremonyKeyDetailsDTO> GetCeremonyKeyDetails(int ceremonyId, int currentUserId);
+
+        /// <summary>
+        /// Updates the details of the specified ceremony.
+        /// </summary>
+        /// <param name="ceremony">The ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Update(UpdateCeremonyRequest ceremony, int currentUserId);
     }
 }

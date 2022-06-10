@@ -6,7 +6,7 @@ using CelebrancyHQ.Models.DTOs.Ceremonies;
 namespace CelebrancyHQ.Mappings.Ceremonies
 {
     /// <summary>
-    /// Defines mappings between <see cref="CelebrancyHQ.Entities.CeremonyParticipant" /> and <see cref="CelebrancyHQ.Models.DTOs.Ceremonies.CeremonyParticipantDTO" />
+    /// Defines mappings between ceremony participant domain model and entity classes.
     /// </summary>
     public class CeremonyParticipantMappingProfile : Profile
     {

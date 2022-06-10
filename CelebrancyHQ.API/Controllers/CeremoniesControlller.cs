@@ -76,5 +76,35 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="request">The ceremony.</param>
+        [HttpPut("{ceremonyId}")]
+        public async Task<ActionResult> Update(int ceremonyId, UpdateCeremonyRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremoniesService.Update(request, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (CeremonyNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (UserNotCeremonyParticipantException)
+            {
+                return Forbid();
+            }
+        }
     }
 }

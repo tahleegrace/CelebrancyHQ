@@ -6,7 +6,7 @@ using CelebrancyHQ.Models.DTOs.Addresses;
 namespace CelebrancyHQ.Mappings.Addresses
 {
     /// <summary>
-    /// Defines mappings between <see cref="CelebrancyHQ.Entities.Address" /> and <see cref="CelebrancyHQ.Models.DTOs.Addresses.AddressDTO" />.
+    /// Defines mappings between address domain model and entity classes.
     /// </summary>
     public class AddressMappingProfile : Profile
     {

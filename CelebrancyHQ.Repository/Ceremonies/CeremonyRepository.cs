@@ -64,5 +64,15 @@ namespace CelebrancyHQ.Repository.Ceremonies
                                                  .Where(c => c.Id == ceremonyId && !c.Deleted)
                                                  .FirstOrDefaultAsync();
         }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony.
+        /// </summary>
+        /// <param name="ceremony">The ceremony.</param>
+        public async Task Update(Ceremony ceremony)
+        {
+            this._context.Entry(ceremony).State = EntityState.Modified;
+            await this._context.SaveChangesAsync();
+        }
     }
 }

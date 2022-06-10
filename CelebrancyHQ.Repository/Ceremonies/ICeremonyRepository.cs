@@ -23,5 +23,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <returns>The ceremony with the specified ID.</returns>
         Task<Ceremony?> FindById(int ceremonyId);
+
+        /// <summary>
+        /// Updates the details of the specified ceremony.
+        /// </summary>
+        /// <param name="ceremony">The ceremony.</param>
+        Task Update(Ceremony ceremony);
     }
 }

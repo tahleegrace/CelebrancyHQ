@@ -7,7 +7,7 @@ using CelebrancyHQ.Models.DTOs.Persons;
 namespace CelebrancyHQ.Mappings.Persons
 {
     /// <summary>
-    /// Defines mappings between <see cref="CelebrancyHQ.Entities.Person" /> and <see cref="CelebrancyHQ.Models.DTOs.Persons.PersonDTO" />.
+    /// Defines mappings between person domain model and entity classes.
     /// </summary>
     public class PersonMappingProfile : Profile
     {
