@@ -1,7 +1,7 @@
 USE CelebrancyHQ;
 
-INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
-VALUES (1, 'Mobile', 1, '0472581931', GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (1, 'Mobile', 1, '0472581931', GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Mock persons. */
 /*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
@@ -11,8 +11,11 @@ DECLARE @JoeBidenId INT
 /*SET @JoeBidenId = SCOPE_IDENTITY()*/
 SET @JoeBidenId = 2
 
-INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
-VALUES (@JoeBidenId, 'Mobile', 1, '0412345678', GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO Users (EmailAddress, PasswordHash, PasswordSalt, PersonId, Created, Updated)
+VALUES ('joebidentest@celebrancyhq.co', 'joebiden', 'testsalt', @JoeBidenId, GETUTCDATE(), GETUTCDATE())*/
+
+/*INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (@JoeBidenId, 'Mobile', 1, '0412345678', GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
 VALUES ('Jill', 'Biden', 'jillbidentest@celebrancyhq.co', 'F', 'Jill', 'Mrs', '1951-06-03', GETUTCDATE(), GETUTCDATE())*/
@@ -21,8 +24,11 @@ DECLARE @JillBidenId INT
 /*SET @JillBidenId = SCOPE_IDENTITY()*/
 SET @JillBidenId = 3
 
-INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
-VALUES (@JillBidenId, 'Mobile', 1, '0412987654', GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO Users (EmailAddress, PasswordHash, PasswordSalt, PersonId, Created, Updated)
+VALUES ('jillbidentest@celebrancyhq.co', 'jillbiden', 'testsalt', @JillBidenId, GETUTCDATE(), GETUTCDATE())*/
+
+/*INSERT INTO PersonPhoneNumbers (PersonId, Type, IsPrimary, PhoneNumber, Created, Updated, Deleted)
+VALUES (@JillBidenId, 'Mobile', 1, '0412987654', GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
 VALUES ('Barack', 'Obama', 'barackobamatest@celebrancyhq.co', 'M', 'Barack', 'Mr', '1961-08-04', GETUTCDATE(), GETUTCDATE())*/
@@ -31,12 +37,18 @@ DECLARE @BarackObamaId INT
 /*SET @BarackObamaId = SCOPE_IDENTITY()*/
 SET @BarackObamaId = 4
 
+/*INSERT INTO Users (EmailAddress, PasswordHash, PasswordSalt, PersonId, Created, Updated)
+VALUES ('barackobamatest@celebrancyhq.co', 'barackobama', 'testsalt', @BarackObamaId, GETUTCDATE(), GETUTCDATE())*/
+
 /*INSERT INTO Persons (FirstName, LastName, EmailAddress, Gender, PreferredName, Title, DateOfBirth, Created, Updated)
 VALUES ('Nancy', 'Pelosi', 'nancypelositest@celebrancyhq.co', 'F', 'Nancy', 'Mrs', '1940-03-26', GETUTCDATE(), GETUTCDATE())*/
 
 DECLARE @NancyPelosiId INT
 /*SET @NancyPelosiId = SCOPE_IDENTITY()*/
 SET @NancyPelosiId = 5
+
+/*INSERT INTO Users (EmailAddress, PasswordHash, PasswordSalt, PersonId, Created, Updated)
+VALUES ('nancypelositest@celebrancyhq.co', 'nancypelosi', 'testsalt', @NancyPelosiId, GETUTCDATE(), GETUTCDATE())*/
 
 /* Mock ceremony. */
 /*INSERT INTO Ceremonies (Name, CeremonyDate, CeremonyTypeId, Created, Updated)
@@ -45,6 +57,36 @@ VALUES ('Marriage of Joseph and Jill Biden', '2022-06-06', 1, GETUTCDATE(), GETU
 DECLARE @CeremonyId INT
 /*SET @CeremonyId = SCOPE_IDENTITY()*/
 SET @CeremonyId = 1
+
+/* Ceremony permissions. */
+
+/* Celebrant. */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 1, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+
+/* Couple. */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 3, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+
+/* Organiser. */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 4, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+
+/* Witness. */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 6, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+
+/* Bridal Party. */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 7, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+
+/* Invited guest */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 8, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+
+/* Other. */
+INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 11, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
 
 /* Mock participants. */
 
