@@ -23,6 +23,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();
             services.AddScoped<ICeremonyRepository, CeremonyRepository>();
+            services.AddScoped<ICeremonyPermissionRepository, CeremonyPermissionRepository>();
             services.AddScoped<ICeremonyAuditLogRepository, CeremonyAuditLogRepository>();
             services.AddScoped<ICeremonyParticipantRepository, CeremonyParticipantRepository>();
             services.AddScoped<ICeremonyVenueRepository, CeremonyVenueRepository>();

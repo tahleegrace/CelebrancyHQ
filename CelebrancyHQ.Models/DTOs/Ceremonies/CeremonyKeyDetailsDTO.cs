@@ -41,5 +41,10 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// Gets or sets the participants for the ceremony.
         /// </summary>
         public List<CeremonyParticipantDTO> Participants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the effective permissions for the current person in the ceremony.
+        /// </summary>
+        public List<CeremonyPermissionDTO> EffectivePermissions { get; set; }
     }
 }

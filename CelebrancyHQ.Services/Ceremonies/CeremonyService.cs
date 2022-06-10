@@ -21,6 +21,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IUserRepository _userRepository;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
+        private readonly ICeremonyPermissionRepository _ceremonyPermissionRepository;
         private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
         private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
@@ -34,6 +35,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="userRepository">The users repository.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
+        /// <param name="ceremonyPermissionRepository">The ceremony permissions repository.</param>
         /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
         /// <param name="personPhoneNumberRepository">The person phone numbers repository.</param>
@@ -41,13 +43,15 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
-            ICeremonyRepository ceremonyRepository, ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
+            ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
+            ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
             IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, 
             ICeremonyAuditingService ceremonyAuditingService, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyRepository = ceremonyRepository;
+            this._ceremonyPermissionRepository = ceremonyPermissionRepository;
             this._ceremonyVenuesRepository = ceremonyVenuesRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
             this._personPhoneNumberRepository = personPhoneNumberRepository;
@@ -141,6 +145,11 @@ namespace CelebrancyHQ.Services.Ceremonies
             // Get the primary venue for the ceremony.
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
+            // Get the effective permissions for the ceremony.
+            // TODO: Add an enumeration for field names here.
+            // TODO: Support other fields here.
+            var keyDetailsEffectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, "KeyDetails");
+
             // Return the ceremony details.
             var dto = this._mapper.Map<CeremonyKeyDetailsDTO>(ceremony);
             dto.PrimaryVenue = this._mapper.Map<OrganisationKeyDetailsDTO>(primaryVenue);
@@ -152,6 +161,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             dto.Participants = participantDTOs;
+            dto.EffectivePermissions = new List<CeremonyPermissionDTO>() { keyDetailsEffectivePermissions };
 
             return dto;
         }
@@ -201,6 +211,46 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Save the audit logs for the ceremony.
             await this._ceremonyAuditingService.SaveAuditEvents(existingCeremony, user.PersonId, auditEvents);
+        }
+
+        private async Task<CeremonyPermissionDTO> GetEffectivePermissionsForCeremony(int ceremonyId, int personId, string field)
+        {
+            var effectivePermissions = new CeremonyPermissionDTO()
+            {
+                Field = field
+            };
+
+            var permissions = await this._ceremonyPermissionRepository.GetCeremonyPermissionsForPerson(ceremonyId, personId, field);
+
+            foreach (CeremonyPermission ceremonyPermission in permissions)
+            {
+                if (ceremonyPermission.CanView)
+                {
+                    effectivePermissions.CanView = true;
+                }
+
+                if (ceremonyPermission.CanEdit)
+                {
+                    effectivePermissions.CanEdit = true;
+                }
+
+                if (ceremonyPermission.CanEditWithApproval)
+                {
+                    effectivePermissions.CanEditWithApproval = true;
+                }
+
+                if (ceremonyPermission.IsApprover)
+                {
+                    effectivePermissions.IsApprover = true;
+                }
+
+                if (ceremonyPermission.CanViewHistory)
+                {
+                    effectivePermissions.CanViewHistory = true;
+                }
+            }
+
+            return effectivePermissions;
         }
     }
 }

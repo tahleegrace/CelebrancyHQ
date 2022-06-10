@@ -39,6 +39,7 @@ namespace CelebrancyHQ.Services.Authentication
         public async Task<AuthTokenDTO?> Login(LoginDetailsDTO loginDetails)
         {
             // TODO: Handle passwords securely here.
+            // TODO: Add an audit log for a user logging in.
 
             // Make sure a user exists with the specified email address and password.
             var user = await this._userRepository.FindByEmailAddress(loginDetails.EmailAddress);
