@@ -31,10 +31,12 @@ CeremonyPermissions - the permissions for an individual ceremony
 ID
 Ceremony
 CeremonyTypeParticipant
+FieldName
 CanView
 CanEdit
 CanEditWithApproval
-CanApprove
+IsApprover
+CanViewHistory
 
 CeremonyTypeParticipants - the types of participants that a ceremony can have (e.g. celebrant, couple, organiser, witnesses, bridal party, invited guest, person who has passed away, other)
 --------------------------

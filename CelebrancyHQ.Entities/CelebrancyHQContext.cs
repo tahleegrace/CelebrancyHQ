@@ -68,6 +68,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyAuditLog> CeremonyAuditLogs { get; set; }
 
         /// <summary>
+        /// The ceremony permissions table.
+        /// </summary>
+        public DbSet<CeremonyPermission> CeremonyPermissions { get; set; }
+
+        /// <summary>
         /// The ceremony participants table.
         /// </summary>
         public DbSet<CeremonyParticipant> CeremonyParticipants { get; set; }
