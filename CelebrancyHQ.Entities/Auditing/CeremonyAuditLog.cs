@@ -29,10 +29,22 @@ namespace CelebrancyHQ.Entities.Auditing
         public int CeremonyId { get; set; }
 
         /// <summary>
-        /// Gets or sets the event.
+        /// Gets or sets the person who made changes to the ceremony.
+        /// </summary>
+        [Required]
+        public Person Person { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the person who made changes to the ceremony.
+        /// </summary>
+        [Required]
+        public int PersonId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the events.
         /// </summary>
         [Required]
         [JsonField]
-        public AuditEvent Event { get; set; }
+        public List<AuditEvent> Event { get; set; }
     }
 }
