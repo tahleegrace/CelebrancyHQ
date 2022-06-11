@@ -3,11 +3,13 @@ import React from "react";
 import { Fragment } from "react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { Outlet } from "react-router-dom";
+import { CeremonyFieldNames } from "../../../constants/ceremonies/ceremony-field-names";
 import { CeremonyDetailsContext, CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../context/root-context";
 import { UpdateCeremonyRequest } from "../../../interfaces/update-ceremony";
 import { CeremoniesService } from "../../../services/ceremonies/ceremonies.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
+import { getCeremonyPermission } from "../../../utilities/ceremonies/ceremony-permission-helpers";
 import { withRouter } from "../../../utilities/with-router";
 import { CommonPage } from "../../common-page/common-page";
 
@@ -24,6 +26,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
         this.state = {
             ceremonyId: null,
             ceremony: null as any,
+            canEditKeyDetails: false,
             loading: true,
             ceremonyNotAccessible: false,
             rootContext: null,
@@ -46,6 +49,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                 ceremonyId: this.props.params.ceremonyId,
                 ceremony: ceremony,
                 oldCeremonyName: ceremony.name,
+                canEditKeyDetails: getCeremonyPermission(ceremony.effectivePermissions, CeremonyFieldNames.KeyDetails)?.canEdit || false,
                 loading: false,
                 ceremonyNotAccessible: false,
                 rootContext: this.context as RootContextProps
@@ -105,6 +109,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                             <ContentEditable innerRef={this.ceremonyNameContentEditable}
                                 html={this.state.ceremony.name}
                                 tagName="h1"
+                                disabled={!this.state.canEditKeyDetails}
                                 onChange={this.ceremonyNameChanged.bind(this)}
                                 onKeyUp={this.ceremonyNameOnKeyUp.bind(this)}
                                 onBlur={this.saveCeremonyName.bind(this)}/>
@@ -170,5 +175,6 @@ interface CeremonyDetailsProps {
 interface CeremonyDetailsState extends CeremonyDetailsContextProps {
     loading: boolean;
     ceremonyNotAccessible: boolean;
+    canEditKeyDetails: boolean;
     oldCeremonyName: string;
 }

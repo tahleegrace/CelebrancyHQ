@@ -1,4 +1,5 @@
 import { CeremonyParticipantDTO } from "./ceremony-participant";
+import { CeremonyPermissionDTO } from "./ceremony-permission";
 import { OrganisationKeyDetailsDTO } from "./organisation-key-details";
 
 export interface CeremonyKeyDetailsDTO {
@@ -9,4 +10,5 @@ export interface CeremonyKeyDetailsDTO {
     ceremonyDate: Date;
     primaryVenue: OrganisationKeyDetailsDTO;
     participants: CeremonyParticipantDTO[];
+    effectivePermissions: CeremonyPermissionDTO[];
 }
