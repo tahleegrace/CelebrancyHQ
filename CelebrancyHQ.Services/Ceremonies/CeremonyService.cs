@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Organisations;
@@ -146,9 +147,13 @@ namespace CelebrancyHQ.Services.Ceremonies
             var primaryVenue = await this._ceremonyVenuesRepository.GetPrimaryVenueForCeremony(ceremonyId);
 
             // Get the effective permissions for the ceremony.
-            // TODO: Add an enumeration for field names here.
-            // TODO: Support other fields here.
-            var keyDetailsEffectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, "KeyDetails");
+            var effectivePermissions = new List<CeremonyPermissionDTO>();
+
+            foreach (string fieldName in CeremonyFieldNames.FieldNames)
+            {
+                var permissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, "KeyDetails");
+                effectivePermissions.Add(permissions);
+            }
 
             // Return the ceremony details.
             var dto = this._mapper.Map<CeremonyKeyDetailsDTO>(ceremony);
@@ -161,7 +166,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             dto.Participants = participantDTOs;
-            dto.EffectivePermissions = new List<CeremonyPermissionDTO>() { keyDetailsEffectivePermissions };
+            dto.EffectivePermissions = effectivePermissions;
 
             return dto;
         }
@@ -173,7 +178,6 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         public async Task Update(UpdateCeremonyRequest ceremony, int currentUserId)
         {
-            // TODO: Check that the current user has permissions to update the ceremony here.
             var user = await this._userRepository.FindById(currentUserId);
 
             if (user == null)
@@ -204,7 +208,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Make sure the user has permissions to edit the ceremony.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremony.Id, user.PersonId, "KeyDetails");
+            var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.KeyDetails);
 
             if (!effectivePermissions.CanEdit)
             {
