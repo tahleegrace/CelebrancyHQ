@@ -26,6 +26,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyPermissionRepository, CeremonyPermissionRepository>();
             services.AddScoped<ICeremonyAuditLogRepository, CeremonyAuditLogRepository>();
             services.AddScoped<ICeremonyParticipantRepository, CeremonyParticipantRepository>();
+            services.AddScoped<ICeremonyDateRepository, CeremonyDateRepository>();
             services.AddScoped<ICeremonyVenueRepository, CeremonyVenueRepository>();
         }
     }

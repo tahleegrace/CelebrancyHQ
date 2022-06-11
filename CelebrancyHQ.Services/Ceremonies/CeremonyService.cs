@@ -25,6 +25,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyPermissionRepository _ceremonyPermissionRepository;
         private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
+        private readonly ICeremonyDateRepository _ceremonyDateRepository;
         private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
         private readonly IOrganisationPhoneNumberRepository _organisationPhoneNumberRepository;
         private readonly ICeremonyAuditingService _ceremonyAuditingService;
@@ -39,6 +40,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyPermissionRepository">The ceremony permissions repository.</param>
         /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
+        /// <param name="ceremonyDateRepository">The ceremony dates repository.</param>
         /// <param name="personPhoneNumberRepository">The person phone numbers repository.</param>
         /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
         /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
@@ -46,8 +48,9 @@ namespace CelebrancyHQ.Services.Ceremonies
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
             ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
-            IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, 
-            ICeremonyAuditingService ceremonyAuditingService, IMapper mapper)
+            ICeremonyDateRepository ceremonyDateRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
+            IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, ICeremonyAuditingService ceremonyAuditingService, 
+            IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
@@ -55,6 +58,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._ceremonyPermissionRepository = ceremonyPermissionRepository;
             this._ceremonyVenuesRepository = ceremonyVenuesRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
+            this._ceremonyDateRepository = ceremonyDateRepository;
             this._personPhoneNumberRepository = personPhoneNumberRepository;
             this._organisationPhoneNumberRepository = organisationPhoneNumberRepository;
             this._ceremonyAuditingService = ceremonyAuditingService;
@@ -129,6 +133,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             // Get the participants in the ceremony.
+            // TODO: Don't show invited guests if the user doesn't have the Guests permission.
             var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId);
             var participantPhoneNumbers = await this._personPhoneNumberRepository.GetPrimaryPhoneNumbersForCeremonyParticipants(ceremonyId);
 
@@ -151,7 +156,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             foreach (string fieldName in CeremonyFieldNames.FieldNames)
             {
-                var permissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, "KeyDetails");
+                var permissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, fieldName);
                 effectivePermissions.Add(permissions);
             }
 
@@ -169,6 +174,51 @@ namespace CelebrancyHQ.Services.Ceremonies
             dto.EffectivePermissions = effectivePermissions;
 
             return dto;
+        }
+
+        /// <summary>
+        /// Gets the dates for the ceremony with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The dates for the ceremony with the specified ID.</returns>
+        public async Task<List<CeremonyDateDTO>> GetCeremonyDates(int ceremonyId, int currentUserId)
+        {
+            // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
+            var user = await this._userRepository.FindById(currentUserId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException(currentUserId);
+            }
+
+            var ceremony = await this._ceremonyRepository.FindById(ceremonyId);
+
+            if (ceremony == null)
+            {
+                throw new CeremonyNotFoundException(ceremonyId);
+            }
+
+            // Make sure the current user is a participant in the ceremony.
+            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremonyId);
+
+            if (!canAccessCeremony)
+            {
+                throw new UserNotCeremonyParticipantException(ceremonyId);
+            }
+
+            // Make sure the user has permission to view the dates of the ceremony.
+            var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, CeremonyFieldNames.Dates);
+
+            if (!effectivePermissions.CanView)
+            {
+                throw new UserCannotViewCeremonyDetailsException(ceremonyId);
+            }
+
+            var dates = await this._ceremonyDateRepository.GetCeremonyDates(ceremonyId);
+            var dtos = this._mapper.Map<List<CeremonyDateDTO>>(dates);
+
+            return dtos;
         }
 
         /// <summary>

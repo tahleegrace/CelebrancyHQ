@@ -59,7 +59,7 @@ namespace CelebrancyHQ.API.Controllers
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <returns>The key details of the ceremony with the specified ID.</returns>
         [HttpGet("{ceremonyId}/key-details")]
-        public async Task<ActionResult<CeremonyKeyDetailsDTO>> GetKeyDetailsById(int ceremonyId)
+        public async Task<ActionResult<CeremonyKeyDetailsDTO>> GetCeremonyKeyDetails(int ceremonyId)
         {
             var currentUserId = this._authenticationService.GetCurrentUserId(User);
 
@@ -72,6 +72,30 @@ namespace CelebrancyHQ.API.Controllers
                 return NotFound();
             }
             catch (UserNotCeremonyParticipantException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
+        /// Gets the dates for the ceremony for the specified ID.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The dates for the ceremony with the specified ID.</returns>
+        [HttpGet("{ceremonyId}/dates")]
+        public async Task<ActionResult<List<CeremonyDateDTO>>> GetCeremonyDates(int ceremonyId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremoniesService.GetCeremonyDates(ceremonyId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotViewCeremonyDetailsException)
             {
                 return Forbid();
             }
