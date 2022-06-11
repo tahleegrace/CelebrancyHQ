@@ -15,7 +15,7 @@ export function getUserFullNameAndBusinessName(user: PersonDTO) {
 
 export function getUserAndContactDetailsDisplay(user: PersonDTO) {
     return (
-        <p className="mb-0">
+        <p className="mb-0" key={user.personId}>
             {getUserFullName(user, true)}
             {user.primaryPhoneNumber ? (<Fragment><br /><a href={'tel:' + user.primaryPhoneNumber}>{user.primaryPhoneNumber}</a></Fragment>) : ''}
             {user.emailAddress ? (<Fragment><br /><a href={'mailto:' + user.emailAddress}>{user.emailAddress}</a></Fragment>) : ''}

@@ -1,7 +1,11 @@
+import { cloneDeep } from "lodash";
+import React from "react";
 import { Fragment } from "react";
+import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { Outlet } from "react-router-dom";
 import { CeremonyDetailsContext, CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../context/root-context";
+import { UpdateCeremonyRequest } from "../../../interfaces/update-ceremony";
 import { CeremoniesService } from "../../../services/ceremonies/ceremonies.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
 import { withRouter } from "../../../utilities/with-router";
@@ -12,32 +16,46 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
     static pageName = 'my-ceremonies';
 
     private ceremoniesService = DependencyService.getInstance().getDependency<CeremoniesService>(CeremoniesService.serviceName);
+    private ceremonyNameContentEditable: any;
 
     constructor(props: CeremonyDetailsProps) {
         super(props);
 
         this.state = {
             ceremonyId: null,
-            ceremony: null,
+            ceremony: null as any,
             loading: true,
             ceremonyNotAccessible: false,
             rootContext: null,
+            oldCeremonyName: '',
 
             currentTab: null,
             setCurrentTab: (tab: string) => {
                 this.setState({ currentTab: tab })
             }
         };
+
+        this.ceremonyNameContentEditable = React.createRef<HTMLHeadingElement>();
     }
 
     async componentDidMount() {
         try {
             const ceremony = await this.ceremoniesService.getKeyDetails(this.props.params.ceremonyId as number, (this.context as RootContextProps));
 
-            this.setState({ ceremonyId: this.props.params.ceremonyId, ceremony: ceremony, loading: false, ceremonyNotAccessible: false, rootContext: this.context as RootContextProps });
+            this.setState({
+                ceremonyId: this.props.params.ceremonyId,
+                ceremony: ceremony,
+                oldCeremonyName: ceremony.name,
+                loading: false,
+                ceremonyNotAccessible: false,
+                rootContext: this.context as RootContextProps
+            });
         }
         catch {
-            this.setState({ loading: false, ceremonyNotAccessible: false })
+            this.setState({
+                loading: false,
+                ceremonyNotAccessible: false
+            })
         }
 
         this.setCurrentPage(CeremonyDetails.pageName);
@@ -47,13 +65,50 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
         return this.state.currentTab === tab;
     }
 
+    ceremonyNameChanged(event: ContentEditableEvent) {
+        const ceremony = cloneDeep(this.state.ceremony);
+        ceremony.name = event.target.value;
+
+        this.setState({ ceremony: ceremony });
+    }
+
+    ceremonyNameOnKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
+        if (event.key === "Escape") {
+            const ceremony = cloneDeep(this.state.ceremony);
+            ceremony.name = this.state.oldCeremonyName;
+
+            this.setState({ ceremony: ceremony });
+            this.ceremonyNameContentEditable.current.blur();
+        }
+    }
+
+    saveCeremonyName(event: React.FocusEvent<HTMLDivElement>) {
+        setTimeout(async () => {
+            if (this.state.ceremony.name != this.state.oldCeremonyName) {
+                let request: UpdateCeremonyRequest = {
+                    id: this.state.ceremonyId as number,
+                    name: this.state.ceremony.name
+                };
+
+                await this.ceremoniesService.update(request, (this.context as RootContextProps));
+                this.setState({ oldCeremonyName: this.state.ceremony.name });
+            }
+        });
+    }
+
     render() {
         return (
             <main>
                 {!this.state.loading ?
                     !this.state.ceremonyNotAccessible ?
                         <Fragment>
-                            <h1>{this.state.ceremony?.name}</h1>
+                            <ContentEditable innerRef={this.ceremonyNameContentEditable}
+                                html={this.state.ceremony.name}
+                                tagName="h1"
+                                onChange={this.ceremonyNameChanged.bind(this)}
+                                onKeyUp={this.ceremonyNameOnKeyUp.bind(this)}
+                                onBlur={this.saveCeremonyName.bind(this)}/>
+
                             <div className="container-fluid p-0">
                                 <ul className="nav nav-tabs">
                                     <li className="nav-item">
@@ -115,4 +170,5 @@ interface CeremonyDetailsProps {
 interface CeremonyDetailsState extends CeremonyDetailsContextProps {
     loading: boolean;
     ceremonyNotAccessible: boolean;
+    oldCeremonyName: string;
 }

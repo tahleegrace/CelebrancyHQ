@@ -2,6 +2,7 @@ import moment from "moment";
 import { RootContextProps } from "../../context/root-context";
 import { CeremonyKeyDetailsDTO } from "../../interfaces/ceremony-key-details";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
+import { UpdateCeremonyRequest } from "../../interfaces/update-ceremony";
 import { DependencyService } from "../dependencies/dependency.service";
 import { HttpService } from "../http/http.service";
 
@@ -23,5 +24,11 @@ export class CeremoniesService {
         const url = `ceremonies/${ceremonyId}/key-details`;
 
         return await this.httpService.get<CeremonyKeyDetailsDTO>(url, context);
+    }
+
+    public async update(ceremony: UpdateCeremonyRequest, context: RootContextProps): Promise<void> {
+        const url = `ceremonies/${ceremony.id}`;
+
+        await this.httpService.putWithNoResponse(url, ceremony, context);
     }
 }

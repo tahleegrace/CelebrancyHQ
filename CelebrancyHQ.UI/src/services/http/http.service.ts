@@ -35,4 +35,12 @@ export class HttpService {
 
         return await response.json();
     }
+
+    public async putWithNoResponse<BodyType>(url: string, body: BodyType, context?: RootContextProps): Promise<void> {
+        await fetch(`${config.api.url}/${url}`, {
+            method: 'PUT',
+            headers: this.getHeaders(context) as any,
+            body: JSON.stringify(body)
+        });
+    }
 }

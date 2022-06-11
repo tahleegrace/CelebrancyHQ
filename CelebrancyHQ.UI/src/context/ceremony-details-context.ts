@@ -4,7 +4,7 @@ import { RootContextProps } from "./root-context";
 
 export interface CeremonyDetailsContextProps {
     ceremonyId: number | null;
-    ceremony: CeremonyKeyDetailsDTO | null;
+    ceremony: CeremonyKeyDetailsDTO;
     rootContext: RootContextProps | null;
 
     currentTab: string | null;
@@ -13,7 +13,7 @@ export interface CeremonyDetailsContextProps {
 
 const contextData: CeremonyDetailsContextProps = {
     ceremonyId: null,
-    ceremony: null,
+    ceremony: null as any,
     rootContext: null,
 
     currentTab: null,
