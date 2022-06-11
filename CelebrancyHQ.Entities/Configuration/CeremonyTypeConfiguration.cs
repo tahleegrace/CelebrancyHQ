@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using CelebrancyHQ.Entities.Constants;
+using EntitiesConstants = CelebrancyHQ.Entities.Constants;
+using CeremonyConstants = CelebrancyHQ.Constants.Ceremonies;
 
 namespace CelebrancyHQ.Entities.Configuration
 {
@@ -16,13 +17,13 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyType()
                 {
-                    Id = CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
                     Name = "Marriage Ceremony",
-                    Code = "Marriage",
+                    Code = CeremonyConstants.CeremonyTypeConstants.MarriageCeremonyCode,
                     Description = "A ceremony to celebrate the joining of two persons in marriage.",
                     Organisation = null,
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -30,13 +31,13 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyType()
                 {
-                    Id = CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
                     Name = "Funeral Ceremony",
-                    Code = "Funeral",
+                    Code = CeremonyConstants.CeremonyTypeConstants.FuneralCeremonyCode,
                     Description = "A ceremony to celebrate the life of and remember a person who has recently passed way.",
                     Organisation = null,
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
         }

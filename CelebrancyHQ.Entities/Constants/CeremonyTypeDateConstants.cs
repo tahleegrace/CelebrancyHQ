@@ -9,27 +9,21 @@
 
         // Initial phone call.
         public const int MarriageInitialPhoneCallId = 1;
-        public const string InitialPhoneCallCode = "InitialPhoneCall";
 
         // Initial interview.
         public const int MarriageInitialInterviewId = 2;
-        public const string InitialInterviewCode = "InitialInterview";
 
         // Rehearsal.
         public const int MarriageRehearsalId = 3;
-        public const string RehearsalCode = "Rehearsal";
 
         // Ceremony.
         public const int MarriageCeremonyId = 4;
-        public const string CeremonyCode = "Ceremony";
 
         // Reception.
         public const int MarriageReceptionId = 5;
-        public const string ReceptionCode = "Reception";
 
         // Other.
         public const int MarriageOtherId = 6;
-        public const string OtherCode = "Other";
 
         // Funeral.
 
@@ -47,7 +41,6 @@
 
         // Wake.
         public const int FuneralWakeId = 11;
-        public const string WakeCode = "Wake";
 
         // Other.
         public const int FuneralOtherId = 12;

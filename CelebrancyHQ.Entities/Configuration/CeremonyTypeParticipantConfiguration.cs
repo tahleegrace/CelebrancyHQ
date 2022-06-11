@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using CelebrancyHQ.Entities.Constants;
+using EntitiesConstants = CelebrancyHQ.Entities.Constants;
+using CeremonyConstants = CelebrancyHQ.Constants.Ceremonies;
 
 namespace CelebrancyHQ.Entities.Configuration
 {
@@ -17,12 +18,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.CelebrantForMarriageId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.CelebrantCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.CelebrantForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.CelebrantCode,
                     Name = "Celebrant",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -31,12 +32,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.CelebrantForFuneralId,
-                    CeremonyTypeId = CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.CelebrantCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.CelebrantForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.CelebrantCode,
                     Name = "Celebrant",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -45,12 +46,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.CoupleId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.CoupleCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.CoupleId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.CoupleCode,
                     Name = "Couple",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -59,12 +60,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.OrganiserForMarriageId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.OrganiserCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OrganiserForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.OrganiserCode,
                     Name = "Organiser",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -73,12 +74,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.OrganiserForFuneralId,
-                    CeremonyTypeId = CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.OrganiserCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OrganiserForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.OrganiserCode,
                     Name = "Organiser",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -87,12 +88,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.WitnessId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.WitnessCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.WitnessId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.WitnessCode,
                     Name = "Witness",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -101,12 +102,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.BridalPartyId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.BridalPartyCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.BridalPartyId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.BridalPartyCode,
                     Name = "Bridal party",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -115,12 +116,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.InvitedGuestForMarriageId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.InvitedGuestCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InvitedGuestForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.InvitedGuestCode,
                     Name = "Invited guest",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -129,12 +130,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.DeceasedPersonId,
-                    CeremonyTypeId = CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.DeceasedPersonCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.DeceasedPersonId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.DeceasedPersonCode,
                     Name = "Deceased person",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -143,12 +144,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.InvitedGuestForFuneralId,
-                    CeremonyTypeId = CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.InvitedGuestCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InvitedGuestForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.InvitedGuestCode,
                     Name = "Invited guest",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -157,12 +158,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.OtherForMarriageId,
-                    CeremonyTypeId = CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.OtherCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OtherForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.OtherCode,
                     Name = "Other",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
 
@@ -171,12 +172,12 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = CeremonyTypeParticipantConstants.OtherForFuneralId,
-                    CeremonyTypeId = CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyTypeParticipantConstants.OtherCode,
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OtherForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.OtherCode,
                     Name = "Other",
-                    Created = GeneralConstants.SeedDataCreationDate,
-                    Updated = GeneralConstants.SeedDataCreationDate
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
             );
         }
