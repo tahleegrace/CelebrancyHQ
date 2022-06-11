@@ -44,5 +44,8 @@
 
         // Other.
         public const int FuneralOtherId = 12;
+
+        // Date of death.
+        public const int FuneralDateOfDeathId = 13;
     }
 }

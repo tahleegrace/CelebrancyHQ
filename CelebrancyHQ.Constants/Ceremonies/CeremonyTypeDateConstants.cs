@@ -12,5 +12,6 @@
         public const string ReceptionCode = "Reception";
         public const string WakeCode = "Wake";
         public const string OtherCode = "Other";
+        public const string DateOfDeathCode = "Death";
     }
 }

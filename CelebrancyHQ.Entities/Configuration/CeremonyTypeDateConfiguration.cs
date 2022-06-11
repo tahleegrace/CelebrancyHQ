@@ -13,8 +13,6 @@ namespace CelebrancyHQ.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<CeremonyTypeDate> builder)
         {
-            // TODO: Add date of death date type here.
-
             // Marriage.
 
             // Initial phone call.
@@ -182,6 +180,20 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeDateConstants.OtherCode,
                     Name = "Other",
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
+                }
+            );
+
+            // Date of death.
+            builder.HasData
+            (
+                new CeremonyTypeDate()
+                {
+                    Id = EntitiesConstants.CeremonyTypeDateConstants.FuneralDateOfDeathId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeDateConstants.DateOfDeathCode,
+                    Name = "Death",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
