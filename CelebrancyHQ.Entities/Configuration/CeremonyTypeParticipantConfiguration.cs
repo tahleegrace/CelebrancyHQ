@@ -13,6 +13,8 @@ namespace CelebrancyHQ.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<CeremonyTypeParticipant> builder)
         {
+            // TODO: Add interpreter and funeral director participant types.
+
             // Celebrant (marriage).
             builder.HasData
             (

@@ -13,6 +13,8 @@ namespace CelebrancyHQ.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<CeremonyTypeDate> builder)
         {
+            // TODO: Add date of death date type here.
+
             // Marriage.
 
             // Initial phone call.
