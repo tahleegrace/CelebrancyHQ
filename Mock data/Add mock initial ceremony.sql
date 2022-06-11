@@ -61,32 +61,36 @@ SET @CeremonyId = 1
 /* Ceremony permissions. */
 
 /* Celebrant. */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 1, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 1, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Couple. */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 3, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 3, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Organiser. */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 4, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 4, 'KeyDetails', 1, 1, 1, 1, 1, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Witness. */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 6, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 6, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Bridal Party. */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 7, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 7, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Invited guest */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 8, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 8, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Other. */
-INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
-VALUES (@CeremonyId, 11, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 11, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)*/
+
+/* Interpreter. */
+/*INSERT INTO CeremonyPermissions (CeremonyId, CeremonyTypeParticipantId, Field, CanView, CanEdit, CanEditWithApproval, IsApprover, CanViewHistory, Created, Updated, Deleted)
+VALUES (@CeremonyId, 13, 'KeyDetails', 1, 0, 0, 0, 0, GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Mock participants. */
 
@@ -115,6 +119,28 @@ VALUES (@CeremonyId, @NancyPelosiId, 7, GETUTCDATE(), GETUTCDATE())*/
 
 /*INSERT INTO CeremonyParticipants (CeremonyId, PersonId, CeremonyTypeParticipantId, Created, Updated)
 VALUES (@CeremonyId, @NancyPelosiId, 6, GETUTCDATE(), GETUTCDATE())*/
+
+/* Mock dates. */
+
+/* Initial phone call. */
+/*INSERT INTO CeremonyDates (CeremonyId, CeremonyTypeDateId, Date, Created, Updated, Deleted)
+VALUES (@CeremonyId, 1, '2022-06-12 01:00', GETUTCDATE(), GETUTCDATE(), 0)*/
+
+/* Initial interview. */
+/*INSERT INTO CeremonyDates (CeremonyId, CeremonyTypeDateId, Date, Created, Updated, Deleted)
+VALUES (@CeremonyId, 2, '2022-06-13 01:00', GETUTCDATE(), GETUTCDATE(), 0)*/
+
+/* Rehearsal. */
+/*INSERT INTO CeremonyDates (CeremonyId, CeremonyTypeDateId, Date, Created, Updated, Deleted)
+VALUES (@CeremonyId, 3, '2022-06-14 01:00', GETUTCDATE(), GETUTCDATE(), 0)*/
+
+/* Ceremony. */
+/*INSERT INTO CeremonyDates (CeremonyId, CeremonyTypeDateId, Date, Created, Updated, Deleted)
+VALUES (@CeremonyId, 4, '2022-06-15 01:00', GETUTCDATE(), GETUTCDATE(), 0)*/
+
+/* Reception. */
+/*INSERT INTO CeremonyDates (CeremonyId, CeremonyTypeDateId, Date, Created, Updated, Deleted)
+VALUES (@CeremonyId, 5, '2022-06-15 04:00', GETUTCDATE(), GETUTCDATE(), 0)*/
 
 /* Mock venue. */
 /*INSERT INTO Addresses (StreetAddress, Suburb, State, Postcode, Country, Created, Updated, Deleted)
