@@ -40,5 +40,14 @@
 
         // Other (funeral).
         public const int OtherForFuneralId = 12;
+
+        // Interpreter (marriage).
+        public const int InterpreterForMarriageId = 13;
+
+        // Interpreter (funeral).
+        public const int InterpreterForFuneralId = 14;
+
+        // Funeral director.
+        public const int FuneralDirectorId = 15;
     }
 }

@@ -38,7 +38,7 @@ CanEditWithApproval
 IsApprover
 CanViewHistory
 
-CeremonyTypeParticipants - the types of participants that a ceremony can have (e.g. celebrant, couple, organiser, witnesses, bridal party, invited guest, person who has passed away, other)
+CeremonyTypeParticipants - the types of participants that a ceremony can have (e.g. celebrant, couple, organiser, witnesses, bridal party, invited guest, person who has passed away, other, interpeter, funeral director, etc)
 --------------------------
 ID
 CeremonyType
@@ -107,7 +107,7 @@ Name
 IsPrimary - whether this is the venue where all the participants meet first for the ceremony.
 Notes
 
-CeremonyTypeServiceProviders - the types of service providers that a ceremony can have (e.g. funeral director, florist, photographer, videographer, musician, caterer, other, etc).
+CeremonyTypeServiceProviders - the types of service providers that a ceremony can have (e.g. funeral director, florist, photographer, videographer, musician, caterer, funeral director, other, etc).
 ------------
 ID
 CeremonyType

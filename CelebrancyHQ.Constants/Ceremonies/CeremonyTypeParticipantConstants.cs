@@ -13,5 +13,7 @@
         public const string InvitedGuestCode = "InvitedGuest";
         public const string DeceasedPersonCode = "Deceased";
         public const string OtherCode = "Other";
+        public const string InterpreterCode = "Interpreter";
+        public const string FuneralDirectorCode = "FuneralDirector";
     }
 }

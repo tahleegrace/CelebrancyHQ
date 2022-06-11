@@ -13,8 +13,6 @@ namespace CelebrancyHQ.Entities.Configuration
     {
         public void Configure(EntityTypeBuilder<CeremonyTypeParticipant> builder)
         {
-            // TODO: Add interpreter and funeral director participant types.
-
             // Celebrant (marriage).
             builder.HasData
             (
@@ -178,6 +176,48 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.OtherCode,
                     Name = "Other",
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
+                }
+            );
+
+            // Interpreter (marriage).
+            builder.HasData
+            (
+                new CeremonyTypeParticipant()
+                {
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InterpreterForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.InterpreterCode,
+                    Name = "Interpreter",
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
+                }
+            );
+
+            // Interpreter (funeral).
+            builder.HasData
+            (
+                new CeremonyTypeParticipant()
+                {
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InterpreterForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.InterpreterCode,
+                    Name = "Interpreter",
+                    Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
+                    Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
+                }
+            );
+
+            // Funeral director.
+            builder.HasData
+            (
+                new CeremonyTypeParticipant()
+                {
+                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.FuneralDirectorId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyConstants.CeremonyTypeParticipantConstants.FuneralDirectorCode,
+                    Name = "Funeral director",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
