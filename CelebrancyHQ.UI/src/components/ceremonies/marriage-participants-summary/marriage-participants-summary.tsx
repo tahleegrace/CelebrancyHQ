@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { CeremonyParticipantCodes } from "../../../constants/ceremonies/ceremony-participant-codes";
 import { CeremonyKeyDetailsDTO } from "../../../interfaces/ceremony-key-details";
 import { findParticipantsByCode } from "../../../utilities/ceremonies/ceremony-participant-helpers";
-import { getFullNamesForUsers, getUserAndContactDetailsDisplay } from "../../../utilities/persons/person-helpers";
+import { getFullNamesForPersons, getPersonAndContactDetailsDisplay } from "../../../utilities/persons/person-helpers";
 
 export class MarriageParticipantsSummary extends React.Component<MarriageParticipantsSummaryProps, MarriageParticipantsSummaryState> {
     constructor(props: MarriageParticipantsSummaryProps) {
@@ -24,7 +24,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                             <strong>Celebrant:</strong>
                         </div>
                         <div className="col-lg-10 col-sm-9 col-12">
-                            {getUserAndContactDetailsDisplay(celebrant)}
+                            {getPersonAndContactDetailsDisplay(celebrant)}
                         </div>
                     </div>) : ""}
                 <div className="row form-group">
@@ -32,7 +32,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                         <strong>Couple:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {couple.map(participant => getUserAndContactDetailsDisplay(participant))}
+                        {couple.map(participant => getPersonAndContactDetailsDisplay(participant))}
                     </div>
                 </div>
                 {organiser ?
@@ -41,7 +41,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                             <strong>Organiser:</strong>
                         </div>
                         <div className="col-lg-10 col-sm-9 col-12">
-                            {getUserAndContactDetailsDisplay(organiser)}
+                            {getPersonAndContactDetailsDisplay(organiser)}
                         </div>
                     </div>) : ""}
                 <div className="row form-group">
@@ -49,7 +49,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                         <strong>Bridal Party:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {bridalParty.length > 0 ? getFullNamesForUsers(bridalParty, true) : "No bridal party"}
+                        {bridalParty.length > 0 ? getFullNamesForPersons(bridalParty, true) : "No bridal party"}
                     </div>
                 </div>
                 <div className="row form-group">
@@ -57,7 +57,7 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
                         <strong>Witnesses:</strong>
                     </div>
                     <div className="col-lg-10 col-sm-9 col-12">
-                        {witnesses.length > 0 ? getFullNamesForUsers(witnesses, true) : "No witnesses"}
+                        {witnesses.length > 0 ? getFullNamesForPersons(witnesses, true) : "No witnesses"}
                     </div>
                 </div>
             </Fragment>

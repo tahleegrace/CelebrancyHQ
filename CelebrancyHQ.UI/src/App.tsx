@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { CelebrancyHQRootContext, RootContextProps } from './context/root-context';
 import { AuthTokenDTO } from './interfaces/auth-token';
-import { getUserFullNameAndBusinessName } from './utilities/persons/person-helpers';
+import { getPersonFullNameAndBusinessName } from './utilities/persons/person-helpers';
 
 // TODO: Split the navbar and navbar links into a separate component.
 export class App extends React.Component<AppProps, AppState> {
@@ -57,7 +57,7 @@ export class App extends React.Component<AppProps, AppState> {
                                         </li>
                                     </ul>
                                     <div className="inline">
-                                        {getUserFullNameAndBusinessName(this.state.currentUser.user)}
+                                        {getPersonFullNameAndBusinessName(this.state.currentUser.user)}
                                     </div>
                                 </div>
                                 : <Fragment />

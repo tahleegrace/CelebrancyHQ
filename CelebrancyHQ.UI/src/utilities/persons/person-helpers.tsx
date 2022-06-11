@@ -1,24 +1,24 @@
 import { Fragment } from "react";
 import { PersonDTO } from "../../interfaces/person";
 
-export function getUserFullName(user: PersonDTO, includePreferredName = false) {
-    return `${user.firstName} ${user.lastName} ${includePreferredName && user.preferredName ? `(${user.preferredName})` : ''}`;
+export function getPersonFullName(person: PersonDTO, includePreferredName = false) {
+    return `${person.firstName} ${person.lastName} ${includePreferredName && person.preferredName ? `(${person.preferredName})` : ''}`;
 }
 
-export function getFullNamesForUsers(users: PersonDTO[], includePreferredNames = false) {
-    return users.map(user => getUserFullName(user, includePreferredNames)).join(", ");
+export function getFullNamesForPersons(persons: PersonDTO[], includePreferredNames = false) {
+    return persons.map(person => getPersonFullName(person, includePreferredNames)).join(", ");
 }
 
-export function getUserFullNameAndBusinessName(user: PersonDTO) {
-    return `${getUserFullName(user)} ${user.organisationName ? `(${user.organisationName})` : ''}`;
+export function getPersonFullNameAndBusinessName(person: PersonDTO) {
+    return `${getPersonFullName(person)} ${person.organisationName ? `(${person.organisationName})` : ''}`;
 };
 
-export function getUserAndContactDetailsDisplay(user: PersonDTO) {
+export function getPersonAndContactDetailsDisplay(person: PersonDTO) {
     return (
-        <p className="mb-0" key={user.personId}>
-            {getUserFullName(user, true)}
-            {user.primaryPhoneNumber ? (<Fragment><br /><a href={'tel:' + user.primaryPhoneNumber}>{user.primaryPhoneNumber}</a></Fragment>) : ''}
-            {user.emailAddress ? (<Fragment><br /><a href={'mailto:' + user.emailAddress}>{user.emailAddress}</a></Fragment>) : ''}
+        <p className="mb-0" key={person.personId}>
+            {getPersonFullName(person, true)}
+            {person.primaryPhoneNumber ? (<Fragment><br /><a href={'tel:' + person.primaryPhoneNumber}>{person.primaryPhoneNumber}</a></Fragment>) : ''}
+            {person.emailAddress ? (<Fragment><br /><a href={'mailto:' + person.emailAddress}>{person.emailAddress}</a></Fragment>) : ''}
         </p>  
     );
 }
