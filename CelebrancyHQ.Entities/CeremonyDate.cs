@@ -45,6 +45,11 @@ namespace CelebrancyHQ.Entities
         public DateTime Date { get; set; }
 
         /// <summary>
+        /// Gets or sets the custom name for the ceremony date (used for dates with a code of Other).
+        /// </summary>
+        public string? CustomName { get; set; }
+
+        /// <summary>
         /// Gets or sets any notes about the ceremony date.
         /// </summary>
         public string? Notes { get; set; }
