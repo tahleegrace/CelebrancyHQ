@@ -6,7 +6,7 @@ namespace CelebrancyHQ.Auditing
     /// <summary>
     /// An event that occurs when the value of a field is updated.
     /// </summary>
-    public abstract class FieldUpdatedEvent : AuditEvent
+    public abstract class FieldUpdatedEvent<FieldType> : AuditEvent
     {
         /// <summary>
         /// Gets the event name.
@@ -17,13 +17,13 @@ namespace CelebrancyHQ.Auditing
         /// Gets the old value of the field.
         /// </summary>
         [JsonIgnore]
-        public string OldValue { get; }
+        public FieldType OldValue { get; }
 
         /// <summary>
         /// Gets the new value of the field.
         /// </summary>
         [JsonIgnore]
-        public string NewValue { get; }
+        public FieldType NewValue { get; }
 
         public override Dictionary<string, object> EventData => new Dictionary<string, object>()
         {
@@ -36,7 +36,7 @@ namespace CelebrancyHQ.Auditing
         /// </summary>
         /// <param name="oldValue">The old value of the field.</param>
         /// <param name="newValue">The new value of the field.</param>
-        public FieldUpdatedEvent(string oldValue, string newValue)
+        public FieldUpdatedEvent(FieldType oldValue, FieldType newValue)
         {
             this.OldValue = oldValue;
             this.NewValue = newValue;

@@ -130,5 +130,35 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
+
+        /// <summary>
+        /// Updates the specified date.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="request">The date.</param>
+        [HttpPut("{ceremonyId}/dates")]
+        public async Task<ActionResult> UpdateDate(int ceremonyId, UpdateCeremonyDateRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremoniesService.UpdateDate(request, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyDateNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (CeremonyDateNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
     }
 }

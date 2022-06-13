@@ -31,5 +31,28 @@ namespace CelebrancyHQ.Repository.Ceremonies
                                                     .Where(cd => cd.CeremonyId == ceremonyId && !cd.Deleted)
                                                     .ToListAsync();
         }
+
+        /// <summary>
+        /// Gets the ceremony date with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyDateId">The ID of the ceremony date.</param>
+        /// <returns>The ceremony date with the specified ID.</returns>
+        public async Task<CeremonyDate?> FindById(int ceremonyDateId)
+        {
+            return await this._context.CeremonyDates.Include(cd => cd.CeremonyTypeDate)
+                                                    .Where(cd => cd.Id == ceremonyDateId && !cd.Deleted)
+                                                    .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Updates the specified date.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        public async Task Update(CeremonyDate date)
+        {
+            date.Updated = DateTime.UtcNow;
+            this._context.Entry(date).State = EntityState.Modified;
+            await this._context.SaveChangesAsync();
+        }
     }
 }

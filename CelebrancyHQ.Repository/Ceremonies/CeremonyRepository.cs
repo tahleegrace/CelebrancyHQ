@@ -71,6 +71,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="ceremony">The ceremony.</param>
         public async Task Update(Ceremony ceremony)
         {
+            ceremony.Updated = DateTime.UtcNow;
             this._context.Entry(ceremony).State = EntityState.Modified;
             await this._context.SaveChangesAsync();
         }

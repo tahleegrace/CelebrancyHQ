@@ -39,5 +39,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremony">The ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         Task Update(UpdateCeremonyRequest ceremony, int currentUserId);
+
+        /// <summary>
+        /// Updates the specified date.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task UpdateDate(UpdateCeremonyDateRequest date, int currentUserId);
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// An event that occurs when the name of a ceremony is updated.
     /// </summary>
-    public class CeremonyNameUpdatedEvent : FieldUpdatedEvent
+    public class CeremonyNameUpdatedEvent : FieldUpdatedEvent<string?>
     {
         /// <summary>
         /// Gets the field name.
@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="oldValue">The old name of the ceremony.</param>
         /// <param name="newValue">The new name of the ceremony.</param>
-        public CeremonyNameUpdatedEvent(string oldValue, string newValue)
+        public CeremonyNameUpdatedEvent(string? oldValue, string? newValue)
             : base(oldValue, newValue)
         {
         }

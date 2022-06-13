@@ -13,6 +13,7 @@ namespace CelebrancyHQ.Auditing
         public static void AddCelebrancyHQAuditingServices(this IServiceCollection services)
         {
             services.AddScoped<ICeremonyAuditingService, CeremonyAuditingService>();
+            services.AddScoped<ICeremonyDateAuditingService, CeremonyDateAuditingService>();
         }
     }
 }

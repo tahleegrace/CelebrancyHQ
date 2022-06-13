@@ -29,6 +29,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
         private readonly IOrganisationPhoneNumberRepository _organisationPhoneNumberRepository;
         private readonly ICeremonyAuditingService _ceremonyAuditingService;
+        private readonly ICeremonyDateAuditingService _ceremonyDateAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -44,13 +45,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="personPhoneNumberRepository">The person phone numbers repository.</param>
         /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
         /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
+        /// <param name="ceremonyDateAuditingService">The ceremony date auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
             ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
             ICeremonyDateRepository ceremonyDateRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
             IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, ICeremonyAuditingService ceremonyAuditingService, 
-            IMapper mapper)
+            ICeremonyDateAuditingService ceremonyDateAuditingService, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
@@ -62,6 +64,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._personPhoneNumberRepository = personPhoneNumberRepository;
             this._organisationPhoneNumberRepository = organisationPhoneNumberRepository;
             this._ceremonyAuditingService = ceremonyAuditingService;
+            this._ceremonyDateAuditingService = ceremonyDateAuditingService;
             this._mapper = mapper;
         }
 
@@ -168,12 +171,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             var (user, _) = await CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permission to view the dates of the ceremony.
-            var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, CeremonyFieldNames.Dates);
-
-            if (!effectivePermissions.CanView)
-            {
-                throw new UserCannotViewCeremonyDetailsException(ceremonyId);
-            }
+            await CheckCanViewCeremony(ceremonyId, user.PersonId, CeremonyFieldNames.Dates);
 
             var dates = await this._ceremonyDateRepository.GetCeremonyDates(ceremonyId);
             var dtos = this._mapper.Map<List<CeremonyDateDTO>>(dates);
@@ -198,12 +196,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Make sure the user has permissions to edit the ceremony.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.KeyDetails);
-
-            if (!effectivePermissions.CanEdit)
-            {
-                throw new UserCannotEditCeremonyException(ceremony.Id);
-            }
+            await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.KeyDetails);
 
             // Generate audit logs for the ceremony.
             var auditEvents = this._ceremonyAuditingService.GenerateAuditEvents(existingCeremony, this._mapper.Map<Ceremony>(ceremony));
@@ -214,6 +207,63 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Save the audit logs for the ceremony.
             await this._ceremonyAuditingService.SaveAuditEvents(existingCeremony, user.PersonId, auditEvents);
+        }
+
+        /// <summary>
+        /// Updates the specified date.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task UpdateDate(UpdateCeremonyDateRequest date, int currentUserId)
+        {
+            // TODO: Convert the date to UTC.
+            if ((date == null) || (date.Id <= 0))
+            {
+                throw new CeremonyDateNotProvidedException();
+            }
+
+            var existingDate = await this._ceremonyDateRepository.FindById(date.Id);
+
+            if (existingDate == null)
+            {
+                throw new CeremonyDateNotFoundException(date.Id);
+            }
+
+            var (user, ceremony) = await CheckCeremonyIsAccessible(existingDate.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to edit the date.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.Dates);
+
+            // Generate audit events for the date.
+            var auditEvents = this._ceremonyDateAuditingService.GenerateAuditEvents(existingDate, this._mapper.Map<CeremonyDate>(date));
+
+            // Save the date.
+            this._mapper.Map(date, existingDate);
+            await this._ceremonyDateRepository.Update(existingDate);
+
+            // Save the audit logs for the date.
+            await this._ceremonyDateAuditingService.SaveAuditEvents(existingDate, ceremony, user.PersonId, auditEvents);
+        }
+
+        private async Task CheckCanViewCeremony(int ceremonyId, int personId, string field)
+        {
+            var effectivePermissions = await GetEffectivePermissionsForCeremony(ceremonyId, personId, field);
+
+            if (!effectivePermissions.CanView)
+            {
+                throw new UserCannotViewCeremonyDetailsException(ceremonyId);
+            }
+        }
+
+        private async Task CheckCanEditCeremony(int ceremonyId, int personId, string field)
+        {
+            var effectivePermissions = await GetEffectivePermissionsForCeremony(ceremonyId, personId, field);
+
+            if (!effectivePermissions.CanEdit)
+            {
+                throw new UserCannotEditCeremonyException(ceremonyId);
+            }
         }
 
         private async Task<CeremonyPermissionDTO> GetEffectivePermissionsForCeremony(int ceremonyId, int personId, string field)
