@@ -2,7 +2,7 @@ import { cloneDeep } from "lodash";
 import React from "react";
 import { Fragment } from "react";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { CeremonyFieldNames } from "../../../constants/ceremonies/ceremony-field-names";
 import { CeremonyDetailsContext, CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../context/root-context";
@@ -117,10 +117,10 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                             <div className="container-fluid p-0">
                                 <ul className="nav nav-tabs">
                                     <li className="nav-item">
-                                        <a className={`nav-link ${this.isTabActive('key-details') ? 'active' : ''}`}>Key Details</a>
+                                        <Link className={`nav-link ${this.isTabActive('key-details') ? 'active' : ''}`} to="">Key Details</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className={`nav-link ${this.isTabActive('key-dates') ? 'active' : ''}`}>Key Dates</a>
+                                        <Link className={`nav-link ${this.isTabActive('dates') ? 'active' : ''}`} to="dates">Dates</Link>
                                     </li>
                                     <li className="nav-item">
                                         <a className={`nav-link ${this.isTabActive('participants') ? 'active' : ''}`}>Participants</a>
@@ -138,7 +138,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                                         <a className={`nav-link ${this.isTabActive('meetings') ? 'active' : ''}`}>Meetings</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className={`nav-link ${this.isTabActive('documentation') ? 'active' : ''}`}>Documentation</a>
+                                        <a className={`nav-link ${this.isTabActive('documentation') ? 'active' : ''}`}>Documentation and Forms</a>
                                     </li>
                                     <li className="nav-item">
                                         <a className={`nav-link ${this.isTabActive('checklists') ? 'active' : ''}`}>Checklists</a>

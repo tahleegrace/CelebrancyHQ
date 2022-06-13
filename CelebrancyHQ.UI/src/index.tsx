@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
+import CeremonyDates from './pages/ceremonies/ceremony-details/dates/dates';
 import CeremonyDetails from './pages/ceremonies/ceremony-details/ceremony-details';
 import CeremonyKeyDetails from './pages/ceremonies/ceremony-details/key-details/key-details';
 import { MyCeremonies } from './pages/ceremonies/my-ceremonies/my-ceremonies';
@@ -29,6 +30,7 @@ root.render(
                     <Route path="ceremonies" element={<AuthenticatedRoute><MyCeremonies /></AuthenticatedRoute>} />
                     <Route path="ceremonies/:ceremonyId" element={<AuthenticatedRoute><CeremonyDetails /></AuthenticatedRoute>}>
                         <Route path="" element={<AuthenticatedRoute><CeremonyKeyDetails /></AuthenticatedRoute>} />
+                        <Route path="dates" element={<AuthenticatedRoute><CeremonyDates /></AuthenticatedRoute>} />
                     </Route>
                 </Route>
             </Routes>

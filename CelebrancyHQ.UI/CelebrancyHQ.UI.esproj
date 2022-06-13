@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\components\ceremonies\ceremonies-summary\" />
+    <Folder Include="src\pages\ceremonies\ceremony-details\dates\" />
     <Folder Include="src\pages\common-page\" />
     <Folder Include="src\services\ceremonies\" />
     <Folder Include="src\pages\login\" />
