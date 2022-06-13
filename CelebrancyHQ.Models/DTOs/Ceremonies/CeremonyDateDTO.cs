@@ -6,6 +6,11 @@
     public class CeremonyDateDTO
     {
         /// <summary>
+        /// Gets or sets the ID of the ceremony date.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the code of the ceremony type date.
         /// </summary>
         public string Code { get; set; }

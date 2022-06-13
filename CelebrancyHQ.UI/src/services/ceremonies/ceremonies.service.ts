@@ -1,5 +1,6 @@
 import moment from "moment";
 import { RootContextProps } from "../../context/root-context";
+import { CeremonyDateDTO } from "../../interfaces/ceremony-date";
 import { CeremonyKeyDetailsDTO } from "../../interfaces/ceremony-key-details";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
 import { UpdateCeremonyRequest } from "../../interfaces/update-ceremony";
@@ -24,6 +25,12 @@ export class CeremoniesService {
         const url = `ceremonies/${ceremonyId}/key-details`;
 
         return await this.httpService.get<CeremonyKeyDetailsDTO>(url, context);
+    }
+
+    public async getDates(ceremonyId: number, context: RootContextProps): Promise<CeremonyDateDTO[]> {
+        const url = `ceremonies/${ceremonyId}/dates`;
+
+        return await this.httpService.get<CeremonyDateDTO[]>(url, context);
     }
 
     public async update(ceremony: UpdateCeremonyRequest, context: RootContextProps): Promise<void> {

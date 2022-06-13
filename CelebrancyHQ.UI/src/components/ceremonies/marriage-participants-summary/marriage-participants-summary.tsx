@@ -10,11 +10,11 @@ export class MarriageParticipantsSummary extends React.Component<MarriagePartici
     }
 
     render() {
-        var celebrant = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Celebrant)[0];
-        var couple = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Couple);
-        var organiser = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Organiser)[0];
-        var bridalParty = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.BridalParty);
-        var witnesses = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Witness);
+        let celebrant = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Celebrant)[0];
+        let couple = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Couple);
+        let organiser = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Organiser)[0];
+        let bridalParty = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.BridalParty);
+        let witnesses = findParticipantsByCode(this.props.ceremony.participants, CeremonyParticipantCodes.Witness);
 
         return (
             <Fragment>

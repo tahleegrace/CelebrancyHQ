@@ -65,10 +65,10 @@ class CeremonyKeyDetails extends CommonTab<CeremonyKeyDetailsProps, CeremonyKeyD
 
 export default withRouter(CeremonyKeyDetails);
 
-export interface CeremonyKeyDetailsProps {
+interface CeremonyKeyDetailsProps {
 
 }
 
-export interface CeremonyKeyDetailsState {
+interface CeremonyKeyDetailsState {
 
 }
