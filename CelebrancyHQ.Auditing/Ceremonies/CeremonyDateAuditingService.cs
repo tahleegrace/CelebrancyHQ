@@ -28,9 +28,8 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         /// <param name="oldEntity">The old entity.</param>
         /// <param name="newEntity">The new entity.</param>
         /// <returns>A list of audit logs for changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.</returns>
-        public List<AuditEvent> GenerateAuditEvents(CeremonyDate oldEntity, CeremonyDate newEntity)
+        public List<AuditEvent> GenerateAuditEvents(CeremonyDate? oldEntity, CeremonyDate newEntity)
         {
-            // TODO: Handle creating new dates here.
             if (newEntity == null)
             {
                 throw new ArgumentNullException(nameof(newEntity));
@@ -38,7 +37,11 @@ namespace CelebrancyHQ.Auditing.Ceremonies
 
             List<AuditEvent> auditEvents = new List<AuditEvent>();
 
-            if (oldEntity.Date != newEntity.Date)
+            if (oldEntity == null)
+            {
+                auditEvents.Add(new CeremonyDateCreatedEvent(newEntity.Id, newEntity.CeremonyTypeDate.Code, newEntity.CustomName, newEntity.Date));
+            }
+            else if (oldEntity.Date != newEntity.Date)
             {
                 auditEvents.Add(new CeremonyDateUpdatedEvent(oldEntity.Id, oldEntity.CeremonyTypeDate.Code, oldEntity.Date, newEntity.Date));
             }

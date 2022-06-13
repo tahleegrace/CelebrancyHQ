@@ -16,12 +16,17 @@ namespace CelebrancyHQ.Repository
         public static void AddCelebrancyHQRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IPersonPhoneNumberRepository, PersonPhoneNumberRepository>();
+
             services.AddScoped<IOrganisationRepository, OrganisationRepository>();
             services.AddScoped<IOrganisationPhoneNumberRepository, OrganisationPhoneNumberRepository>();
+
             services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();
+            services.AddScoped<ICeremonyTypeDateRepository, CeremonyTypeDateRepository>();
+
             services.AddScoped<ICeremonyRepository, CeremonyRepository>();
             services.AddScoped<ICeremonyPermissionRepository, CeremonyPermissionRepository>();
             services.AddScoped<ICeremonyAuditLogRepository, CeremonyAuditLogRepository>();

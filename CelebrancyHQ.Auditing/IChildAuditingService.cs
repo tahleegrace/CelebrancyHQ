@@ -18,7 +18,7 @@ namespace CelebrancyHQ.Auditing
         /// <param name="oldEntity">The old entity.</param>
         /// <param name="newEntity">The new entity.</param>
         /// <returns>A list of audit logs for changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.</returns>
-        List<AuditEvent> GenerateAuditEvents(EntityType oldEntity, EntityType newEntity);
+        List<AuditEvent> GenerateAuditEvents(EntityType? oldEntity, EntityType newEntity);
 
         /// <summary>
         /// Saves a list of audit events.

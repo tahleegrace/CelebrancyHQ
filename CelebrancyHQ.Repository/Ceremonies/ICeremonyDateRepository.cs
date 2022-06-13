@@ -22,6 +22,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyDate?> FindById(int ceremonyDateId);
 
         /// <summary>
+        /// Creates a new ceremony date.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns>The newly created ceremony date.</returns>
+        Task<CeremonyDate> Create(CeremonyDate date);
+
+        /// <summary>
         /// Updates the specified date.
         /// </summary>
         /// <param name="date">The date.</param>

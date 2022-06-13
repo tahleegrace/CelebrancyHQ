@@ -132,6 +132,35 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
+        /// Creates a new date.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="request">The date.</param>
+        /// <returns>The newly created date.</returns>
+        [HttpPost("{ceremonyId}/dates")]
+        public async Task<ActionResult<CeremonyDateDTO>> CreateDate(int ceremonyId, CreateCeremonyDateRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremoniesService.CreateDate(request, ceremonyId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (CeremonyDateNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Updates the specified date.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

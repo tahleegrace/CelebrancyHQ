@@ -21,6 +21,11 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the custom name for the ceremony date (used for dates with a code of Other).
+        /// </summary>
+        public string? CustomName { get; set; }
+
+        /// <summary>
         /// Gets or sets the date.
         /// </summary>
         public DateTime Date { get; set; }

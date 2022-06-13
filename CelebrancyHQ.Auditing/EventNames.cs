@@ -5,6 +5,8 @@
     /// </summary>
     public enum EventNames
     {
+        Create,
+
         Update
     }
 }

@@ -45,6 +45,24 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Creates a new ceremony date.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns>The newly created ceremony date.</returns>
+        public async Task<CeremonyDate> Create(CeremonyDate date)
+        {
+            date.Created = DateTime.UtcNow;
+            date.Updated = DateTime.UtcNow;
+
+            this._context.CeremonyDates.Add(date);
+
+            await this._context.SaveChangesAsync();
+
+            var newDate = await FindById(date.Id);
+            return newDate;
+        }
+
+        /// <summary>
         /// Updates the specified date.
         /// </summary>
         /// <param name="date">The date.</param>

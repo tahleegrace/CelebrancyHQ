@@ -17,6 +17,9 @@ namespace CelebrancyHQ.Mappings.Ceremonies
                 .ForMember(dest => dest.Name, source => source.MapFrom(item => item.CeremonyTypeDate.Name));
 
             CreateMap<UpdateCeremonyDateRequest, CeremonyDate>();
+
+            CreateMap<CreateCeremonyDateRequest, CeremonyDate>()
+                .ForMember(dest => dest.CustomName, source => source.MapFrom(item => item.Name));
         }
     }
 }
