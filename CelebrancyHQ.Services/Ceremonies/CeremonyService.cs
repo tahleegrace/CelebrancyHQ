@@ -110,30 +110,10 @@ namespace CelebrancyHQ.Services.Ceremonies
         public async Task<CeremonyKeyDetailsDTO> GetCeremonyKeyDetails(int ceremonyId, int currentUserId)
         {
             // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
-            var user = await this._userRepository.FindById(currentUserId);
-
-            if (user == null)
-            {
-                throw new UserNotFoundException(currentUserId);
-            }
-
-            var ceremony = await this._ceremonyRepository.FindById(ceremonyId);
-
-            if (ceremony == null)
-            {
-                throw new CeremonyNotFoundException(ceremonyId);
-            }
-
-            // Make sure the current user is a participant in the ceremony.
-            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremonyId);
-
-            if (!canAccessCeremony)
-            {
-                throw new UserNotCeremonyParticipantException(ceremonyId);
-            }
+            var (user, ceremony) = await CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Get the participants in the ceremony.
-            // TODO: Don't show invited guests if the user doesn't have the Guests permission.
+            // TODO: Don't show invited guests here.
             var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId);
             var participantPhoneNumbers = await this._personPhoneNumberRepository.GetPrimaryPhoneNumbersForCeremonyParticipants(ceremonyId);
 
@@ -185,27 +165,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         public async Task<List<CeremonyDateDTO>> GetCeremonyDates(int ceremonyId, int currentUserId)
         {
             // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
-            var user = await this._userRepository.FindById(currentUserId);
-
-            if (user == null)
-            {
-                throw new UserNotFoundException(currentUserId);
-            }
-
-            var ceremony = await this._ceremonyRepository.FindById(ceremonyId);
-
-            if (ceremony == null)
-            {
-                throw new CeremonyNotFoundException(ceremonyId);
-            }
-
-            // Make sure the current user is a participant in the ceremony.
-            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremonyId);
-
-            if (!canAccessCeremony)
-            {
-                throw new UserNotCeremonyParticipantException(ceremonyId);
-            }
+            var (user, _) = await CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permission to view the dates of the ceremony.
             var effectivePermissions = await this.GetEffectivePermissionsForCeremony(ceremonyId, user.PersonId, CeremonyFieldNames.Dates);
@@ -228,33 +188,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         public async Task Update(UpdateCeremonyRequest ceremony, int currentUserId)
         {
-            var user = await this._userRepository.FindById(currentUserId);
-
-            if (user == null)
-            {
-                throw new UserNotFoundException(currentUserId);
-            }
-
             // Make sure the ceremony has been provided and has an ID.
             if ((ceremony == null) || (ceremony.Id <= 0))
             {
                 throw new CeremonyNotProvidedException();
             }
 
-            var existingCeremony = await this._ceremonyRepository.FindById(ceremony.Id);
-
-            if (existingCeremony == null)
-            {
-                throw new CeremonyNotFoundException(ceremony.Id);
-            }
-
-            // Make sure the current user is a participant in the ceremony.
-            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremony.Id);
-
-            if (!canAccessCeremony)
-            {
-                throw new UserNotCeremonyParticipantException(ceremony.Id);
-            }
+            var (user, existingCeremony) = await CheckCeremonyIsAccessible(ceremony.Id, currentUserId);
 
             // Make sure the user has permissions to edit the ceremony.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
@@ -314,6 +254,33 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             return effectivePermissions;
+        }
+
+        private async Task<(User user, Ceremony ceremony)> CheckCeremonyIsAccessible(int ceremonyId, int currentUserId)
+        {
+            var user = await this._userRepository.FindById(currentUserId);
+
+            if (user == null)
+            {
+                throw new UserNotFoundException(currentUserId);
+            }
+
+            var ceremony = await this._ceremonyRepository.FindById(ceremonyId);
+
+            if (ceremony == null)
+            {
+                throw new CeremonyNotFoundException(ceremonyId);
+            }
+
+            // Make sure the current user is a participant in the ceremony.
+            var canAccessCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(user.PersonId, ceremonyId);
+
+            if (!canAccessCeremony)
+            {
+                throw new UserNotCeremonyParticipantException(ceremonyId);
+            }
+
+            return (user, ceremony);
         }
     }
 }
