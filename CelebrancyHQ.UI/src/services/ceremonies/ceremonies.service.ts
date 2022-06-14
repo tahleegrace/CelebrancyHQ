@@ -3,7 +3,8 @@ import { RootContextProps } from "../../context/root-context";
 import { CeremonyDateDTO } from "../../interfaces/ceremony-date";
 import { CeremonyKeyDetailsDTO } from "../../interfaces/ceremony-key-details";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
-import { UpdateCeremonyRequest } from "../../interfaces/update-ceremony";
+import { UpdateCeremonyDateRequest } from "../../interfaces/update-ceremony-date-request";
+import { UpdateCeremonyRequest } from "../../interfaces/update-ceremony-request";
 import { DependencyService } from "../dependencies/dependency.service";
 import { HttpService } from "../http/http.service";
 
@@ -37,5 +38,11 @@ export class CeremoniesService {
         const url = `ceremonies/${ceremony.id}`;
 
         await this.httpService.putWithNoResponse(url, ceremony, context);
+    }
+
+    public async updateDate(ceremonyId: number, date: UpdateCeremonyDateRequest, context: RootContextProps): Promise<void> {
+        const url = `ceremonies/${ceremonyId}/dates`;
+
+        await this.httpService.putWithNoResponse(url, date, context);
     }
 }

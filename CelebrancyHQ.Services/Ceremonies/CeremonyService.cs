@@ -262,6 +262,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyDateNotProvidedException();
             }
 
+            // TODO: Handle creating a date that doesn't exist and doesn't have a code of Other here.
             var existingDate = await this._ceremonyDateRepository.FindById(date.Id);
 
             if (existingDate == null)

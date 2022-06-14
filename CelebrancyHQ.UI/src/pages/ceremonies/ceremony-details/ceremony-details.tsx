@@ -6,7 +6,7 @@ import { Link, Outlet } from "react-router-dom";
 import { CeremonyFieldNames } from "../../../constants/ceremonies/ceremony-field-names";
 import { CeremonyDetailsContext, CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../context/root-context";
-import { UpdateCeremonyRequest } from "../../../interfaces/update-ceremony";
+import { UpdateCeremonyRequest } from "../../../interfaces/update-ceremony-request";
 import { CeremoniesService } from "../../../services/ceremonies/ceremonies.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
 import { getCeremonyPermission } from "../../../utilities/ceremonies/ceremony-permission-helpers";

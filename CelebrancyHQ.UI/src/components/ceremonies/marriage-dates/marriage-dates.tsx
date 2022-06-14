@@ -24,11 +24,11 @@ export class MarriageDates extends React.Component<MarriageDatesProps, MarriageD
 
         return (
             <Fragment>
-                <CeremonyDateDetails date={initialPhoneCall} name="Initial phone call" />
-                <CeremonyDateDetails date={initialInterview} name="Initial interview" />
-                <CeremonyDateDetails date={rehearsal} name="Rehearsal" />
-                <CeremonyDateDetails date={ceremony} name="Ceremony" />
-                <CeremonyDateDetails date={reception} name="Reception" />
+                <CeremonyDateDetails date={initialPhoneCall} canEdit={this.props.canEdit} dateUpdated={this.dateUpdated.bind(this)} name="Initial phone call" />
+                <CeremonyDateDetails date={initialInterview} canEdit={this.props.canEdit} dateUpdated={this.dateUpdated.bind(this)} name="Initial interview" />
+                <CeremonyDateDetails date={rehearsal} canEdit={this.props.canEdit} dateUpdated={this.dateUpdated.bind(this)} name="Rehearsal" />
+                <CeremonyDateDetails date={ceremony} canEdit={this.props.canEdit} dateUpdated={this.dateUpdated.bind(this)} name="Ceremony" />
+                <CeremonyDateDetails date={reception} canEdit={this.props.canEdit} dateUpdated={this.dateUpdated.bind(this)} name="Reception" />
             </Fragment>
         );
     }
