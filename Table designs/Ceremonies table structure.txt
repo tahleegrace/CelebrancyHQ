@@ -8,6 +8,27 @@ EmailAddress
 Title
 Gender
 
+PersonSettings
+--------------
+Person [primary key]
+Timezone
+
+LicenceTypes
+------------
+ID
+Name
+Code
+MaximumCeremonies
+
+PersonLicences
+-------------
+ID
+Person
+Licence
+MaximumCeremonies
+CurrentCeremoniesCount
+Expires
+
 PersonPhoneNumbers - a phone number for a person - a person can have one or more phone numbers
 ----------
 ID
@@ -53,6 +74,14 @@ Ceremony
 Person
 ParticipantType
 Notes
+
+CeremonyAccessInvitations - an invitation to access a ceremony (created by an organiser, couple or celebrant)
+------------------
+ID
+Ceremony
+Person
+UniqueCode
+Accepted
 
 CeremonyTypeDates - the types of dates that can be stored for a ceremony (e.g. ceremony date, rehearsal date, initial interview, reception, other etc)
 --------------------------------
