@@ -9,6 +9,12 @@ export class MarriageDates extends React.Component<MarriageDatesProps, MarriageD
         super(props);
     }
 
+    dateUpdated(newDate: CeremonyDateDTO) {
+        if (this.props.dateUpdated != null) {
+            this.props.dateUpdated(newDate);
+        }
+    }
+
     render() {
         let initialPhoneCall = findDateByCode(this.props.dates, CeremonyDateCodes.InitialPhoneCall);
         let initialInterview = findDateByCode(this.props.dates, CeremonyDateCodes.InitialInterview);
@@ -30,6 +36,8 @@ export class MarriageDates extends React.Component<MarriageDatesProps, MarriageD
 
 interface MarriageDatesProps {
     dates: CeremonyDateDTO[];
+    canEdit: boolean;
+    dateUpdated: (date: CeremonyDateDTO) => void;
 }
 
 interface MarriageDatesState {
