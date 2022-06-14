@@ -18,6 +18,6 @@
         /// <summary>
         /// Gets or sets the date.
         /// </summary>
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
     }
 }

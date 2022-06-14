@@ -66,7 +66,7 @@ export class CeremonyDateDetails extends React.Component<CeremonyDateDetailsProp
                     {this.state.isEditing ?
                         (<DateTimePicker value={this.state.selectedDate} onChange={this.onDateChange.bind(this)} />) :
                         <Fragment>
-                            {this.props.date?.date ? formatDate(this.state.selectedDate) : "None"}
+                            {this.state.selectedDate ? formatDate(this.state.selectedDate) : "None"}
                             {this.props.canEdit ? (<span> (<button className="btn btn-link p-0 m-0 border-0 align-top" role="link" onClick={this.editDateClicked.bind(this)}>Edit</button>)</span>) : ""}
                         </Fragment>
                     }

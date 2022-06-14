@@ -42,5 +42,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="date">The date.</param>
         /// <returns>The newly updated date.</returns>
         Task<CeremonyDate> Update(CeremonyDate date);
+
+        /// <summary>
+        /// Deletes the specified date.
+        /// </summary>
+        /// <param name="id">The ID of the date to delete.</param>
+        Task Delete(int id);
     }
 }

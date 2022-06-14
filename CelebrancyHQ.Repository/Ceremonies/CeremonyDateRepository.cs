@@ -88,5 +88,17 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             return date;
         }
+
+        /// <summary>
+        /// Deletes the specified date.
+        /// </summary>
+        /// <param name="id">The ID of the date to delete.</param>
+        public async Task Delete(int id)
+        {
+            var date = await this.FindById(id);
+            date.Updated = DateTime.UtcNow;
+            date.Deleted = true;
+            await this._context.SaveChangesAsync();
+        }
     }
 }

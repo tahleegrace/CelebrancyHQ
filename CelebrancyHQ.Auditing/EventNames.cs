@@ -7,6 +7,8 @@
     {
         Create,
 
-        Update
+        Update,
+
+        Delete
     }
 }

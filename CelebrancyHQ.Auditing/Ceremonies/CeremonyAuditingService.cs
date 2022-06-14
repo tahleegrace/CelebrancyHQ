@@ -28,7 +28,7 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         /// <param name="oldEntity">The old entity.</param>
         /// <param name="newEntity">The new entity.</param>
         /// <returns>A list of audit logs for changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.</returns>
-        public List<AuditEvent> GenerateAuditEvents(Ceremony? oldEntity, Ceremony newEntity)
+        public List<AuditEvent> GenerateAuditEvents(Ceremony? oldEntity, Ceremony? newEntity)
         {
             // TODO: Handle creating new ceremonies here.
             if (newEntity == null)

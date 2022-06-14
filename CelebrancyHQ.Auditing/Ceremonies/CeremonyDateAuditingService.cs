@@ -3,6 +3,7 @@
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Constants.Ceremonies;
 
 namespace CelebrancyHQ.Auditing.Ceremonies
 {
@@ -28,18 +29,19 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         /// <param name="oldEntity">The old entity.</param>
         /// <param name="newEntity">The new entity.</param>
         /// <returns>A list of audit logs for changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.</returns>
-        public List<AuditEvent> GenerateAuditEvents(CeremonyDate? oldEntity, CeremonyDate newEntity)
+        public List<AuditEvent> GenerateAuditEvents(CeremonyDate? oldEntity, CeremonyDate? newEntity)
         {
-            if (newEntity == null)
-            {
-                throw new ArgumentNullException(nameof(newEntity));
-            }
-
             List<AuditEvent> auditEvents = new List<AuditEvent>();
 
-            if (oldEntity == null)
+            if (oldEntity == null && newEntity != null)
             {
-                auditEvents.Add(new CeremonyDateCreatedEvent(newEntity.Id, newEntity.CeremonyTypeDate.Code, newEntity.CustomName, newEntity.Date));
+                auditEvents.Add(new CeremonyDateCreatedEvent(newEntity.Id, newEntity.CeremonyTypeDate.Code, 
+                    newEntity.CeremonyTypeDate.Code == CeremonyTypeDateConstants.OtherCode ? newEntity.CustomName : null, newEntity.Date));
+            }
+            else if (oldEntity != null && newEntity == null)
+            {
+                auditEvents.Add(new CeremonyDateDeletedEvent(oldEntity.Id, oldEntity.CeremonyTypeDate.Code, 
+                    oldEntity.CeremonyTypeDate.Code == CeremonyTypeDateConstants.OtherCode ? oldEntity.CustomName : null, oldEntity.Date));
             }
             else if (oldEntity.Date != newEntity.Date)
             {

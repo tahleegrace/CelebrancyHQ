@@ -3,9 +3,9 @@
 namespace CelebrancyHQ.Auditing.Ceremonies
 {
     /// <summary>
-    /// An event that occurs when a ceremony date is created.
+    /// An event that occurs when a ceremony date is deleted.
     /// </summary>
-    public class CeremonyDateCreatedEvent : EntityCreatedEvent<DateTime>
+    public class CeremonyDateDeletedEvent : EntityDeletedEvent<DateTime>
     {
         /// <summary>
         /// Gets the field name.
@@ -40,13 +40,13 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         }
 
         /// <summary>
-        /// Creates a new instance of CeremonyDateCreatedEvent.
+        /// Creates a new instance of CeremonyDateDeletedEvent.
         /// </summary>
         /// <param name="id">The ID of the date.</param>
         /// <param name="code">The code of the date.</param>
-        /// <param name="entityName">The name of the new date.</param>
+        /// <param name="entityName">The name of the date that has been deleted.</param>
         /// <param name="value">The new date.</param>
-        public CeremonyDateCreatedEvent(int id, string code, string? entityName, DateTime value)
+        public CeremonyDateDeletedEvent(int id, string code, string? entityName, DateTime value)
             : base(entityName, value)
         {
             this.Id = id;

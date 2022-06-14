@@ -255,8 +255,8 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="date">The date.</param>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The newly updated date.</returns>
-        public async Task<CeremonyDateDTO> UpdateDate(UpdateCeremonyDateRequest date, int ceremonyId, int currentUserId)
+        /// <returns>The newly updated date or null if the date was deleted.</returns>
+        public async Task<CeremonyDateDTO?> UpdateDate(UpdateCeremonyDateRequest date, int ceremonyId, int currentUserId)
         {
             // TODO: Convert the date to UTC.
             if ((date == null) || (date.Id <= 0 || String.IsNullOrWhiteSpace(date.Code)) || (date.Code == CeremonyTypeDateConstants.OtherCode))
@@ -270,7 +270,9 @@ namespace CelebrancyHQ.Services.Ceremonies
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.Dates);
 
-            bool creatingNewDate = false;
+            bool creatingNewDate;
+            bool deletingDate = false;
+
             CeremonyDate? dateToUpdate;
 
             // Determine whether we are creating an new date (other than a date of type Other).
@@ -284,6 +286,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 }
 
                 creatingNewDate = false;
+                deletingDate = date.Date == null;
             }
             else
             {
@@ -291,6 +294,11 @@ namespace CelebrancyHQ.Services.Ceremonies
 
                 if (dateToUpdate == null)
                 {
+                    if (date.Date == null)
+                    {
+                        return null;
+                    }
+
                     var ceremonyTypeDate = await this._ceremonyTypeDateRepository.FindByCode(date.Code, ceremony.CeremonyTypeId);
 
                     if (ceremonyTypeDate == null)
@@ -307,6 +315,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 else
                 {
                     creatingNewDate = false;
+                    deletingDate = date.Date == null;
                 }
             }
 
@@ -314,14 +323,19 @@ namespace CelebrancyHQ.Services.Ceremonies
             var newDateForAuditing = this._mapper.Map<CeremonyDate>(date);
             newDateForAuditing.CeremonyTypeDate = dateToUpdate.CeremonyTypeDate;
 
-            var auditEvents = this._ceremonyDateAuditingService.GenerateAuditEvents(!creatingNewDate ? dateToUpdate : null, newDateForAuditing);
+            var auditEvents = this._ceremonyDateAuditingService.GenerateAuditEvents(!creatingNewDate ? dateToUpdate : null, !deletingDate ? newDateForAuditing : null);
 
             // Save the date.
-            CeremonyDate newDate;
+            CeremonyDate? newDate;
 
             if (creatingNewDate)
             {
                 newDate = await this._ceremonyDateRepository.Create(dateToUpdate);
+            }
+            else if (deletingDate)
+            {
+                await this._ceremonyDateRepository.Delete(dateToUpdate.Id);
+                newDate = null;
             }
             else
             {
