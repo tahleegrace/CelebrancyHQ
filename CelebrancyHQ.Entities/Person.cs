@@ -22,6 +22,11 @@ namespace CelebrancyHQ.Entities
         public string FirstName { get; set; }
 
         /// <summary>
+        /// Gets or sets the middle names of the person.
+        /// </summary>
+        public string? MiddleNames { get; set; }
+
+        /// <summary>
         /// Gets or sets the last name of the person.
         /// </summary>
         [Required]
