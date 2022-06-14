@@ -166,15 +166,13 @@ namespace CelebrancyHQ.API.Controllers
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="request">The date.</param>
         [HttpPut("{ceremonyId}/dates")]
-        public async Task<ActionResult> UpdateDate(int ceremonyId, UpdateCeremonyDateRequest request)
+        public async Task<ActionResult<CeremonyDateDTO>> UpdateDate(int ceremonyId, UpdateCeremonyDateRequest request)
         {
             var currentUserId = this._authenticationService.GetCurrentUserId(User);
 
             try
             {
-                await this._ceremoniesService.UpdateDate(request, currentUserId.Value);
-
-                return NoContent();
+                return await this._ceremoniesService.UpdateDate(request, ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyDateNotFoundException || ex is UserNotFoundException)
             {

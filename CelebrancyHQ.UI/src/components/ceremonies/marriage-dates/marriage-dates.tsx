@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { CeremonyDateCodes } from "../../../constants/ceremonies/ceremony-date-codes";
 import { CeremonyDateDTO } from "../../../interfaces/ceremony-date";
-import { findDateByCode } from "../../../utilities/ceremonies/ceremony-date-helpers";
+import { findOrCreateDateByCode } from "../../../utilities/ceremonies/ceremony-date-helpers";
 import { CeremonyDateDetails } from "../ceremony-date-details/ceremony-date-details";
 
 export class MarriageDates extends React.Component<MarriageDatesProps, MarriageDatesState> {
@@ -16,11 +16,11 @@ export class MarriageDates extends React.Component<MarriageDatesProps, MarriageD
     }
 
     render() {
-        let initialPhoneCall = findDateByCode(this.props.dates, CeremonyDateCodes.InitialPhoneCall);
-        let initialInterview = findDateByCode(this.props.dates, CeremonyDateCodes.InitialInterview);
-        let rehearsal = findDateByCode(this.props.dates, CeremonyDateCodes.Rehearsal);
-        let ceremony = findDateByCode(this.props.dates, CeremonyDateCodes.Ceremony);
-        let reception = findDateByCode(this.props.dates, CeremonyDateCodes.Reception);
+        let initialPhoneCall = findOrCreateDateByCode(this.props.dates, CeremonyDateCodes.InitialPhoneCall);
+        let initialInterview = findOrCreateDateByCode(this.props.dates, CeremonyDateCodes.InitialInterview);
+        let rehearsal = findOrCreateDateByCode(this.props.dates, CeremonyDateCodes.Rehearsal);
+        let ceremony = findOrCreateDateByCode(this.props.dates, CeremonyDateCodes.Ceremony);
+        let reception = findOrCreateDateByCode(this.props.dates, CeremonyDateCodes.Reception);
 
         return (
             <Fragment>

@@ -40,9 +40,9 @@ export class CeremoniesService {
         await this.httpService.putWithNoResponse(url, ceremony, context);
     }
 
-    public async updateDate(ceremonyId: number, date: UpdateCeremonyDateRequest, context: RootContextProps): Promise<void> {
+    public async updateDate(ceremonyId: number, date: UpdateCeremonyDateRequest, context: RootContextProps): Promise<CeremonyDateDTO> {
         const url = `ceremonies/${ceremonyId}/dates`;
 
-        await this.httpService.putWithNoResponse(url, date, context);
+        return await this.httpService.put(url, date, context);
     }
 }

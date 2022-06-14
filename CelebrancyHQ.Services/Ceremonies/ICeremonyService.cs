@@ -53,7 +53,9 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// Updates the specified date.
         /// </summary>
         /// <param name="date">The date.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
-        Task UpdateDate(UpdateCeremonyDateRequest date, int currentUserId);
+        /// <returns>The newly created date.</returns>
+        Task<CeremonyDateDTO> UpdateDate(UpdateCeremonyDateRequest date, int ceremonyId, int currentUserId);
     }
 }

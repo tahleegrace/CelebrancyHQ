@@ -6,12 +6,17 @@
     public class UpdateCeremonyDateRequest
     {
         /// <summary>
-        /// The ID of the ceremony date.
+        /// Gets or sets the ID of the ceremony date.
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
-        /// The date.
+        /// Gets or sets the code of the ceremony date.
+        /// </summary>
+        public string? Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date.
         /// </summary>
         public DateTime Date { get; set; }
     }

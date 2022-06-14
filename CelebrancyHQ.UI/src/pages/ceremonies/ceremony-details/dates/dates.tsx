@@ -28,16 +28,21 @@ class CeremonyDates extends CommonTab<CeremonyDatesProps, CeremonyDatesState> {
     async dateUpdated(date: CeremonyDateDTO) {
         let newDates = cloneDeep(this.state.dates);
 
-        let newDate = this.state.dates.filter(d => d.id == date.id)[0];
-        newDate.date = date.date;
-
         let updateRequest = {
-            id: newDate.id,
-            date: newDate.date
+            id: date.id as number,
+            code: date.code,
+            date: date.date
         };
 
         const context = this.context as CeremonyDetailsContextProps;
-        await this.ceremoniesService.updateDate(context.ceremonyId as number, updateRequest, context.rootContext as RootContextProps);
+        const createdDate = await this.ceremoniesService.updateDate(context.ceremonyId as number, updateRequest, context.rootContext as RootContextProps);
+
+        if (date.id) {
+            let newDate = this.state.dates.filter(d => d.id == date.id)[0];
+            newDate.date = date.date;
+        } else {
+            newDates.push(createdDate);
+        }
 
         this.setState({ dates: newDates });
     }

@@ -44,6 +44,19 @@ namespace CelebrancyHQ.Repository.Ceremonies
                                                     .FirstOrDefaultAsync();
         }
 
+        // <summary>
+        /// Gets the ceremony date for the specified ceremony with the specified code.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="code">The code.</param>
+        /// <returns>The ceremony date with the specified code.</returns>
+        public async Task<CeremonyDate?> FindByCode(int ceremonyId, string code)
+        {
+            return await this._context.CeremonyDates.Include(cd => cd.CeremonyTypeDate)
+                                                    .Where(cd => cd.CeremonyId == ceremonyId && cd.CeremonyTypeDate.Code == code && !cd.Deleted)
+                                                    .FirstOrDefaultAsync();
+        }
+
         /// <summary>
         /// Creates a new ceremony date.
         /// </summary>
@@ -66,11 +79,14 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// Updates the specified date.
         /// </summary>
         /// <param name="date">The date.</param>
-        public async Task Update(CeremonyDate date)
+        /// <returns>The newly updated date.</returns>
+        public async Task<CeremonyDate> Update(CeremonyDate date)
         {
             date.Updated = DateTime.UtcNow;
             this._context.Entry(date).State = EntityState.Modified;
             await this._context.SaveChangesAsync();
+
+            return date;
         }
     }
 }

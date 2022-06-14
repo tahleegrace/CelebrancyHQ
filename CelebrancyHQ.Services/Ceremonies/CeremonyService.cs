@@ -253,38 +253,86 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// Updates the specified date.
         /// </summary>
         /// <param name="date">The date.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
-        public async Task UpdateDate(UpdateCeremonyDateRequest date, int currentUserId)
+        /// <returns>The newly updated date.</returns>
+        public async Task<CeremonyDateDTO> UpdateDate(UpdateCeremonyDateRequest date, int ceremonyId, int currentUserId)
         {
             // TODO: Convert the date to UTC.
-            if ((date == null) || (date.Id <= 0))
+            if ((date == null) || (date.Id <= 0 || String.IsNullOrWhiteSpace(date.Code)) || (date.Code == CeremonyTypeDateConstants.OtherCode))
             {
                 throw new CeremonyDateNotProvidedException();
             }
 
-            // TODO: Handle creating a date that doesn't exist and doesn't have a code of Other here.
-            var existingDate = await this._ceremonyDateRepository.FindById(date.Id);
-
-            if (existingDate == null)
-            {
-                throw new CeremonyDateNotFoundException(date.Id);
-            }
-
-            var (user, ceremony) = await CheckCeremonyIsAccessible(existingDate.CeremonyId, currentUserId);
+            var (user, ceremony) = await CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to edit the date.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.Dates);
 
+            bool creatingNewDate = false;
+            CeremonyDate? dateToUpdate;
+
+            // Determine whether we are creating an new date (other than a date of type Other).
+            if (date.Id != null)
+            {
+                dateToUpdate = await this._ceremonyDateRepository.FindById(date.Id.Value);
+
+                if (dateToUpdate == null)
+                {
+                    throw new CeremonyDateNotFoundException(date.Id.Value);
+                }
+
+                creatingNewDate = false;
+            }
+            else
+            {
+                dateToUpdate = await this._ceremonyDateRepository.FindByCode(ceremonyId, date.Code);
+
+                if (dateToUpdate == null)
+                {
+                    var ceremonyTypeDate = await this._ceremonyTypeDateRepository.FindByCode(date.Code, ceremony.CeremonyTypeId);
+
+                    if (ceremonyTypeDate == null)
+                    {
+                        throw new CeremonyTypeDateNotFoundWithCodeException(date.Code);
+                    }
+
+                    dateToUpdate = this._mapper.Map<CeremonyDate>(date);
+                    dateToUpdate.Ceremony = ceremony;
+                    dateToUpdate.CeremonyTypeDate = ceremonyTypeDate;
+
+                    creatingNewDate = true;
+                } 
+                else
+                {
+                    creatingNewDate = false;
+                }
+            }
+
             // Generate audit events for the date.
-            var auditEvents = this._ceremonyDateAuditingService.GenerateAuditEvents(existingDate, this._mapper.Map<CeremonyDate>(date));
+            var newDateForAuditing = this._mapper.Map<CeremonyDate>(date);
+            newDateForAuditing.CeremonyTypeDate = dateToUpdate.CeremonyTypeDate;
+
+            var auditEvents = this._ceremonyDateAuditingService.GenerateAuditEvents(!creatingNewDate ? dateToUpdate : null, newDateForAuditing);
 
             // Save the date.
-            this._mapper.Map(date, existingDate);
-            await this._ceremonyDateRepository.Update(existingDate);
+            CeremonyDate newDate;
+
+            if (creatingNewDate)
+            {
+                newDate = await this._ceremonyDateRepository.Create(dateToUpdate);
+            }
+            else
+            {
+                this._mapper.Map(date, dateToUpdate);
+                newDate = await this._ceremonyDateRepository.Update(dateToUpdate);
+            }
 
             // Save the audit logs for the date.
-            await this._ceremonyDateAuditingService.SaveAuditEvents(existingDate, ceremony, user.PersonId, auditEvents);
+            await this._ceremonyDateAuditingService.SaveAuditEvents(dateToUpdate, ceremony, user.PersonId, auditEvents);
+
+            return this._mapper.Map<CeremonyDateDTO>(newDate);
         }
 
         private async Task CheckCanViewCeremony(int ceremonyId, int personId, string field)

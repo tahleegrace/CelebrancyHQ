@@ -1,5 +1,5 @@
 export interface CeremonyDateDTO {
-    id: number;
+    id?: number;
     code: string;
     name: string;
     customName?: string;
