@@ -31,5 +31,23 @@ namespace CelebrancyHQ.Repository.Persons
 
             return person;
         }
+
+        /// <summary>
+        /// Creates a new person
+        /// </summary>
+        /// <param name="person">The person.</param>
+        /// <returns>The newly created person.</returns>
+        public async Task<Person> Create(Person person)
+        {
+            person.Created = DateTime.UtcNow;
+            person.Updated = DateTime.UtcNow;
+
+            this._context.Persons.Add(person);
+
+            await this._context.SaveChangesAsync();
+
+            var newPerson = await FindById(person.Id);
+            return newPerson;
+        }
     }
 }

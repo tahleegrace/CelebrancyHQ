@@ -21,6 +21,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets the ceremony participant with the specified ID.
+        /// </summary>
+        /// <param name="ceremonyParticipantId">The ID of the ceremony participant.</param>
+        /// <returns>The ceremony participant with the specified ID.</returns>
+        public async Task<CeremonyParticipant?> FindById(int ceremonyParticipantId)
+        {
+            return await this._context.CeremonyParticipants.Include(cp => cp.CeremonyTypeParticipant)
+                                                           .Where(cp => cp.Id == ceremonyParticipantId && !cp.Deleted)
+                                                           .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Gets whether the specified person is a participant in the specified ceremony.
         /// </summary>
         /// <param name="personId">The ID of the person.</param>
@@ -44,6 +56,24 @@ namespace CelebrancyHQ.Repository.Ceremonies
                                                            .Where(cp => cp.CeremonyId == ceremonyId && !cp.Deleted)
                                                            .ToListAsync();
                 
+        }
+
+        /// <summary>
+        /// Creates a new ceremony participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <returns>The newly created ceremony participant.</returns>
+        public async Task<CeremonyParticipant> Create(CeremonyParticipant participant)
+        {
+            participant.Created = DateTime.UtcNow;
+            participant.Updated = DateTime.UtcNow;
+
+            this._context.CeremonyParticipants.Add(participant);
+
+            await this._context.SaveChangesAsync();
+
+            var newParticipant = await FindById(participant.Id);
+            return newParticipant;
         }
     }
 }
