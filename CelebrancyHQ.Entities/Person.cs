@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Newtonsoft.Json;
+
 namespace CelebrancyHQ.Entities
 {
     /// <summary>
@@ -62,6 +64,7 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the organisation of the person.
         /// </summary>
+        [JsonIgnore]
         public Organisation? Organisation { get; set; }
 
         /// <summary>
