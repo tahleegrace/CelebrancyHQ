@@ -78,6 +78,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyParticipant> CeremonyParticipants { get; set; }
 
         /// <summary>
+        /// The ceremony access invitations table.
+        /// </summary>
+        public DbSet<CeremonyAccessInvitation> CeremonyAccessInvitations { get; set; }
+
+        /// <summary>
         /// The ceremony venues table.
         /// </summary>
         public DbSet<CeremonyVenue> CeremonyVenues { get; set; }
