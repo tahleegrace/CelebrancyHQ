@@ -43,5 +43,10 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets the description of the ceremony type participant.
         /// </summary>
         public string? Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum number of participants a ceremony type can have for this participant type.
+        /// </summary>
+        public int? MaximumNumberOfParticipants { get; set; }
     }
 }
