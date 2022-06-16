@@ -95,6 +95,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.WitnessCode,
                     Name = "Witness",
+                    MinimumNumberOfParticipants = 2,
                     MaximumNumberOfParticipants = 2,
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate

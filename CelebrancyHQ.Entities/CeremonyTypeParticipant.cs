@@ -45,6 +45,11 @@ namespace CelebrancyHQ.Entities
         public string? Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the minimum number of required participants for this participant type.
+        /// </summary>
+        public int? MinimumNumberOfParticipants { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum number of participants a ceremony type can have for this participant type.
         /// </summary>
         public int? MaximumNumberOfParticipants { get; set; }
