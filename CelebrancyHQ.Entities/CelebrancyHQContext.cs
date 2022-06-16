@@ -23,6 +23,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Person> Persons { get; set; }
 
         /// <summary>
+        /// The person audit logs table.
+        /// </summary>
+        public DbSet<PersonAuditLog> PersonAuditLogs { get; set; }
+
+        /// <summary>
         /// The person phone numbers table.
         /// </summary>
         public DbSet<PersonPhoneNumber> PersonPhoneNumbers { get; set; }
