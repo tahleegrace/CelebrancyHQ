@@ -21,6 +21,11 @@
         public string FirstName { get; set; }
 
         /// <summary>
+        /// Gets or sets the middle names of the user.
+        /// </summary>
+        public string? MiddleNames { get; set; }
+
+        /// <summary>
         /// Gets or sets the last name of the user.
         /// </summary>
         public string LastName { get; set; }

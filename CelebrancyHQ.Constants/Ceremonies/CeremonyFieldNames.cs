@@ -7,6 +7,7 @@
     {
         public const string KeyDetails = "KeyDetails";
         public const string Dates = "Dates";
+        public const string Participants = "Participants";
 
         public static readonly IReadOnlyList<string> FieldNames = new List<string>() { KeyDetails, Dates };
     }

@@ -67,7 +67,19 @@ CeremonyType
 Code
 Name
 Description
+MinimumNumberOfParticipants
 MaximumNumberOfParticipants
+
+CeremonyTypeDefaultPermissions - the default permissions for ceremonies of a ceremony type
+-----------------------------
+ID
+CeremonyTypeParticipant
+FieldName
+CanView
+CanEdit
+CanEditWithApproval
+IsApprover
+CanViewHistory
 
 CeremonyParticipants - any participants for the ceremony
 --------------------------------

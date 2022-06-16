@@ -33,5 +33,17 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             return ids;
         }
+
+        /// <summary>
+        /// Finds the ceremony type participant for the specified ceremony type with the specified code.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <param name="code">The code of the ceremony type participant.</param>
+        /// <returns>The ceremony type participant for the specified ceremony type with the specified code.</returns>
+        public async Task<CeremonyTypeParticipant?> FindByCode(int ceremonyTypeId, string code)
+        {
+            return await this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code == code && !tp.Deleted)
+                                                               .FirstOrDefaultAsync();
+        }
     }
 }

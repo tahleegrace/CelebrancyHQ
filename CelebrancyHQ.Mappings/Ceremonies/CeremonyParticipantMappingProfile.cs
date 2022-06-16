@@ -15,6 +15,8 @@ namespace CelebrancyHQ.Mappings.Ceremonies
             CreateMap<CeremonyParticipant, CeremonyParticipantDTO>()
                 .ForMember(dest => dest.Code, source => source.MapFrom(item => item.CeremonyTypeParticipant.Code))
                 .ForMember(dest => dest.Name, source => source.MapFrom(item => item.CeremonyTypeParticipant.Name));
+
+            CreateMap<CreateCeremonyParticipantRequest, Person>();
         }
     }
 }

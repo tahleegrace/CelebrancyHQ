@@ -20,6 +20,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     public class CeremonyService : ICeremonyService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPersonRepository _personRepository;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyTypeDateRepository _ceremonyTypeDateRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
@@ -31,12 +32,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IOrganisationPhoneNumberRepository _organisationPhoneNumberRepository;
         private readonly ICeremonyAuditingService _ceremonyAuditingService;
         private readonly ICeremonyDateAuditingService _ceremonyDateAuditingService;
+        private readonly ICeremonyParticipantAuditingService _ceremonyParticipantAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates a new instance of CeremonyService.
         /// </summary>
         /// <param name="userRepository">The users repository.</param>
+        /// <param name="personRepository">The persons repository.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyTypeDateRepository">The ceremony type dates repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
@@ -48,15 +51,17 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
         /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
         /// <param name="ceremonyDateAuditingService">The ceremony date auditing service.</param>
+        /// <param name="ceremonyParticipantAuditingService">The ceremony participant auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyService(IUserRepository userRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
+        public CeremonyService(IUserRepository userRepository, IPersonRepository personRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyTypeDateRepository ceremonyTypeDateRepository, ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
             ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
             ICeremonyDateRepository ceremonyDateRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
             IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, ICeremonyAuditingService ceremonyAuditingService, 
-            ICeremonyDateAuditingService ceremonyDateAuditingService, IMapper mapper)
+            ICeremonyDateAuditingService ceremonyDateAuditingService, ICeremonyParticipantAuditingService ceremonyParticipantAuditingService, IMapper mapper)
         {
             this._userRepository = userRepository;
+            this._personRepository = personRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyTypeDateRepository = ceremonyTypeDateRepository;
             this._ceremonyRepository = ceremonyRepository;
@@ -68,6 +73,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._organisationPhoneNumberRepository = organisationPhoneNumberRepository;
             this._ceremonyAuditingService = ceremonyAuditingService;
             this._ceremonyDateAuditingService = ceremonyDateAuditingService;
+            this._ceremonyParticipantAuditingService = ceremonyParticipantAuditingService;
             this._mapper = mapper;
         }
 
@@ -234,7 +240,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.Dates);
 
             // Save the date.
-            var otherCeremonyTypeDate = await this._ceremonyTypeDateRepository.FindByCode(CeremonyTypeDateConstants.OtherCode, ceremony.CeremonyType.Id);
+            var otherCeremonyTypeDate = await this._ceremonyTypeDateRepository.FindByCode(CeremonyTypeDateConstants.OtherCode, ceremony.CeremonyTypeId);
 
             var dateToCreate = this._mapper.Map<CeremonyDate>(date);
             dateToCreate.CeremonyId = ceremonyId;
@@ -347,6 +353,61 @@ namespace CelebrancyHQ.Services.Ceremonies
             await this._ceremonyDateAuditingService.SaveAuditEvents(dateToUpdate, ceremony, user.PersonId, auditEvents);
 
             return this._mapper.Map<CeremonyDateDTO>(newDate);
+        }
+
+        /// <summary>
+        /// Creates a new ceremony participant.
+        /// </summary>
+        /// <param name="request">The participant.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The newly created participant.</returns>
+        public async Task<CeremonyParticipantDTO> CreateParticipant(CreateCeremonyParticipantRequest request, int ceremonyId, int currentUserId)
+        {
+            if (request == null || String.IsNullOrWhiteSpace(request.Code))
+            {
+                throw new CeremonyParticipantNotProvidedException();
+            }
+
+            var (user, ceremony) = await CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+
+            // Make sure the user has permissions to edit the date.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.Participants);
+
+            // Save the person.
+            // TODO: Handle the scenario where a person already exists with the specified email address here.
+            // TODO: Save the person's phone number here.
+            // TODO: Create a ceremony access invitation for the person here.
+            var ceremonyTypeParticipant = await this._ceremonyTypeParticipantRepository.FindByCode(ceremony.CeremonyTypeId, request.Code);
+
+            if (ceremonyTypeParticipant == null)
+            {
+                throw new CeremonyTypeParticipantNotFoundWithCodeException(request.Code);
+            }
+
+            // TODO: Create audit events for creating a new person here.
+            var personToCreate = this._mapper.Map<Person>(request);
+            var newPerson = await this._personRepository.Create(personToCreate);
+
+            // Save the ceremony participant.
+            var participantToCreate = new CeremonyParticipant()
+            {
+                CeremonyId = ceremony.Id,
+                PersonId = newPerson.Id,
+                CeremonyTypeParticipantId = ceremonyTypeParticipant.Id
+            };
+
+            var newParticipant = await this._ceremonyParticipantRepository.Create(participantToCreate);
+
+            // Generate and save audit logs for the participant.
+            var auditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
+            await this._ceremonyParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, user.PersonId, auditEvents);
+
+            var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
+            result.Name = ceremonyTypeParticipant.Name;
+            result.Code = ceremonyTypeParticipant.Code;
+            return result;
         }
 
         private async Task CheckCanViewCeremony(int ceremonyId, int personId, string field)

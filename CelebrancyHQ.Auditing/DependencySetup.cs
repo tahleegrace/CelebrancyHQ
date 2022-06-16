@@ -14,6 +14,7 @@ namespace CelebrancyHQ.Auditing
         {
             services.AddScoped<ICeremonyAuditingService, CeremonyAuditingService>();
             services.AddScoped<ICeremonyDateAuditingService, CeremonyDateAuditingService>();
+            services.AddScoped<ICeremonyParticipantAuditingService, CeremonyParticipantAuditingService>();
         }
     }
 }

@@ -165,6 +165,7 @@ namespace CelebrancyHQ.API.Controllers
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="request">The date.</param>
+        /// <returns>The newly updated date.</returns>
         [HttpPut("{ceremonyId}/dates")]
         public async Task<ActionResult<CeremonyDateDTO>> UpdateDate(int ceremonyId, UpdateCeremonyDateRequest request)
         {
@@ -174,11 +175,41 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return await this._ceremoniesService.UpdateDate(request, ceremonyId, currentUserId.Value);
             }
-            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyDateNotFoundException || ex is UserNotFoundException)
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyDateNotFoundException|| ex is CeremonyTypeDateNotFoundWithCodeException 
+                || ex is UserNotFoundException)
             {
                 return NotFound();
             }
             catch (CeremonyDateNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
+        /// Creates a new participant.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="request">The participant.</param>
+        /// <returns>The newly created participant</returns>
+        [HttpPost("{ceremonyId}/participants")]
+        public async Task<ActionResult<CeremonyParticipantDTO>> CreateParticipant(int ceremonyId, CreateCeremonyParticipantRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremoniesService.CreateParticipant(request, ceremonyId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyTypeParticipantNotFoundWithCodeException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (CeremonyParticipantNotProvidedException)
             {
                 return BadRequest();
             }
