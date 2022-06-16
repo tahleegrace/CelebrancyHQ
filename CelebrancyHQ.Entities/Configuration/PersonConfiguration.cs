@@ -24,6 +24,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     Title = "Mx",
                     Gender = "Other",
                     DateOfBirth = new DateTime(2022, 5, 9).ToUniversalTime(),
+                    Registered = true,
                     Created = GeneralConstants.SeedDataCreationDate,
                     Updated = GeneralConstants.SeedDataCreationDate
                 }

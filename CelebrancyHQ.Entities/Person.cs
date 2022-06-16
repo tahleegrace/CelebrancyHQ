@@ -71,5 +71,11 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets the organisation ID of the person.
         /// </summary>
         public int? OrganisationId { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the user has been registered.
+        /// </summary>
+        [Required]
+        public bool Registered { get; set; }
     }
 }
