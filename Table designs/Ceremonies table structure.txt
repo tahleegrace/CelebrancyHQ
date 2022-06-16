@@ -92,7 +92,8 @@ Notes
 CeremonyAccessInvitations - an invitation to access a ceremony (created by an organiser, couple or celebrant)
 ------------------
 ID
-CeremonyParticipant
+Ceremony
+Person
 UniqueCode
 Accepted
 

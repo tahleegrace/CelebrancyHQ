@@ -16,16 +16,28 @@ namespace CelebrancyHQ.Entities
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the ceremony participant the access invitation is attached to.
+        /// Gets or sets the ceremony.
         /// </summary>
         [Required]
-        public CeremonyParticipant CeremonyParticipant { get; set; }
+        public Ceremony Ceremony { get; set; }
 
         /// <summary>
-        /// Gets or sets the ceremony participant the access invitation is attached to.
+        /// Gets or sets the ID of the ceremony.
         /// </summary>
         [Required]
-        public int CeremonyParticipantId { get; set; }
+        public int CeremonyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the person.
+        /// </summary>
+        [Required]
+        public Person Person { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the person.
+        /// </summary>
+        [Required]
+        public int PersonId { get; set; }
 
         /// <summary>
         /// Gets or sets the unique code used to access the invitation.
