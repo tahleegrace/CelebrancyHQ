@@ -13,6 +13,8 @@ namespace CelebrancyHQ.Mappings.Addresses
         public AddressMappingProfile()
         {
             CreateMap<Address, AddressDTO>();
+
+            CreateMap<CreateAddressRequest, Address>();
         }
     }
 }

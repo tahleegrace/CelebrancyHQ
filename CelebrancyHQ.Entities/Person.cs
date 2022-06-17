@@ -59,11 +59,13 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the address of the person.
         /// </summary>
+        [JsonIgnore]
         public Address? Address { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the address of the person.
         /// </summary>
+        [JsonIgnore]
         public int? AddressId { get; set; }
 
         /// <summary>
@@ -80,6 +82,7 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the organisation ID of the person.
         /// </summary>
+        [JsonIgnore]
         public int? OrganisationId { get; set; }
 
         /// <summary>

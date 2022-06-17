@@ -15,7 +15,7 @@ namespace CelebrancyHQ.Repository.Persons
         Task<Person?> FindById(int id);
 
         /// <summary>
-        /// Creates a new person
+        /// Creates a new person.
         /// </summary>
         /// <param name="person">The person.</param>
         /// <returns>The newly created person.</returns>

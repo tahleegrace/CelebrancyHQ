@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 
+using CelebrancyHQ.Auditing.Addresses;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Repository.Persons;
@@ -7,37 +8,19 @@ using CelebrancyHQ.Repository.Persons;
 namespace CelebrancyHQ.Auditing.Persons
 {
     /// <summary>
-    /// The person phone number auditing service.
+    /// The person address auditing service.
     /// </summary>
-    public class PersonPhoneNumberAuditingService : IPersonPhoneNumberAuditingService
+    public class PersonAddressAuditingService : AddressAuditingService, IPersonAddressAuditingService
     {
         private readonly IPersonAuditLogRepository _personAuditLogRepository;
 
         /// <summary>
-        /// Creates a new instance of PersonPhoneNumberAuditingService.
+        /// Creates a new instance of PersonAddressAuditingService.
         /// </summary>
         /// <param name="personAuditLogRepository">The person audit logs repository.</param>
-        public PersonPhoneNumberAuditingService(IPersonAuditLogRepository personAuditLogRepository)
+        public PersonAddressAuditingService(IPersonAuditLogRepository personAuditLogRepository)
         {
             this._personAuditLogRepository = personAuditLogRepository;
-        }
-
-        /// <summary>
-        /// Generates audit logs for the changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.
-        /// </summary>
-        /// <param name="oldEntity">The old entity.</param>
-        /// <param name="newEntity">The new entity.</param>
-        /// <returns>A list of audit logs for changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.</returns>
-        public List<AuditEvent> GenerateAuditEvents(PersonPhoneNumber? oldEntity, PersonPhoneNumber? newEntity)
-        {
-            List<AuditEvent> auditEvents = new List<AuditEvent>();
-
-            if (oldEntity == null && newEntity != null)
-            {
-                auditEvents.Add(new PersonPhoneNumberCreatedEvent(newEntity));
-            }
-
-            return auditEvents;
         }
 
         /// <summary>
@@ -47,7 +30,7 @@ namespace CelebrancyHQ.Auditing.Persons
         /// <param name="parentEntity">The parent entity.</param>
         /// <param name="personId">The ID of the person who made the changes.</param>
         /// <param name="auditEvents">The audit events to save.</param>
-        public async Task SaveAuditEvents(PersonPhoneNumber entity, Person parentEntity, int personId, List<AuditEvent> auditEvents)
+        public async Task SaveAuditEvents(Address entity, Person parentEntity, int personId, List<AuditEvent> auditEvents)
         {
             if (auditEvents == null || auditEvents.Count == 0)
             {
