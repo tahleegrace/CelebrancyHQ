@@ -15,6 +15,7 @@ using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;
+using CelebrancyHQ.Services.Authentication;
 
 namespace CelebrancyHQ.Services.Ceremonies
 {
@@ -33,6 +34,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyTypeDateRepository _ceremonyTypeDateRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
         private readonly ICeremonyPermissionRepository _ceremonyPermissionRepository;
+        private readonly ICeremonyAccessInvitationRepository _ceremonyAccessInvitationRepository;
         private readonly ICeremonyVenueRepository _ceremonyVenuesRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
         private readonly ICeremonyDateRepository _ceremonyDateRepository;
@@ -41,6 +43,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyAuditingService _ceremonyAuditingService;
         private readonly ICeremonyDateAuditingService _ceremonyDateAuditingService;
         private readonly ICeremonyParticipantAuditingService _ceremonyParticipantAuditingService;
+        private readonly IUniqueCodeGenerationService _uniqueCodeGenerationService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -56,6 +59,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyTypeDateRepository">The ceremony type dates repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
         /// <param name="ceremonyPermissionRepository">The ceremony permissions repository.</param>
+        /// <param name="ceremonyAccessInvitationRepository">The ceremony access invitations repository.</param>
         /// <param name="ceremonyVenuesRepository">The ceremony venues repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
         /// <param name="ceremonyDateRepository">The ceremony dates repository.</param>
@@ -64,15 +68,17 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
         /// <param name="ceremonyDateAuditingService">The ceremony date auditing service.</param>
         /// <param name="ceremonyParticipantAuditingService">The ceremony participant auditing service.</param>
+        /// <param name="uniqueCodeGenerationService">The unique code generation service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, IPersonRepository personRepository, IPersonAuditingService personAuditingService,
             IPersonPhoneNumberAuditingService personPhoneNumberAuditingService, IPersonAddressAuditingService personAddressAuditingService, 
             IAddressRepository addressRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository, 
             ICeremonyTypeDateRepository ceremonyTypeDateRepository, ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
-            ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
-            ICeremonyDateRepository ceremonyDateRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
-            IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, ICeremonyAuditingService ceremonyAuditingService, 
-            ICeremonyDateAuditingService ceremonyDateAuditingService, ICeremonyParticipantAuditingService ceremonyParticipantAuditingService, IMapper mapper)
+            ICeremonyAccessInvitationRepository ceremonyAccessInvitationRepository, ICeremonyVenueRepository ceremonyVenuesRepository, 
+            ICeremonyParticipantRepository ceremonyParticipantRepository, ICeremonyDateRepository ceremonyDateRepository, 
+            IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, 
+            ICeremonyAuditingService ceremonyAuditingService, ICeremonyDateAuditingService ceremonyDateAuditingService, 
+            ICeremonyParticipantAuditingService ceremonyParticipantAuditingService, IUniqueCodeGenerationService uniqueCodeGenerationService, IMapper mapper)
         {
             this._userRepository = userRepository;
             this._personRepository = personRepository;
@@ -84,6 +90,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._ceremonyTypeDateRepository = ceremonyTypeDateRepository;
             this._ceremonyRepository = ceremonyRepository;
             this._ceremonyPermissionRepository = ceremonyPermissionRepository;
+            this._ceremonyAccessInvitationRepository = ceremonyAccessInvitationRepository;
             this._ceremonyVenuesRepository = ceremonyVenuesRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
             this._ceremonyDateRepository = ceremonyDateRepository;
@@ -92,6 +99,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._ceremonyAuditingService = ceremonyAuditingService;
             this._ceremonyDateAuditingService = ceremonyDateAuditingService;
             this._ceremonyParticipantAuditingService = ceremonyParticipantAuditingService;
+            this._uniqueCodeGenerationService = uniqueCodeGenerationService;
             this._mapper = mapper;
         }
 
@@ -412,7 +420,6 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Save the person.
             // TODO: Handle the scenario where a person already exists with the specified email address here.
-            // TODO: Create a ceremony access invitation for the person here.
             var personToCreate = this._mapper.Map<Person>(request);
             personToCreate.AddressId = newAddress?.Id;
 
@@ -460,10 +467,22 @@ namespace CelebrancyHQ.Services.Ceremonies
             var participantAuditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
             await this._ceremonyParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, currentUser.PersonId, participantAuditEvents);
 
+            // Create an access invitation for the new person.
+            var invitation = new CeremonyAccessInvitation()
+            {
+                CeremonyId = ceremony.Id,
+                PersonId = newPerson.Id,
+                UniqueCode = this._uniqueCodeGenerationService.GenerateUniqueCode(CeremonyAccessInvitationConstants.UniqueCodeLength),
+                Accepted = false
+            };
+
+            await this._ceremonyAccessInvitationRepository.Create(invitation);
+
             var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
             result.Name = ceremonyTypeParticipant.Name;
             result.Code = ceremonyTypeParticipant.Code;
             result.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(newPhoneNumbers);
+            result.Address = this._mapper.Map<AddressDTO>(newAddress);
             return result;
         }
 
