@@ -57,6 +57,16 @@ namespace CelebrancyHQ.Entities
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets the address of the person.
+        /// </summary>
+        public Address? Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the address of the person.
+        /// </summary>
+        public int? AddressId { get; set; }
+
+        /// <summary>
         /// Gets or sets the date of birth of the person.
         /// </summary>
         public DateTime? DateOfBirth { get; set; }

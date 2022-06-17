@@ -5,6 +5,7 @@ FirstName
 LastName
 PreferredName
 EmailAddress
+Address
 Title
 Gender
 Registered
