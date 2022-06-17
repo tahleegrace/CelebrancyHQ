@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Auditing.Persons;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
@@ -21,6 +22,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     {
         private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
+        private readonly IPersonAuditingService _personAuditingService;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyTypeDateRepository _ceremonyTypeDateRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
@@ -40,6 +42,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// </summary>
         /// <param name="userRepository">The users repository.</param>
         /// <param name="personRepository">The persons repository.</param>
+        /// <param name="personAuditingService">The person auditing service.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyTypeDateRepository">The ceremony type dates repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
@@ -53,8 +56,9 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyDateAuditingService">The ceremony date auditing service.</param>
         /// <param name="ceremonyParticipantAuditingService">The ceremony participant auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyService(IUserRepository userRepository, IPersonRepository personRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
-            ICeremonyTypeDateRepository ceremonyTypeDateRepository, ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
+        public CeremonyService(IUserRepository userRepository, IPersonRepository personRepository, IPersonAuditingService personAuditingService,
+            ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository, ICeremonyTypeDateRepository ceremonyTypeDateRepository, 
+            ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
             ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
             ICeremonyDateRepository ceremonyDateRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
             IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, ICeremonyAuditingService ceremonyAuditingService, 
@@ -62,6 +66,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         {
             this._userRepository = userRepository;
             this._personRepository = personRepository;
+            this._personAuditingService = personAuditingService;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyTypeDateRepository = ceremonyTypeDateRepository;
             this._ceremonyRepository = ceremonyRepository;
@@ -386,9 +391,12 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyTypeParticipantNotFoundWithCodeException(request.Code);
             }
 
-            // TODO: Create audit events for creating a new person here.
             var personToCreate = this._mapper.Map<Person>(request);
             var newPerson = await this._personRepository.Create(personToCreate);
+
+            // Generate and save audit logs for the new person.
+            var personAuditEvents = this._personAuditingService.GenerateAuditEvents(null, newPerson);
+            await this._personAuditingService.SaveAuditEvents(newPerson, user.PersonId, personAuditEvents);
 
             // Save the ceremony participant.
             var participantToCreate = new CeremonyParticipant()
@@ -401,8 +409,8 @@ namespace CelebrancyHQ.Services.Ceremonies
             var newParticipant = await this._ceremonyParticipantRepository.Create(participantToCreate);
 
             // Generate and save audit logs for the participant.
-            var auditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
-            await this._ceremonyParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, user.PersonId, auditEvents);
+            var participantAuditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
+            await this._ceremonyParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, user.PersonId, participantAuditEvents);
 
             var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
             result.Name = ceremonyTypeParticipant.Name;

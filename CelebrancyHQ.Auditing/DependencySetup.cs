@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Auditing.Persons;
 
 namespace CelebrancyHQ.Auditing
 {
@@ -12,6 +13,8 @@ namespace CelebrancyHQ.Auditing
         /// </summary>
         public static void AddCelebrancyHQAuditingServices(this IServiceCollection services)
         {
+            services.AddScoped<IPersonAuditingService, PersonAuditingService>();
+
             services.AddScoped<ICeremonyAuditingService, CeremonyAuditingService>();
             services.AddScoped<ICeremonyDateAuditingService, CeremonyDateAuditingService>();
             services.AddScoped<ICeremonyParticipantAuditingService, CeremonyParticipantAuditingService>();
