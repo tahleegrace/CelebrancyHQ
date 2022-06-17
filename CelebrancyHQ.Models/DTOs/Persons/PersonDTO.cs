@@ -1,4 +1,6 @@
-﻿namespace CelebrancyHQ.Models.DTOs.Persons
+﻿using CelebrancyHQ.Models.DTOs.PhoneNumbers;
+
+namespace CelebrancyHQ.Models.DTOs.Persons
 {
     /// <summary>
     /// Stores details about a user.
@@ -59,5 +61,10 @@
         /// Gets or sets the primary phone number of the user.
         /// </summary>
         public string? PrimaryPhoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone numbers of the user.
+        /// </summary>
+        public List<PhoneNumberDTO> PhoneNumbers { get; set; }
     }
 }

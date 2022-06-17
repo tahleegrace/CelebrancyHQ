@@ -6,6 +6,7 @@ using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Organisations;
+using CelebrancyHQ.Models.DTOs.PhoneNumbers;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
@@ -23,6 +24,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IPersonAuditingService _personAuditingService;
+        private readonly IPersonPhoneNumberAuditingService _personPhoneNumberAuditingService;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyTypeDateRepository _ceremonyTypeDateRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
@@ -43,6 +45,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="userRepository">The users repository.</param>
         /// <param name="personRepository">The persons repository.</param>
         /// <param name="personAuditingService">The person auditing service.</param>
+        /// <param name="personPhoneNumberAuditingService">The person phone number auditing service.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyTypeDateRepository">The ceremony type dates repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
@@ -57,8 +60,8 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyParticipantAuditingService">The ceremony participant auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyService(IUserRepository userRepository, IPersonRepository personRepository, IPersonAuditingService personAuditingService,
-            ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository, ICeremonyTypeDateRepository ceremonyTypeDateRepository, 
-            ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
+            IPersonPhoneNumberAuditingService personPhoneNumberAuditingService, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository, 
+            ICeremonyTypeDateRepository ceremonyTypeDateRepository, ICeremonyRepository ceremonyRepository, ICeremonyPermissionRepository ceremonyPermissionRepository, 
             ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository, 
             ICeremonyDateRepository ceremonyDateRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
             IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, ICeremonyAuditingService ceremonyAuditingService, 
@@ -67,6 +70,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._userRepository = userRepository;
             this._personRepository = personRepository;
             this._personAuditingService = personAuditingService;
+            this._personPhoneNumberAuditingService = personPhoneNumberAuditingService;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyTypeDateRepository = ceremonyTypeDateRepository;
             this._ceremonyRepository = ceremonyRepository;
@@ -380,10 +384,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await CheckCanEditCeremony(ceremony.Id, user.PersonId, CeremonyFieldNames.Participants);
 
-            // Save the person.
-            // TODO: Handle the scenario where a person already exists with the specified email address here.
-            // TODO: Save the person's phone number here.
-            // TODO: Create a ceremony access invitation for the person here.
+            // Make sure there is a ceremony type participant with the specified code.
             var ceremonyTypeParticipant = await this._ceremonyTypeParticipantRepository.FindByCode(ceremony.CeremonyTypeId, request.Code);
 
             if (ceremonyTypeParticipant == null)
@@ -391,12 +392,33 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyTypeParticipantNotFoundWithCodeException(request.Code);
             }
 
+            // Save the person.
+            // TODO: Save the address for the person here.
+            // TODO: Handle the scenario where a person already exists with the specified email address here.
+            // TODO: Create a ceremony access invitation for the person here.
             var personToCreate = this._mapper.Map<Person>(request);
             var newPerson = await this._personRepository.Create(personToCreate);
 
             // Generate and save audit logs for the new person.
             var personAuditEvents = this._personAuditingService.GenerateAuditEvents(null, newPerson);
             await this._personAuditingService.SaveAuditEvents(newPerson, user.PersonId, personAuditEvents);
+
+            // Save the phone numbers for the person.
+            var phoneNumbersToCreate = this._mapper.Map<List<PersonPhoneNumber>>(request.PhoneNumbers);
+
+            foreach (var phoneNumber in phoneNumbersToCreate)
+            {
+                phoneNumber.PersonId = newPerson.Id;
+            }
+
+            var newPhoneNumbers = await this._personPhoneNumberRepository.Create(phoneNumbersToCreate);
+
+            // Generate and save audit logs for the new phone numbers.
+            foreach (var phoneNumber in newPhoneNumbers)
+            {
+                var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
+                await this._personPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, newPerson, user.Person.Id, phoneNumberAuditEvents);
+            }
 
             // Save the ceremony participant.
             var participantToCreate = new CeremonyParticipant()
@@ -415,6 +437,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
             result.Name = ceremonyTypeParticipant.Name;
             result.Code = ceremonyTypeParticipant.Code;
+            result.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(newPhoneNumbers);
             return result;
         }
 

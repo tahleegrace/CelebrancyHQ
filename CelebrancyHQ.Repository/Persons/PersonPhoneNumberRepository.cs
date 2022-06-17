@@ -34,5 +34,30 @@ namespace CelebrancyHQ.Repository.Persons
             return await this._context.PersonPhoneNumbers.Where(pp => personIds.Contains(pp.PersonId) && !pp.Deleted && pp.IsPrimary)
                                                          .ToDictionaryAsync(pp => pp.PersonId, pp => pp);
         }
+
+        /// <summary>
+        /// Creates new phone numbers for a person.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        /// <returns>The newly created phone numbers.</returns>
+        public async Task<List<PersonPhoneNumber>> Create(List<PersonPhoneNumber> phoneNumbers)
+        {
+            if (phoneNumbers == null || phoneNumbers.Count == 0)
+            {
+                return new List<PersonPhoneNumber>();
+            }
+
+            foreach (var phoneNumber in phoneNumbers)
+            {
+                phoneNumber.Created = DateTime.UtcNow;
+                phoneNumber.Updated = DateTime.UtcNow;
+
+                this._context.PersonPhoneNumbers.Add(phoneNumber);
+            }
+
+            await this._context.SaveChangesAsync();
+
+            return phoneNumbers;
+        }
     }
 }

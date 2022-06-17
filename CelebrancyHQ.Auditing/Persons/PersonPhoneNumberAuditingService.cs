@@ -2,24 +2,24 @@
 
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Entities.Auditing;
-using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.Persons;
 
-namespace CelebrancyHQ.Auditing.Ceremonies
+namespace CelebrancyHQ.Auditing.Persons
 {
     /// <summary>
-    /// The ceremony participant auditing service.
+    /// The person phone number auditing service.
     /// </summary>
-    public class CeremonyParticipantAuditingService : ICeremonyParticipantAuditingService
+    public class PersonPhoneNumberAuditingService : IPersonPhoneNumberAuditingService
     {
-        private readonly ICeremonyAuditLogRepository _ceremonyAuditLogRepository;
+        private readonly IPersonAuditLogRepository _personAuditLogRepository;
 
         /// <summary>
-        /// Creates a new instance of CeremonyParticipantAuditingService.
+        /// Creates a new instance of PersonPhoneNumberAuditingService.
         /// </summary>
         /// <param name="ceremonyAuditLogRepository">The ceremony audit logs repository.</param>
-        public CeremonyParticipantAuditingService(ICeremonyAuditLogRepository ceremonyAuditLogRepository)
+        public PersonPhoneNumberAuditingService(IPersonAuditLogRepository personAuditLogRepository)
         {
-            this._ceremonyAuditLogRepository = ceremonyAuditLogRepository;
+            this._personAuditLogRepository = personAuditLogRepository;
         }
 
         /// <summary>
@@ -28,14 +28,13 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         /// <param name="oldEntity">The old entity.</param>
         /// <param name="newEntity">The new entity.</param>
         /// <returns>A list of audit logs for changes between <paramref name="oldEntity"/> and <paramref name="newEntity"/>.</returns>
-        public List<AuditEvent> GenerateAuditEvents(CeremonyParticipant? oldEntity, CeremonyParticipant? newEntity)
+        public List<AuditEvent> GenerateAuditEvents(PersonPhoneNumber? oldEntity, PersonPhoneNumber? newEntity)
         {
             List<AuditEvent> auditEvents = new List<AuditEvent>();
 
             if (oldEntity == null && newEntity != null)
             {
-                auditEvents.Add(new CeremonyParticipantCreatedEvent(newEntity.Id, newEntity.CeremonyTypeParticipant.Code,
-                    null, newEntity.Person));
+                auditEvents.Add(new PersonPhoneNumberCreatedEvent(newEntity));
             }
 
             return auditEvents;
@@ -48,23 +47,23 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         /// <param name="parentEntity">The parent entity.</param>
         /// <param name="personId">The ID of the person who made the changes.</param>
         /// <param name="auditEvents">The audit events to save.</param>
-        public async Task SaveAuditEvents(CeremonyParticipant entity, Ceremony parentEntity, int personId, List<AuditEvent> auditEvents)
+        public async Task SaveAuditEvents(PersonPhoneNumber entity, Person parentEntity, int personId, List<AuditEvent> auditEvents)
         {
             if (auditEvents == null || auditEvents.Count == 0)
             {
                 return;
             }
 
-            CeremonyAuditLog auditLog = new CeremonyAuditLog()
+            PersonAuditLog auditLog = new PersonAuditLog()
             {
-                CeremonyId = parentEntity.Id,
-                PersonId = personId,
+                PersonId = parentEntity.Id,
+                UpdatedById = personId,
                 Event = JsonConvert.SerializeObject(auditEvents),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow
             };
 
-            await this._ceremonyAuditLogRepository.CreateAuditLog(auditLog);
+            await this._personAuditLogRepository.CreateAuditLog(auditLog);
         }
     }
 }
