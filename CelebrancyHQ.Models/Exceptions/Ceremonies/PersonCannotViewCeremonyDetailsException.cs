@@ -1,9 +1,9 @@
 ﻿namespace CelebrancyHQ.Models.Exceptions.Ceremonies
 {
     /// <summary>
-    /// An exception that occurs when a user cannot edit a ceremony.
+    /// An exception that occurs when a person cannot view the details of a ceremony.
     /// </summary>
-    public class UserCannotEditCeremonyException : Exception
+    public class PersonCannotViewCeremonyDetailsException : Exception
     {
         /// <summary>
         /// Gets the ID of the ceremony.
@@ -11,10 +11,10 @@
         public int CeremonyId { get; }
 
         /// <summary>
-        /// Creates a new instance of UserCannotEditCeremonyException.
+        /// Creates a new instance of PersonCannotViewCeremonyDetailsException.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
-        public UserCannotEditCeremonyException(int ceremonyId)
+        public PersonCannotViewCeremonyDetailsException(int ceremonyId)
             : base()
         {
             this.CeremonyId = ceremonyId;

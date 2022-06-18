@@ -33,6 +33,18 @@ namespace CelebrancyHQ.Repository.Persons
         }
 
         /// <summary>
+        /// Finds the person with the specified email address.
+        /// </summary>
+        /// <param name="emailAddress">The email address of the person.</param>
+        /// <returns>The person with the specified email address.</returns>
+        public async Task<Person?> FindByEmailAddress(string emailAddress)
+        {
+            return await this._context.Persons.Include(p => p.Address)
+                                              .Where(p => p.EmailAddress == emailAddress && !p.Deleted)
+                                              .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Creates a new person
         /// </summary>
         /// <param name="person">The person.</param>

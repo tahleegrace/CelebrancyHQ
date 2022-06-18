@@ -15,6 +15,13 @@ namespace CelebrancyHQ.Repository.Persons
         Task<Dictionary<int, PersonPhoneNumber>> GetPrimaryPhoneNumbersForCeremonyParticipants(int ceremonyId);
 
         /// <summary>
+        /// Gets the phone numbers for the specified person.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The phone numbers for the specified person.</returns>
+        Task<List<PersonPhoneNumber>> GetPhoneNumbersForPerson(int personId);
+
+        /// <summary>
         /// Creates new phone numbers for a person.
         /// </summary>
         /// <param name="phoneNumbers">The phone numbers.</param>

@@ -15,6 +15,14 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyAccessInvitation?> FindById(int invitationId);
 
         /// <summary>
+        /// Gets whether a ceremony access invitation has been created for the specified user and ceremony.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>Whether a ceremony access invitation has been created for the specified user and ceremony.</returns>
+        Task<bool> PersonHasCeremonyAccessInvitation(int personId, int ceremonyId);
+
+        /// <summary>
         /// Creates a new ceremony access invitation.
         /// </summary>
         /// <param name="invitation">The invitation.</param>

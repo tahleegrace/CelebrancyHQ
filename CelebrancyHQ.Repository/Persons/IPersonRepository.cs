@@ -15,6 +15,13 @@ namespace CelebrancyHQ.Repository.Persons
         Task<Person?> FindById(int id);
 
         /// <summary>
+        /// Finds the person with the specified email address.
+        /// </summary>
+        /// <param name="emailAddress">The email address of the person.</param>
+        /// <returns>The person with the specified email address.</returns>
+        Task<Person?> FindByEmailAddress(string emailAddress);
+
+        /// <summary>
         /// Creates a new person.
         /// </summary>
         /// <param name="person">The person.</param>

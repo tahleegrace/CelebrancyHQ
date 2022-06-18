@@ -409,48 +409,68 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyTypeParticipantNotFoundWithCodeException(request.Code);
             }
 
-            // Save the address of the person.
+            // Check to see whether we already have a person with the specified email address. If so, add this person
+            // as a participant instead of creating a new person. Do not update the details of this person.
+            Person? newPerson = await this._personRepository.FindByEmailAddress(request.EmailAddress);
+            List<PersonPhoneNumber> newPhoneNumbers;
             Address? newAddress = null;
 
-            if (request.Address != null)
+            if (newPerson == null)
             {
-                var addressToCreate = this._mapper.Map<Address>(request.Address);
-                newAddress = await this._addressRepository.Create(addressToCreate);
+                // Save the address of the person.
+                if (request.Address != null)
+                {
+                    var addressToCreate = this._mapper.Map<Address>(request.Address);
+                    newAddress = await this._addressRepository.Create(addressToCreate);
+                }
+
+                // Save the person.
+                var personToCreate = this._mapper.Map<Person>(request);
+                personToCreate.AddressId = newAddress?.Id;
+
+                newPerson = await this._personRepository.Create(personToCreate);
+
+                // Generate and save audit logs for the new person.
+                var personAuditEvents = this._personAuditingService.GenerateAuditEvents(null, newPerson);
+                await this._personAuditingService.SaveAuditEvents(newPerson, currentUser.PersonId, personAuditEvents);
+
+                // Generate and save audit logs for the new person's address.
+                if (newAddress != null)
+                {
+                    var addressAuditEvents = this._personAddressAuditingService.GenerateAuditEvents(null, newAddress);
+                    await this._personAuditingService.SaveAuditEvents(newPerson, currentUser.PersonId, addressAuditEvents);
+                }
+
+                // Save the phone numbers for the person.
+                var phoneNumbersToCreate = this._mapper.Map<List<PersonPhoneNumber>>(request.PhoneNumbers);
+
+                foreach (var phoneNumber in phoneNumbersToCreate)
+                {
+                    phoneNumber.PersonId = newPerson.Id;
+                }
+
+                newPhoneNumbers = await this._personPhoneNumberRepository.Create(phoneNumbersToCreate);
+
+                // Generate and save audit logs for the new phone numbers.
+                foreach (var phoneNumber in newPhoneNumbers)
+                {
+                    var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
+                    await this._personPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, newPerson, currentUser.Person.Id, phoneNumberAuditEvents);
+                }
             }
-
-            // Save the person.
-            // TODO: Handle the scenario where a person already exists with the specified email address here.
-            var personToCreate = this._mapper.Map<Person>(request);
-            personToCreate.AddressId = newAddress?.Id;
-
-            var newPerson = await this._personRepository.Create(personToCreate);
-
-            // Generate and save audit logs for the new person.
-            var personAuditEvents = this._personAuditingService.GenerateAuditEvents(null, newPerson);
-            await this._personAuditingService.SaveAuditEvents(newPerson, currentUser.PersonId, personAuditEvents);
-
-            // Generate and save audit logs for the new person's address.
-            if (newAddress != null)
+            else
             {
-                var addressAuditEvents = this._personAddressAuditingService.GenerateAuditEvents(null, newAddress);
-                await this._personAuditingService.SaveAuditEvents(newPerson, currentUser.PersonId, addressAuditEvents);
-            }
+                // Make sure the user isn't already a ceremony participant.
+                var isExistingParticipant = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(newPerson.Id, ceremonyId, request.Code);
 
-            // Save the phone numbers for the person.
-            var phoneNumbersToCreate = this._mapper.Map<List<PersonPhoneNumber>>(request.PhoneNumbers);
+                if (isExistingParticipant)
+                {
+                    throw new PersonAlreadyCeremonyParticipantException(ceremonyId, request.Code);
+                }
 
-            foreach (var phoneNumber in phoneNumbersToCreate)
-            {
-                phoneNumber.PersonId = newPerson.Id;
-            }
-
-            var newPhoneNumbers = await this._personPhoneNumberRepository.Create(phoneNumbersToCreate);
-
-            // Generate and save audit logs for the new phone numbers.
-            foreach (var phoneNumber in newPhoneNumbers)
-            {
-                var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
-                await this._personPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, newPerson, currentUser.Person.Id, phoneNumberAuditEvents);
+                // Get the phone numbers and address for the person.
+                newPhoneNumbers = await this._personPhoneNumberRepository.GetPhoneNumbersForPerson(newPerson.Id);
+                newAddress = newPerson.Address;
             }
 
             // Save the ceremony participant.
@@ -467,16 +487,21 @@ namespace CelebrancyHQ.Services.Ceremonies
             var participantAuditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
             await this._ceremonyParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, currentUser.PersonId, participantAuditEvents);
 
-            // Create an access invitation for the new person.
-            var invitation = new CeremonyAccessInvitation()
-            {
-                CeremonyId = ceremony.Id,
-                PersonId = newPerson.Id,
-                UniqueCode = this._uniqueCodeGenerationService.GenerateUniqueCode(CeremonyAccessInvitationConstants.UniqueCodeLength),
-                Accepted = false
-            };
+            // Create an access invitation for the new person if one hasn't already been created.
+            var hasAccessInvitation = await this._ceremonyAccessInvitationRepository.PersonHasCeremonyAccessInvitation(newPerson.Id, ceremonyId); ;
 
-            await this._ceremonyAccessInvitationRepository.Create(invitation);
+            if (!hasAccessInvitation)
+            {
+                var invitation = new CeremonyAccessInvitation()
+                {
+                    CeremonyId = ceremony.Id,
+                    PersonId = newPerson.Id,
+                    UniqueCode = this._uniqueCodeGenerationService.GenerateUniqueCode(CeremonyAccessInvitationConstants.UniqueCodeLength),
+                    Accepted = false
+                };
+
+                await this._ceremonyAccessInvitationRepository.Create(invitation);
+            }
 
             var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
             result.Name = ceremonyTypeParticipant.Name;
@@ -492,7 +517,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             if (!effectivePermissions.CanView)
             {
-                throw new UserCannotViewCeremonyDetailsException(ceremonyId);
+                throw new PersonCannotViewCeremonyDetailsException(ceremonyId);
             }
         }
 
@@ -502,7 +527,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             if (!effectivePermissions.CanEdit)
             {
-                throw new UserCannotEditCeremonyException(ceremonyId);
+                throw new PersonCannotEditCeremonyException(ceremonyId);
             }
         }
 
@@ -567,7 +592,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             if (!canAccessCeremony)
             {
-                throw new UserNotCeremonyParticipantException(ceremonyId);
+                throw new PersonNotCeremonyParticipantException(ceremonyId);
             }
 
             return (user, ceremony);

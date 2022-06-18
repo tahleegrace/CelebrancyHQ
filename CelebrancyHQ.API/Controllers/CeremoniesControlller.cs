@@ -71,7 +71,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return NotFound();
             }
-            catch (UserNotCeremonyParticipantException)
+            catch (PersonNotCeremonyParticipantException)
             {
                 return Forbid();
             }
@@ -95,7 +95,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotViewCeremonyDetailsException)
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
             {
                 return Forbid();
             }
@@ -125,7 +125,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return BadRequest();
             }
-            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
             {
                 return Forbid();
             }
@@ -154,7 +154,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return BadRequest();
             }
-            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
             {
                 return Forbid();
             }
@@ -180,11 +180,11 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return NotFound();
             }
-            catch (CeremonyDateNotProvidedException)
+            catch (Exception ex) when (ex is CeremonyDateNotProvidedException || ex is PersonAlreadyCeremonyParticipantException)
             {
                 return BadRequest();
             }
-            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
             {
                 return Forbid();
             }
@@ -213,7 +213,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return BadRequest();
             }
-            catch (Exception ex) when (ex is UserNotCeremonyParticipantException || ex is UserCannotEditCeremonyException)
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
             {
                 return Forbid();
             }

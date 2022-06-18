@@ -23,6 +23,15 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<bool> PersonIsCeremonyParticipant(int personId, int ceremonyId);
 
         /// <summary>
+        /// Gets whether the specified person is a participant of the specified type in the specified ceremony.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="code">The ceremony type participant code.</param>
+        /// <returns>Whether the specified person is a participant of the specified type in the specified ceremony.</returns>
+        Task<bool> PersonIsCeremonyParticipant(int personId, int ceremonyId, string code);
+
+        /// <summary>
         /// Gets the participants for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

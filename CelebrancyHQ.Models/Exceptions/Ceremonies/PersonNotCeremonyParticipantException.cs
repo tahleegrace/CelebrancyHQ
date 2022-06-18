@@ -1,9 +1,9 @@
 ﻿namespace CelebrancyHQ.Models.Exceptions.Ceremonies
 {
     /// <summary>
-    /// An exception that occurs when a user cannot view the details of a ceremony.
+    /// An exception that occurs when a person is not a participant in a ceremony.
     /// </summary>
-    public class UserCannotViewCeremonyDetailsException : Exception
+    public class PersonNotCeremonyParticipantException : Exception
     {
         /// <summary>
         /// Gets the ID of the ceremony.
@@ -11,10 +11,10 @@
         public int CeremonyId { get; }
 
         /// <summary>
-        /// Creates a new instance of UserCannotViewCeremonyDetailsException.
+        /// Creates a new instance of PersonNotCeremonyParticipantException.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
-        public UserCannotViewCeremonyDetailsException(int ceremonyId)
+        public PersonNotCeremonyParticipantException(int ceremonyId)
             : base()
         {
             this.CeremonyId = ceremonyId;

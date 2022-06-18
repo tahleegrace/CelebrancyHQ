@@ -44,6 +44,21 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets whether the specified person is a participant of the specified type in the specified ceremony.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="code">The ceremony type participant code.</param>
+        /// <returns>Whether the specified person is a participant of the specified type in the specified ceremony.</returns>
+        public async Task<bool> PersonIsCeremonyParticipant(int personId, int ceremonyId, string code)
+        {
+            return await this._context.CeremonyParticipants.Include(cp => cp.CeremonyTypeParticipant)
+                                                           .Where(cp => cp.PersonId == personId && cp.CeremonyId == ceremonyId
+                                                                     && cp.CeremonyTypeParticipant.Code == code && !cp.Deleted)
+                                                           .AnyAsync();
+        }
+
+        /// <summary>
         /// Gets the participants for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

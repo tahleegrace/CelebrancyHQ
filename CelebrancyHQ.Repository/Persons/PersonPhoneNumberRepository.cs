@@ -36,6 +36,16 @@ namespace CelebrancyHQ.Repository.Persons
         }
 
         /// <summary>
+        /// Gets the phone numbers for the specified person.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The phone numbers for the specified person.</returns>
+        public async Task<List<PersonPhoneNumber>> GetPhoneNumbersForPerson(int personId)
+        {
+            return await this._context.PersonPhoneNumbers.Where(pp => pp.PersonId == personId && !pp.Deleted).ToListAsync();
+        }
+
+        /// <summary>
         /// Creates new phone numbers for a person.
         /// </summary>
         /// <param name="phoneNumbers">The phone numbers.</param>
