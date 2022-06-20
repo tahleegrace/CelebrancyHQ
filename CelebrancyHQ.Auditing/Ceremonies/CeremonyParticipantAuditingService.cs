@@ -34,8 +34,11 @@ namespace CelebrancyHQ.Auditing.Ceremonies
 
             if (oldEntity == null && newEntity != null)
             {
-                auditEvents.Add(new CeremonyParticipantCreatedEvent(newEntity.Id, newEntity.CeremonyTypeParticipant.Code,
-                    null, newEntity.Person));
+                auditEvents.Add(new CeremonyParticipantCreatedEvent(newEntity.Id, newEntity.CeremonyTypeParticipant.Code, null, newEntity.Person));
+            }
+            else if (oldEntity != null && newEntity == null)
+            {
+                auditEvents.Add(new CeremonyParticipantDeletedEvent(oldEntity.Id, oldEntity.CeremonyTypeParticipant.Code, null, oldEntity.Person));
             }
 
             return auditEvents;

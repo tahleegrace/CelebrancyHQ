@@ -218,5 +218,31 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
+
+        /// <summary>
+        /// Deletes a participant.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="participantId">The ID of the participant.</param>
+        [HttpDelete("{ceremonyId}/participants/{participantId}")]
+        public async Task<ActionResult> DeleteParticipant(int ceremonyId, int participantId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremoniesService.DeleteParticipant(participantId, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyParticipantNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
     }
 }

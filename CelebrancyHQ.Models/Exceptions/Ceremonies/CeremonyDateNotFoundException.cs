@@ -13,7 +13,7 @@
         /// <summary>
         /// Creates a new instance of CeremonyDateNotFoundException.
         /// </summary>
-        /// <param name="ceremonyId">The ID of the ceremony date.</param>
+        /// <param name="ceremonyDateId">The ID of the ceremony date.</param>
         public CeremonyDateNotFoundException(int ceremonyDateId)
             : base()
         {

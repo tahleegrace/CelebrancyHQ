@@ -28,6 +28,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         public async Task<CeremonyParticipant?> FindById(int ceremonyParticipantId)
         {
             return await this._context.CeremonyParticipants.Include(cp => cp.CeremonyTypeParticipant)
+                                                           .Include(cp => cp.Person)
                                                            .Where(cp => cp.Id == ceremonyParticipantId && !cp.Deleted)
                                                            .FirstOrDefaultAsync();
         }
@@ -89,6 +90,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             var newParticipant = await FindById(participant.Id);
             return newParticipant;
+        }
+
+        /// <summary>
+        /// Deletes the specified participant.
+        /// </summary>
+        /// <param name="id">The ID of the participant to delete.</param>
+        public async Task Delete(int id)
+        {
+            var participant = await this.FindById(id);
+            participant.Updated = DateTime.UtcNow;
+            participant.Deleted = true;
+            await this._context.SaveChangesAsync();
         }
     }
 }

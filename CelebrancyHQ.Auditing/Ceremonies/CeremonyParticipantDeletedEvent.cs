@@ -5,9 +5,9 @@ using CelebrancyHQ.Entities;
 namespace CelebrancyHQ.Auditing.Ceremonies
 {
     /// <summary>
-    /// An event that occurs when a ceremony participant is created.
+    /// An event that occurs when a ceremony participant is deleted.
     /// </summary>
-    public class CeremonyParticipantCreatedEvent : EntityCreatedEvent<Person>
+    public class CeremonyParticipantDeletedEvent : EntityDeletedEvent<Person>
     {
         /// <summary>
         /// Gets the field name.
@@ -42,13 +42,13 @@ namespace CelebrancyHQ.Auditing.Ceremonies
         }
 
         /// <summary>
-        /// Creates a new instance of CeremonyParticipantCreatedEvent.
+        /// Creates a new instance of CeremonyParticipantDeletedEvent.
         /// </summary>
         /// <param name="id">The ID of the participant.</param>
         /// <param name="code">The code of the participant.</param>
-        /// <param name="entityName">The name of the new participant.</param>
-        /// <param name="value">The new participant.</param>
-        public CeremonyParticipantCreatedEvent(int id, string code, string? entityName, Person value)
+        /// <param name="entityName">The name of the participant.</param>
+        /// <param name="value">The participant.</param>
+        public CeremonyParticipantDeletedEvent(int id, string code, string? entityName, Person value)
             : base(entityName, value)
         {
             this.Id = id;

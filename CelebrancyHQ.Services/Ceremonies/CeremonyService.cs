@@ -511,6 +511,36 @@ namespace CelebrancyHQ.Services.Ceremonies
             return result;
         }
 
+        /// <summary>
+        /// Deletes the specified ceremony participant.
+        /// </summary>
+        /// <param name="participantId">The ID of the participant.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task DeleteParticipant(int participantId, int currentUserId)
+        {
+            var participant = await this._ceremonyParticipantRepository.FindById(participantId);
+
+            if (participant == null)
+            {
+                throw new CeremonyParticipantNotFoundException(participantId);
+            }
+
+            var (currentUser, ceremony) = await CheckCeremonyIsAccessible(participant.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to edit the date.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
+
+            // Delete the participant.
+            await this._ceremonyParticipantRepository.Delete(participantId);
+
+            // TODO: Handle deleting the person attached to the participant when they're not registed or attached to another ceremony.
+
+            // Generate and save audit logs for the participant.
+            var participantAuditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(participant, null);
+            await this._ceremonyParticipantAuditingService.SaveAuditEvents(participant, ceremony, currentUser.PersonId, participantAuditEvents);
+        }
+
         private async Task CheckCanViewCeremony(int ceremonyId, int personId, string field)
         {
             var effectivePermissions = await GetEffectivePermissionsForCeremony(ceremonyId, personId, field);
