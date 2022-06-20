@@ -18,17 +18,20 @@ namespace CelebrancyHQ.API.Controllers
     public class CeremoniesControlller : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly ICeremonyService _ceremoniesService;
+        private readonly ICeremonyService _ceremonyService;
+        private readonly ICeremonyDateService _ceremonyDateService;
 
         /// <summary>
         /// Creates a new instance of CeremoniesController.
         /// </summary>
         /// <param name="authenticationService">The authentication service.</param>
         /// <param name="ceremoniesService">The ceremonies service.</param>
-        public CeremoniesControlller(IAuthenticationService authenticationService, ICeremonyService ceremoniesService)
+        /// <param name="ceremonyDateService">The ceremony dates service.</param>
+        public CeremoniesControlller(IAuthenticationService authenticationService, ICeremonyService ceremonyService, ICeremonyDateService ceremonyDateService)
         {
             this._authenticationService = authenticationService;
-            this._ceremoniesService = ceremoniesService;
+            this._ceremonyService = ceremonyService;
+            this._ceremonyDateService = ceremonyDateService;
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                return await this._ceremoniesService.GetAll(currentUserId.Value, participantTypeCode, from, to);
+                return await this._ceremonyService.GetAll(currentUserId.Value, participantTypeCode, from, to);
             }
             catch (UserNotFoundException)
             {
@@ -65,7 +68,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                return await this._ceremoniesService.GetCeremonyKeyDetails(ceremonyId, currentUserId.Value);
+                return await this._ceremonyService.GetCeremonyKeyDetails(ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
             {
@@ -89,7 +92,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                return await this._ceremoniesService.GetCeremonyDates(ceremonyId, currentUserId.Value);
+                return await this._ceremonyDateService.GetDates(ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
             {
@@ -113,7 +116,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                await this._ceremoniesService.Update(request, currentUserId.Value);
+                await this._ceremonyService.Update(request, currentUserId.Value);
 
                 return NoContent();
             }
@@ -144,7 +147,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                return await this._ceremoniesService.CreateDate(request, ceremonyId, currentUserId.Value);
+                return await this._ceremonyDateService.Create(request, ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
             {
@@ -173,7 +176,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                return await this._ceremoniesService.UpdateDate(request, ceremonyId, currentUserId.Value);
+                return await this._ceremonyDateService.Update(request, ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyDateNotFoundException|| ex is CeremonyTypeDateNotFoundWithCodeException 
                 || ex is UserNotFoundException)
@@ -203,7 +206,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                return await this._ceremoniesService.CreateParticipant(request, ceremonyId, currentUserId.Value);
+                return await this._ceremonyService.CreateParticipant(request, ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyTypeParticipantNotFoundWithCodeException || ex is UserNotFoundException)
             {
@@ -231,7 +234,7 @@ namespace CelebrancyHQ.API.Controllers
 
             try
             {
-                await this._ceremoniesService.DeleteParticipant(participantId, currentUserId.Value);
+                await this._ceremonyService.DeleteParticipant(participantId, currentUserId.Value);
 
                 return NoContent();
             }

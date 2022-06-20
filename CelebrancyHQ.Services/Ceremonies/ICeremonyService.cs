@@ -26,37 +26,11 @@ namespace CelebrancyHQ.Services.Ceremonies
         Task<CeremonyKeyDetailsDTO> GetCeremonyKeyDetails(int ceremonyId, int currentUserId);
 
         /// <summary>
-        /// Gets the dates for the ceremony with the specified ID.
-        /// </summary>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The dates for the ceremony with the specified ID.</returns>
-        Task<List<CeremonyDateDTO>> GetCeremonyDates(int ceremonyId, int currentUserId);
-
-        /// <summary>
         /// Updates the details of the specified ceremony.
         /// </summary>
         /// <param name="ceremony">The ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         Task Update(UpdateCeremonyRequest ceremony, int currentUserId);
-
-        /// <summary>
-        /// Creates a new date.
-        /// </summary>
-        /// <param name="date">The date.</param>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The newly created date.</returns>
-        Task<CeremonyDateDTO> CreateDate(CreateCeremonyDateRequest date, int ceremonyId, int currentUserId);
-
-        /// <summary>
-        /// Updates the specified date.
-        /// </summary>
-        /// <param name="date">The date.</param>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The newly updated date or null if the date was deleted.</returns>
-        Task<CeremonyDateDTO?> UpdateDate(UpdateCeremonyDateRequest date, int ceremonyId, int currentUserId);
 
         /// <summary>
         /// Creates a new ceremony participant.
