@@ -19,7 +19,6 @@ namespace CelebrancyHQ.API.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ICeremonyService _ceremonyService;
-        private readonly ICeremonyDateService _ceremonyDateService;
 
         /// <summary>
         /// Creates a new instance of CeremoniesController.
@@ -27,11 +26,10 @@ namespace CelebrancyHQ.API.Controllers
         /// <param name="authenticationService">The authentication service.</param>
         /// <param name="ceremoniesService">The ceremonies service.</param>
         /// <param name="ceremonyDateService">The ceremony dates service.</param>
-        public CeremoniesControlller(IAuthenticationService authenticationService, ICeremonyService ceremonyService, ICeremonyDateService ceremonyDateService)
+        public CeremoniesControlller(IAuthenticationService authenticationService, ICeremonyService ceremonyService)
         {
             this._authenticationService = authenticationService;
             this._ceremonyService = ceremonyService;
-            this._ceremonyDateService = ceremonyDateService;
         }
 
         /// <summary>
@@ -81,30 +79,6 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
-        /// Gets the dates for the ceremony for the specified ID.
-        /// </summary>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <returns>The dates for the ceremony with the specified ID.</returns>
-        [HttpGet("{ceremonyId}/dates")]
-        public async Task<ActionResult<List<CeremonyDateDTO>>> GetCeremonyDates(int ceremonyId)
-        {
-            var currentUserId = this._authenticationService.GetCurrentUserId(User);
-
-            try
-            {
-                return await this._ceremonyDateService.GetDates(ceremonyId, currentUserId.Value);
-            }
-            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
-            {
-                return Forbid();
-            }
-        }
-
-        /// <summary>
         /// Updates the details of the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
@@ -125,65 +99,6 @@ namespace CelebrancyHQ.API.Controllers
                 return NotFound();
             }
             catch (CeremonyNotProvidedException)
-            {
-                return BadRequest();
-            }
-            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
-            {
-                return Forbid();
-            }
-        }
-
-        /// <summary>
-        /// Creates a new date.
-        /// </summary>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="request">The date.</param>
-        /// <returns>The newly created date.</returns>
-        [HttpPost("{ceremonyId}/dates")]
-        public async Task<ActionResult<CeremonyDateDTO>> CreateDate(int ceremonyId, CreateCeremonyDateRequest request)
-        {
-            var currentUserId = this._authenticationService.GetCurrentUserId(User);
-
-            try
-            {
-                return await this._ceremonyDateService.Create(request, ceremonyId, currentUserId.Value);
-            }
-            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (CeremonyDateNotProvidedException)
-            {
-                return BadRequest();
-            }
-            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
-            {
-                return Forbid();
-            }
-        }
-
-        /// <summary>
-        /// Updates the specified date.
-        /// </summary>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="request">The date.</param>
-        /// <returns>The newly updated date.</returns>
-        [HttpPut("{ceremonyId}/dates")]
-        public async Task<ActionResult<CeremonyDateDTO>> UpdateDate(int ceremonyId, UpdateCeremonyDateRequest request)
-        {
-            var currentUserId = this._authenticationService.GetCurrentUserId(User);
-
-            try
-            {
-                return await this._ceremonyDateService.Update(request, ceremonyId, currentUserId.Value);
-            }
-            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyDateNotFoundException|| ex is CeremonyTypeDateNotFoundWithCodeException 
-                || ex is UserNotFoundException)
-            {
-                return NotFound();
-            }
-            catch (Exception ex) when (ex is CeremonyDateNotProvidedException || ex is PersonAlreadyCeremonyParticipantException)
             {
                 return BadRequest();
             }
