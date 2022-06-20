@@ -31,21 +31,5 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremony">The ceremony.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         Task Update(UpdateCeremonyRequest ceremony, int currentUserId);
-
-        /// <summary>
-        /// Creates a new ceremony participant.
-        /// </summary>
-        /// <param name="request">The participant.</param>
-        /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The newly created participant.</returns>
-        Task<CeremonyParticipantDTO> CreateParticipant(CreateCeremonyParticipantRequest request, int ceremonyId, int currentUserId);
-
-        /// <summary>
-        /// Deletes the specified ceremony participant.
-        /// </summary>
-        /// <param name="participantId">The ID of the participant.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
-        Task DeleteParticipant(int participantId, int currentUserId);
     }
 }

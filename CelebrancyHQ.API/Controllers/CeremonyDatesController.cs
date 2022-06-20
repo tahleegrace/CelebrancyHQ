@@ -15,7 +15,7 @@ namespace CelebrancyHQ.API.Controllers
     [Route("api/ceremonies")]
     [Authorize]
     [ApiController]
-    public class CeremonyDatesController : Controller
+    public class CeremonyDatesController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ICeremonyDateService _ceremonyDateService;

@@ -16,10 +16,13 @@ namespace CelebrancyHQ.Services
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUniqueCodeGenerationService, UniqueCodeGenerationService>();
+
             services.AddScoped<ICeremonyTypeService, CeremonyTypeService>();
+
             services.AddScoped<ICeremonyHelpers, CeremonyHelpers>();
             services.AddScoped<ICeremonyService, CeremonyService>();
             services.AddScoped<ICeremonyDateService, CeremonyDateService>();
+            services.AddScoped<ICeremonyParticipantService, CeremonyParticipantService>();
         }
     }
 }
