@@ -534,7 +534,21 @@ namespace CelebrancyHQ.Services.Ceremonies
             // Delete the participant.
             await this._ceremonyParticipantRepository.Delete(participantId);
 
-            // TODO: Handle deleting the person attached to the participant when they're not registed or attached to another ceremony.
+            var person = participant.Person;
+
+            if (!person.Registered)
+            {
+                var userIsParticipantInOtherCeremonies = await this._ceremonyParticipantRepository.PersonIsParticipantInOtherCeremonies(person.Id, ceremony.Id);
+
+                if (!userIsParticipantInOtherCeremonies)
+                {
+                    await this._personRepository.Delete(person.Id);
+
+                    // Generate and save audit logs for the person.
+                    var personAuditEvents = this._personAuditingService.GenerateAuditEvents(person, null);
+                    await this._personAuditingService.SaveAuditEvents(person, currentUser.PersonId, personAuditEvents);
+                }
+            }
 
             // Generate and save audit logs for the participant.
             var participantAuditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(participant, null);

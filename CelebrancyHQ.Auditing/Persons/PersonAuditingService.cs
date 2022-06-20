@@ -36,6 +36,10 @@ namespace CelebrancyHQ.Auditing.Persons
             {
                 auditEvents.Add(new PersonCreatedEvent(newEntity));
             }
+            else if (oldEntity != null && newEntity == null)
+            {
+                auditEvents.Add(new PersonDeletedEvent(oldEntity));
+            }
 
             return auditEvents;
         }

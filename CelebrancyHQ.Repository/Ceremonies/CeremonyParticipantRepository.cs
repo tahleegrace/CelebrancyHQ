@@ -60,6 +60,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets whether the specified person is a participant in any ceremonies other than the specified ceremony.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <param name="ceremonyToExcludeId">The ID of the ceremony.</param>
+        /// <returns>Whether the specified person is a participant in any ceremonies other than the specified ceremony.</returns>
+        public async Task<bool> PersonIsParticipantInOtherCeremonies(int personId, int ceremonyToExcludeId)
+        {
+            return await this._context.CeremonyParticipants.Where(cp => cp.PersonId == personId && cp.CeremonyId != ceremonyToExcludeId && !cp.Deleted)
+                                                           .AnyAsync();
+        }
+
+        /// <summary>
         /// Gets the participants for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

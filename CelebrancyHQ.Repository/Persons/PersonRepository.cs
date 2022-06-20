@@ -27,7 +27,9 @@ namespace CelebrancyHQ.Repository.Persons
         /// <returns>The person with the specified ID.</returns>
         public async Task<Person?> FindById(int id)
         {
-            var person = await this._context.Persons.Where(p => p.Id == id && !p.Deleted).FirstOrDefaultAsync();
+            var person = await this._context.Persons.Include(p => p.Address)
+                                                    .Where(p => p.Id == id && !p.Deleted)
+                                                    .FirstOrDefaultAsync();
 
             return person;
         }
@@ -60,6 +62,34 @@ namespace CelebrancyHQ.Repository.Persons
 
             var newPerson = await FindById(person.Id);
             return newPerson;
+        }
+
+        /// <summary>
+        /// Deletes the person with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the person.</param>
+        public async Task Delete(int id)
+        {
+            var person = await FindById(id);
+
+            if (person.Address != null)
+            {
+                person.Address.Updated = DateTime.UtcNow;
+                person.Address.Deleted = true;
+            }
+
+            var phoneNumbers = await this._context.PersonPhoneNumbers.Where(pp => pp.PersonId == id && !pp.Deleted).ToListAsync();
+
+            foreach (var phoneNumber in phoneNumbers)
+            {
+                phoneNumber.Updated = DateTime.UtcNow;
+                phoneNumber.Deleted = true;
+            }
+
+            person.Updated = DateTime.UtcNow;
+            person.Deleted = true;
+
+            await this._context.SaveChangesAsync();
         }
     }
 }

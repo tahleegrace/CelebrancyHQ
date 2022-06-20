@@ -27,5 +27,11 @@ namespace CelebrancyHQ.Repository.Persons
         /// <param name="person">The person.</param>
         /// <returns>The newly created person.</returns>
         Task<Person> Create(Person person);
+
+        /// <summary>
+        /// Deletes the person with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the person.</param>
+        Task Delete(int id);
     }
 }
