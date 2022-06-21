@@ -43,6 +43,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<Organisation> Organisations { get; set; }
 
         /// <summary>
+        /// The organisation audit logs table.
+        /// </summary>
+        public DbSet<OrganisationAuditLog> OrganisationAuditLogs { get; set; }
+
+        /// <summary>
         /// The organisation phone numbers table.
         /// </summary>
         public DbSet<OrganisationPhoneNumber> OrganisationPhoneNumbers { get; set; }
