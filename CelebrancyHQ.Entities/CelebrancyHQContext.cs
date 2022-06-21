@@ -63,6 +63,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyTypeDate> CeremonyTypeDates { get; set; }
 
         /// <summary>
+        /// The ceremony type service providers table.
+        /// </summary>
+        public DbSet<CeremonyTypeServiceProvider> CeremonyTypeServiceProviders { get; set; }
+
+        /// <summary>
         /// The ceremonies table.
         /// </summary>
         public DbSet<Ceremony> Ceremonies { get; set; }
@@ -119,6 +124,7 @@ namespace CelebrancyHQ.Entities
             modelBuilder.ApplyConfiguration(new CeremonyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeParticipantConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeDateConfiguration());
+            modelBuilder.ApplyConfiguration(new CeremonyTypeServiceProviderConfiguration());
         }
     }
 }
