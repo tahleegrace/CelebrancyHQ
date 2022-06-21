@@ -88,7 +88,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
-            // Make sure the user has permissions to edit the date.
+            // Make sure the user has permissions to create the participant.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
 
@@ -218,7 +218,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(participant.CeremonyId, currentUserId);
 
-            // Make sure the user has permissions to edit the date.
+            // Make sure the user has permissions to delete the participant.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
 

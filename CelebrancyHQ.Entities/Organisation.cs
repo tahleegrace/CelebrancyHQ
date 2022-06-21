@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Newtonsoft.Json;
+
 namespace CelebrancyHQ.Entities
 {
     /// <summary>
@@ -30,11 +32,13 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the address of the organisation.
         /// </summary>
+        [JsonIgnore]
         public Address? Address { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the address of the organisation.
         /// </summary>
+        [JsonIgnore]
         public int? AddressId { get; set; }
 
         /// <summary>

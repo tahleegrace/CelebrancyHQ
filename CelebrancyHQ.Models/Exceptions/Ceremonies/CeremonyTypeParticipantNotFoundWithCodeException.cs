@@ -13,7 +13,7 @@
         /// <summary>
         /// Creates a new instance of CeremonyTypeParticipantNotFoundWithCodeException.
         /// </summary>
-        /// <param name="code">The code of the date.</param>
+        /// <param name="code">The code of the participant.</param>
         public CeremonyTypeParticipantNotFoundWithCodeException(string code)
         {
             this.Code = code;

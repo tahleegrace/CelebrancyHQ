@@ -36,7 +36,7 @@ namespace CelebrancyHQ.API.Controllers
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="request">The participant.</param>
-        /// <returns>The newly created participant</returns>
+        /// <returns>The newly created participant.</returns>
         [HttpPost("{ceremonyId}/participants")]
         public async Task<ActionResult<CeremonyParticipantDTO>> Create(int ceremonyId, CreateCeremonyParticipantRequest request)
         {

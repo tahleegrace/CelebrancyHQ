@@ -31,5 +31,23 @@ namespace CelebrancyHQ.Repository.Organisations
 
             return organisation;
         }
+
+        /// <summary>
+        /// Creates a new organisation.
+        /// </summary>
+        /// <param name="person">The organisation.</param>
+        /// <returns>The newly created organisation.</returns>
+        public async Task<Organisation> Create(Organisation organisation)
+        {
+            organisation.Created = DateTime.UtcNow;
+            organisation.Updated = DateTime.UtcNow;
+
+            this._context.Organisations.Add(organisation);
+
+            await this._context.SaveChangesAsync();
+
+            var newOrganisation = await FindById(organisation.Id);
+            return newOrganisation;
+        }
     }
 }

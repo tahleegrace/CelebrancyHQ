@@ -23,6 +23,7 @@ namespace CelebrancyHQ.Services
             services.AddScoped<ICeremonyService, CeremonyService>();
             services.AddScoped<ICeremonyDateService, CeremonyDateService>();
             services.AddScoped<ICeremonyParticipantService, CeremonyParticipantService>();
+            services.AddScoped<ICeremonyServiceProviderService, CeremonyServiceProviderService>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Auditing.Organisations;
 using CelebrancyHQ.Auditing.Persons;
 
 namespace CelebrancyHQ.Auditing
@@ -17,9 +18,12 @@ namespace CelebrancyHQ.Auditing
             services.AddScoped<IPersonPhoneNumberAuditingService, PersonPhoneNumberAuditingService>();
             services.AddScoped<IPersonAddressAuditingService, PersonAddressAuditingService>();
 
+            services.AddScoped<IOrganisationAuditingService, OrganisationAuditingService>();
+
             services.AddScoped<ICeremonyAuditingService, CeremonyAuditingService>();
             services.AddScoped<ICeremonyDateAuditingService, CeremonyDateAuditingService>();
             services.AddScoped<ICeremonyParticipantAuditingService, CeremonyParticipantAuditingService>();
+            services.AddScoped<ICeremonyServiceProviderAuditingService, CeremonyServiceProviderAuditingService>();
         }
     }
 }

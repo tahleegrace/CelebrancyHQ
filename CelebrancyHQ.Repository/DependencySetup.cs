@@ -23,6 +23,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<IPersonPhoneNumberRepository, PersonPhoneNumberRepository>();
 
             services.AddScoped<IOrganisationRepository, OrganisationRepository>();
+            services.AddScoped<IOrganisationAuditLogRepository, OrganisationAuditLogRepository>();
             services.AddScoped<IOrganisationPhoneNumberRepository, OrganisationPhoneNumberRepository>();
 
             services.AddScoped<IAddressRepository, AddressRepository>();
@@ -30,6 +31,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();
             services.AddScoped<ICeremonyTypeDateRepository, CeremonyTypeDateRepository>();
+            services.AddScoped<ICeremonyTypeServiceProviderRepository, CeremonyTypeServiceProviderRepository>();
 
             services.AddScoped<ICeremonyRepository, CeremonyRepository>();
             services.AddScoped<ICeremonyPermissionRepository, CeremonyPermissionRepository>();
@@ -38,6 +40,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyParticipantRepository, CeremonyParticipantRepository>();
             services.AddScoped<ICeremonyDateRepository, CeremonyDateRepository>();
             services.AddScoped<ICeremonyVenueRepository, CeremonyVenueRepository>();
+            services.AddScoped<ICeremonyServiceProviderRepository, CeremonyServiceProviderRepository>();
         }
     }
 }
