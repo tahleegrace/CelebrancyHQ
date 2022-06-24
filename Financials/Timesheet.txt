@@ -1,2 +1,3 @@
 CelebrancyHQ timesheet:
 -----------------------
+24/06/2022 - CHQ-11: 1:45PM - 2:15PM: Adding API for creating new ceremony service providers.

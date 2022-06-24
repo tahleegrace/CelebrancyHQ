@@ -69,7 +69,7 @@ namespace CelebrancyHQ.Models.DTOs.Persons
         public List<PhoneNumberDTO> PhoneNumbers { get; set; }
 
         /// <summary>
-        /// Gets or sets the address of the user.
+        /// Gets or sets the address of the person.
         /// </summary>
         public AddressDTO? Address { get; set; }
     }

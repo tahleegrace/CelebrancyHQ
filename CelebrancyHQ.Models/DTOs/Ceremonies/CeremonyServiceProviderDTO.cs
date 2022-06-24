@@ -1,4 +1,6 @@
-﻿namespace CelebrancyHQ.Models.DTOs.Ceremonies
+﻿using CelebrancyHQ.Models.DTOs.Addresses;
+
+namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
     /// <summary>
     /// Stores details about a service provider for a ceremony.
@@ -39,5 +41,10 @@
         /// Gets or sets any notes about the service provider.
         /// </summary>
         public string? Notes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address of the person.
+        /// </summary>
+        public AddressDTO? Address { get; set; }
     }
 }

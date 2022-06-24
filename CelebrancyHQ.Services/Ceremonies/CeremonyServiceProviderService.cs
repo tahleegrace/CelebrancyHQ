@@ -5,8 +5,10 @@ using CelebrancyHQ.Auditing.Organisations;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Constants.Organisations;
 using CelebrancyHQ.Entities;
+using CelebrancyHQ.Models.DTOs.Addresses;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Repository.Addresses;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Organisations;
 
@@ -21,8 +23,10 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyTypeServiceProviderRepository _ceremonyTypeServiceProviderRepository;
         private readonly ICeremonyServiceProviderRepository _ceremonyServiceProviderRepository;
         private readonly IOrganisationRepository _organisationRepository;
+        private readonly IAddressRepository _addressRepository;
         private readonly ICeremonyServiceProviderAuditingService _ceremonyServiceProviderAuditingService;
         private readonly IOrganisationAuditingService _organisationAuditingService;
+        private readonly IOrganisationAddressAuditingService _organisationAddressAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -32,20 +36,25 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyTypeServiceProviderRepository">The ceremony type service provider repository.</param>
         /// <param name="ceremonyServiceProviderRepository">The ceremony service provider repository.</param>
         /// <param name="organisationRepository">The organisation repository.</param>
+        /// <param name="addressRepository">The address repository.</param>
         /// <param name="ceremonyServiceProviderAuditingService">The ceremony service provider auditing service.</param>
+        /// <param name="organisationAddressAuditingService">The organisation address auditing service.</param>
         /// <param name="organisationAuditingService">The organisation auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyServiceProviderService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeServiceProviderRepository ceremonyTypeServiceProviderRepository,
             ICeremonyServiceProviderRepository ceremonyServiceProviderRepository, IOrganisationRepository organisationRepository,
-            ICeremonyServiceProviderAuditingService ceremonyServiceProviderAuditingService, IOrganisationAuditingService organisationAuditingService,
+            IAddressRepository addressRepository, ICeremonyServiceProviderAuditingService ceremonyServiceProviderAuditingService, 
+            IOrganisationAuditingService organisationAuditingService, IOrganisationAddressAuditingService organisationAddressAuditingService,
             IMapper mapper)
         {
             this._ceremonyHelpers = ceremonyHelpers;
             this._ceremonyTypeServiceProviderRepository = ceremonyTypeServiceProviderRepository;
             this._ceremonyServiceProviderRepository = ceremonyServiceProviderRepository;
             this._organisationRepository = organisationRepository;
+            this._addressRepository = addressRepository;
             this._ceremonyServiceProviderAuditingService = ceremonyServiceProviderAuditingService;
             this._organisationAuditingService = organisationAuditingService;
+            this._organisationAddressAuditingService = organisationAddressAuditingService;
             this._mapper = mapper;
         }
 
@@ -79,15 +88,32 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // TODO: Handle the scenario where an organisation exists with the supplied name here.
 
+            Address? newAddress = null;
+
+            // Save the address of the organisation.
+            if (request.Address != null)
+            {
+                var addressToCreate = this._mapper.Map<Address>(request.Address);
+                newAddress = await this._addressRepository.Create(addressToCreate);
+            }
+
             // Save the organisation.
-            // TODO: Save the address and phone numbers of the organisation here.
+            // TODO: Save the phone numbers of the organisation here.
             var organisationToCreate = this._mapper.Map<Organisation>(request);
             organisationToCreate.Type = OrganisationConstants.ServiceProviderOrganisationType;
+            organisationToCreate.AddressId = newAddress.Id;
             var newOrganisation = await this._organisationRepository.Create(organisationToCreate);
 
             // Generate and save audit logs for the new oreganisation.
             var organiationAuditEvents = this._organisationAuditingService.GenerateAuditEvents(null, newOrganisation);
             await this._organisationAuditingService.SaveAuditEvents(newOrganisation, currentUser.PersonId, organiationAuditEvents);
+
+            // Generate and save audit logs for the new organisation's address.
+            if (newAddress != null)
+            {
+                var addressAuditEvents = this._organisationAddressAuditingService.GenerateAuditEvents(null, newAddress);
+                await this._organisationAuditingService.SaveAuditEvents(newOrganisation, currentUser.PersonId, addressAuditEvents);
+            }
 
             // Save the ceremony service provider.
             var serviceProviderToCreate = new CeremonyServiceProvider()
@@ -105,6 +131,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             await this._ceremonyServiceProviderAuditingService.SaveAuditEvents(newServiceProvider, ceremony, currentUser.PersonId, serviceProviderAuditEvents);
 
             var result = this._mapper.Map<CeremonyServiceProviderDTO>(newServiceProvider);
+            result.Address = this._mapper.Map<AddressDTO>(newAddress);
             return result;
         }
     }
