@@ -1,9 +1,9 @@
 ﻿namespace CelebrancyHQ.Models.Exceptions.Ceremonies
 {
     /// <summary>
-    /// An exception that occurs when a person has already been added as a participant of a specified type to a ceremony.
+    /// An exception that occurs when an organisation has already been added as a service provider of a specified type to a ceremony.
     /// </summary>
-    public class PersonAlreadyCeremonyParticipantException : Exception
+    public class OrganisationAlreadyCeremonyServiceProviderException : Exception
     {
         /// <summary>
         /// Gets the ID of the ceremony.
@@ -11,16 +11,16 @@
         public int CeremonyId { get; }
 
         /// <summary>
-        /// Gets the ceremony type participant code.
+        /// Gets the ceremony type service provider code.
         /// </summary>
         public string Code { get; }
 
         /// <summary>
-        /// Creates a new instance of PersonAlreadyCeremonyParticipantException.
+        /// Creates a new instance of OrganisationAlreadyCeremonyServiceProviderExceptio.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
-        /// <param name="code">The ceremony type participant code.</param>
-        public PersonAlreadyCeremonyParticipantException(int ceremonyId, string code)
+        /// <param name="code">The ceremony type service provider code.</param>
+        public OrganisationAlreadyCeremonyServiceProviderException(int ceremonyId, string code)
             : base()
         {
             this.CeremonyId = ceremonyId;

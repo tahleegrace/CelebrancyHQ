@@ -33,6 +33,16 @@ namespace CelebrancyHQ.Repository.Organisations
         }
 
         /// <summary>
+        /// Gets the phone numbers for the specified organisation.
+        /// </summary>
+        /// <param name="organisationId">The ID of the organisation.</param>
+        /// <returns>The phone numbers for the specified organisation.</returns>
+        public async Task<List<OrganisationPhoneNumber>> GetPhoneNumbersForOrganisation(int organisationId)
+        {
+            return await this._context.OrganisationPhoneNumbers.Where(pp => pp.OrganisationId == organisationId && !pp.Deleted).ToListAsync();
+        }
+
+        /// <summary>
         /// Creates new phone numbers for an organisation.
         /// </summary>
         /// <param name="phoneNumbers">The phone numbers.</param>

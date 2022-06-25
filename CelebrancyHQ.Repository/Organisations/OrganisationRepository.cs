@@ -33,6 +33,18 @@ namespace CelebrancyHQ.Repository.Organisations
         }
 
         /// <summary>
+        /// Finds the organisation with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the organisation.</param>
+        /// <returns>The organisation with the specified name.</returns>
+        public async Task<Organisation?> FindByName(string name)
+        {
+            return await this._context.Organisations.Include(o => o.Address)
+                                                    .Where(o => o.Name == name && !o.Deleted)
+                                                    .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Creates a new organisation.
         /// </summary>
         /// <param name="person">The organisation.</param>

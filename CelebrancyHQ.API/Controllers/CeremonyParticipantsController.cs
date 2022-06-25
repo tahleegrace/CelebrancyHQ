@@ -50,7 +50,7 @@ namespace CelebrancyHQ.API.Controllers
             {
                 return NotFound();
             }
-            catch (CeremonyParticipantNotProvidedException)
+            catch (Exception ex) when (ex is CeremonyParticipantNotProvidedException || ex is PersonAlreadyCeremonyParticipantException)
             {
                 return BadRequest();
             }

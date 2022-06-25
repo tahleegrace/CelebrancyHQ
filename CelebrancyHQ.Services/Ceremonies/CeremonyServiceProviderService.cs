@@ -94,49 +94,67 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyTypeServiceProviderNotFoundWithCodeException(request.Code);
             }
 
-            // TODO: Handle the scenario where an organisation exists with the supplied name here.
+            Organisation? newOrganisation = await this._organisationRepository.FindByName(request.Name);
             Address? newAddress = null;
             List<OrganisationPhoneNumber> newPhoneNumbers;
 
-            // Save the address of the organisation.
-            if (request.Address != null)
+            if (newOrganisation == null)
             {
-                var addressToCreate = this._mapper.Map<Address>(request.Address);
-                newAddress = await this._addressRepository.Create(addressToCreate);
+                // Save the address of the organisation.
+                if (request.Address != null)
+                {
+                    var addressToCreate = this._mapper.Map<Address>(request.Address);
+                    newAddress = await this._addressRepository.Create(addressToCreate);
+                }
+
+                // Save the organisation.
+                var organisationToCreate = this._mapper.Map<Organisation>(request);
+                organisationToCreate.Type = OrganisationConstants.ServiceProviderOrganisationType;
+                organisationToCreate.AddressId = newAddress.Id;
+
+                newOrganisation = await this._organisationRepository.Create(organisationToCreate);
+
+                // Generate and save audit logs for the new organisation.
+                var organiationAuditEvents = this._organisationAuditingService.GenerateAuditEvents(null, newOrganisation);
+                await this._organisationAuditingService.SaveAuditEvents(newOrganisation, currentUser.PersonId, organiationAuditEvents);
+
+                // Save the phone numbers for the organisation.
+                var phoneNumbersToCreate = this._mapper.Map<List<OrganisationPhoneNumber>>(request.PhoneNumbers);
+
+                foreach (var phoneNumber in phoneNumbersToCreate)
+                {
+                    phoneNumber.OrganisationId = newOrganisation.Id;
+                }
+
+                newPhoneNumbers = await this._organisationPhoneNumberRepository.Create(phoneNumbersToCreate);
+
+                // Generate and save audit logs for the new phone numbers.
+                foreach (var phoneNumber in newPhoneNumbers)
+                {
+                    var phoneNumberAuditEvents = this._organisationPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
+                    await this._organisationPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, newOrganisation, currentUser.Person.Id, phoneNumberAuditEvents);
+                }
+
+                // Generate and save audit logs for the new organisation's address.
+                if (newAddress != null)
+                {
+                    var addressAuditEvents = this._organisationAddressAuditingService.GenerateAuditEvents(null, newAddress);
+                    await this._organisationAuditingService.SaveAuditEvents(newOrganisation, currentUser.PersonId, addressAuditEvents);
+                }
             }
-
-            // Save the organisation.
-            var organisationToCreate = this._mapper.Map<Organisation>(request);
-            organisationToCreate.Type = OrganisationConstants.ServiceProviderOrganisationType;
-            organisationToCreate.AddressId = newAddress.Id;
-            var newOrganisation = await this._organisationRepository.Create(organisationToCreate);
-
-            // Generate and save audit logs for the new organisation.
-            var organiationAuditEvents = this._organisationAuditingService.GenerateAuditEvents(null, newOrganisation);
-            await this._organisationAuditingService.SaveAuditEvents(newOrganisation, currentUser.PersonId, organiationAuditEvents);
-
-            // Save the phone numbers for the organisation.
-            var phoneNumbersToCreate = this._mapper.Map<List<OrganisationPhoneNumber>>(request.PhoneNumbers);
-
-            foreach (var phoneNumber in phoneNumbersToCreate)
+            else
             {
-                phoneNumber.OrganisationId = newOrganisation.Id;
-            }
+                // Make sure the service provider isn't already a ceremony service provider.
+                var isExistingServiceProvider = await this._ceremonyServiceProviderRepository.OrganisationIsCeremonyServiceProvider(newOrganisation.Id, ceremonyId, request.Code);
 
-            newPhoneNumbers = await this._organisationPhoneNumberRepository.Create(phoneNumbersToCreate);
+                if (isExistingServiceProvider)
+                {
+                    throw new OrganisationAlreadyCeremonyServiceProviderException(ceremonyId, request.Code);
+                }
 
-            // Generate and save audit logs for the new phone numbers.
-            foreach (var phoneNumber in newPhoneNumbers)
-            {
-                var phoneNumberAuditEvents = this._organisationPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
-                await this._organisationPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, newOrganisation, currentUser.Person.Id, phoneNumberAuditEvents);
-            }
-
-            // Generate and save audit logs for the new organisation's address.
-            if (newAddress != null)
-            {
-                var addressAuditEvents = this._organisationAddressAuditingService.GenerateAuditEvents(null, newAddress);
-                await this._organisationAuditingService.SaveAuditEvents(newOrganisation, currentUser.PersonId, addressAuditEvents);
+                // Get the phone numbers and address for the organisation.
+                newPhoneNumbers = await this._organisationPhoneNumberRepository.GetPhoneNumbersForOrganisation(newOrganisation.Id);
+                newAddress = newOrganisation.Address;
             }
 
             // Save the ceremony service provider.

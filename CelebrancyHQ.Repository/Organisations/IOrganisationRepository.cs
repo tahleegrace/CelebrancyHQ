@@ -15,6 +15,13 @@ namespace CelebrancyHQ.Repository.Organisations
         Task<Organisation?> FindById(int id);
 
         /// <summary>
+        /// Finds the organisation with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the organisation.</param>
+        /// <returns>The organisation with the specified name.</returns>
+        Task<Organisation?> FindByName(string name);
+
+        /// <summary>
         /// Creates a new organisation.
         /// </summary>
         /// <param name="person">The organisation.</param>
