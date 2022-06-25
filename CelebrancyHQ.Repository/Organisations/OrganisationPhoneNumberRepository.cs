@@ -31,5 +31,30 @@ namespace CelebrancyHQ.Repository.Organisations
 
             return phoneNumber;
         }
+
+        /// <summary>
+        /// Creates new phone numbers for an organisation.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        /// <returns>The newly created phone numbers.</returns>
+        public async Task<List<OrganisationPhoneNumber>> Create(List<OrganisationPhoneNumber> phoneNumbers)
+        {
+            if (phoneNumbers == null || phoneNumbers.Count == 0)
+            {
+                return new List<OrganisationPhoneNumber>();
+            }
+
+            foreach (var phoneNumber in phoneNumbers)
+            {
+                phoneNumber.Created = DateTime.UtcNow;
+                phoneNumber.Updated = DateTime.UtcNow;
+
+                this._context.OrganisationPhoneNumbers.Add(phoneNumber);
+            }
+
+            await this._context.SaveChangesAsync();
+
+            return phoneNumbers;
+        }
     }
 }

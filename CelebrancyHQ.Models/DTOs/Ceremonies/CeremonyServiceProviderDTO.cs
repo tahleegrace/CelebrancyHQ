@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Models.DTOs.Addresses;
+using CelebrancyHQ.Models.DTOs.PhoneNumbers;
 
 namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
@@ -43,8 +44,13 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         public string? Notes { get; set; }
 
         /// <summary>
-        /// Gets or sets the address of the person.
+        /// Gets or sets the address of the organisation.
         /// </summary>
         public AddressDTO? Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone numbers of the organisation.
+        /// </summary>
+        public List<PhoneNumberDTO> PhoneNumbers { get; set; }
     }
 }

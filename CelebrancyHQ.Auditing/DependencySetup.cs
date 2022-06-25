@@ -19,6 +19,7 @@ namespace CelebrancyHQ.Auditing
             services.AddScoped<IPersonAddressAuditingService, PersonAddressAuditingService>();
 
             services.AddScoped<IOrganisationAuditingService, OrganisationAuditingService>();
+            services.AddScoped<IOrganisationPhoneNumberAuditingService, OrganisationPhoneNumberAuditingService>();
             services.AddScoped<IOrganisationAddressAuditingService, OrganisationAddressAuditingService>();
 
             services.AddScoped<ICeremonyAuditingService, CeremonyAuditingService>();

@@ -19,17 +19,17 @@ namespace CelebrancyHQ.Models.DTOs.Persons
         public int? UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name of the user.
+        /// Gets or sets the first name of the person.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// Gets or sets the middle names of the user.
+        /// Gets or sets the middle names of the person.
         /// </summary>
         public string? MiddleNames { get; set; }
 
         /// <summary>
-        /// Gets or sets the last name of the user.
+        /// Gets or sets the last name of the person.
         /// </summary>
         public string LastName { get; set; }
 
@@ -49,22 +49,22 @@ namespace CelebrancyHQ.Models.DTOs.Persons
         public string Gender { get; set; }
 
         /// <summary>
-        /// Gets or sets the organisation name of the user.
+        /// Gets or sets the organisation name of the person.
         /// </summary>
         public string? OrganisationName { get; set; }
 
         /// <summary>
-        /// Gets or sets the email address of the user.
+        /// Gets or sets the email address of the person.
         /// </summary>
         public string EmailAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets the primary phone number of the user.
+        /// Gets or sets the primary phone number of the person.
         /// </summary>
         public string? PrimaryPhoneNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the phone numbers of the user.
+        /// Gets or sets the phone numbers of the person.
         /// </summary>
         public List<PhoneNumberDTO> PhoneNumbers { get; set; }
 

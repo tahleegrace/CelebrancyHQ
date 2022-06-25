@@ -13,5 +13,12 @@ namespace CelebrancyHQ.Repository.Organisations
         /// <param name="organisationId">The ID of the organisation.</param>
         /// <returns>The primary phone number for the specified organisation.</returns>
         Task<OrganisationPhoneNumber?> GetOrganisationPrimaryPhoneNumber(int organisationId);
+
+        /// <summary>
+        /// Creates new phone numbers for an organisation.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        /// <returns>The newly created phone numbers.</returns>
+        Task<List<OrganisationPhoneNumber>> Create(List<OrganisationPhoneNumber> phoneNumbers);
     }
 }

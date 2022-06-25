@@ -20,7 +20,8 @@ namespace CelebrancyHQ.Mappings.Ceremonies
                 .ForMember(dest => dest.Website, source => source.MapFrom(item => item.Organisation.Website));
 
             CreateMap<CreateCeremonyServiceProviderRequest, Organisation>()
-                .ForMember(dest => dest.Notes, source => source.Ignore());
+                .ForMember(dest => dest.Notes, source => source.Ignore())
+                .ForMember(dest => dest.Address, source => source.Ignore());
         }
     }
 }
