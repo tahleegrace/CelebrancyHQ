@@ -28,14 +28,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type participants for the specified ceremony type.</returns>
         public async Task<List<CeremonyTypeParticipant>> FindByCeremonyTypeId(int ceremonyTypeId, string? codeToExclude)
         {
+            IQueryable<CeremonyTypeParticipant> query;
+
             if (!String.IsNullOrWhiteSpace(codeToExclude))
             {
-                return await this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code != codeToExclude && !tp.Deleted).ToListAsync();
+                query = this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code != codeToExclude && !tp.Deleted);
             }
             else
             {
-                return await this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && !tp.Deleted).ToListAsync();
+                query = this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && !tp.Deleted);
             }
+
+            return await query.OrderBy(tp => tp.SortOrder).ToListAsync();
         }
 
         /// <summary>
