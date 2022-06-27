@@ -22,6 +22,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.CelebrantCode,
                     Name = "Celebrant",
+                    MinimumNumberOfParticipants = 1,
                     MaximumNumberOfParticipants = 1,
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -37,6 +38,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.CelebrantCode,
                     Name = "Celebrant",
+                    MinimumNumberOfParticipants = 1,
                     MaximumNumberOfParticipants = 1,
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -52,6 +54,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.CoupleCode,
                     Name = "Couple",
+                    MinimumNumberOfParticipants = 2,
                     MaximumNumberOfParticipants = 2,
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -81,6 +84,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.OrganiserCode,
                     Name = "Organiser",
+                    MinimumNumberOfParticipants = 1,
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
                 }
@@ -139,6 +143,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.DeceasedPersonCode,
                     Name = "Deceased person",
+                    MinimumNumberOfParticipants = 1,
                     MaximumNumberOfParticipants = 1,
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
