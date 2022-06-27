@@ -71,6 +71,8 @@ Name
 Description
 MinimumNumberOfParticipants
 MaximumNumberOfParticipants
+RequiresAddress
+RequiresPhoneNumber
 
 CeremonyTypeDefaultPermissions - the default permissions for ceremonies of a ceremony type
 -----------------------------

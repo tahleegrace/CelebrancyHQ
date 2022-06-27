@@ -53,5 +53,15 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets the maximum number of participants a ceremony type can have for this participant type.
         /// </summary>
         public int? MaximumNumberOfParticipants { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether an address needs to be provided for this participant type.
+        /// </summary>
+        public bool RequiresAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether a phone number needs to be provided for this participant type.
+        /// </summary>
+        public bool RequiresPhoneNumber { get; set; }
     }
 }
