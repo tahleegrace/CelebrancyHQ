@@ -28,6 +28,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
             ceremony: null as any,
             canEditKeyDetails: false,
             canViewDates: false,
+            canViewParticipants: false,
             loading: true,
             ceremonyNotAccessible: false,
             rootContext: null,
@@ -52,6 +53,7 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                 oldCeremonyName: ceremony.name,
                 canEditKeyDetails: getCeremonyPermission(ceremony.effectivePermissions, CeremonyFieldNames.KeyDetails)?.canEdit || false,
                 canViewDates: getCeremonyPermission(ceremony.effectivePermissions, CeremonyFieldNames.Dates)?.canView || false,
+                canViewParticipants: getCeremonyPermission(ceremony.effectivePermissions, CeremonyFieldNames.Participants)?.canView || false,
                 loading: false,
                 ceremonyNotAccessible: false,
                 rootContext: this.context as RootContextProps
@@ -125,9 +127,10 @@ class CeremonyDetails extends CommonPage<CeremonyDetailsProps, CeremonyDetailsSt
                                         (<li className="nav-item">
                                             <Link className={`nav-link ${this.isTabActive('dates') ? 'active' : ''}`} to="dates">Dates</Link>
                                         </li>) : ""}
-                                    <li className="nav-item">
-                                        <a className={`nav-link ${this.isTabActive('participants') ? 'active' : ''}`}>Participants</a>
-                                    </li>
+                                    {this.state.canViewParticipants ?
+                                        (<li className="nav-item">
+                                            <Link className={`nav-link ${this.isTabActive('participants') ? 'active' : ''}`} to="participants">Participants</Link>
+                                        </li>) : ""}
                                     <li className="nav-item">
                                         <a className={`nav-link ${this.isTabActive('guests') ? 'active' : ''}`}>Guests</a>
                                     </li>                     
@@ -180,5 +183,6 @@ interface CeremonyDetailsState extends CeremonyDetailsContextProps {
     ceremonyNotAccessible: boolean;
     canEditKeyDetails: boolean;
     canViewDates: boolean;
+    canViewParticipants: boolean;
     oldCeremonyName: string;
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { App } from './App';
-import CeremonyDates from './pages/ceremonies/ceremony-details/dates/dates';
 import CeremonyDetails from './pages/ceremonies/ceremony-details/ceremony-details';
+import CeremonyDates from './pages/ceremonies/ceremony-details/dates/dates';
 import CeremonyKeyDetails from './pages/ceremonies/ceremony-details/key-details/key-details';
+import CeremonyParticipants from './pages/ceremonies/ceremony-details/participants/participants';
 import { MyCeremonies } from './pages/ceremonies/my-ceremonies/my-ceremonies';
 import { Dashboard } from './pages/dashboard/dashboard';
 import DefaultPage from './pages/default/default-page';
@@ -31,6 +32,7 @@ root.render(
                     <Route path="ceremonies/:ceremonyId" element={<AuthenticatedRoute><CeremonyDetails /></AuthenticatedRoute>}>
                         <Route path="" element={<AuthenticatedRoute><CeremonyKeyDetails /></AuthenticatedRoute>} />
                         <Route path="dates" element={<AuthenticatedRoute><CeremonyDates /></AuthenticatedRoute>} />
+                        <Route path="participants" element={<AuthenticatedRoute><CeremonyParticipants /></AuthenticatedRoute>} />
                     </Route>
                 </Route>
             </Routes>

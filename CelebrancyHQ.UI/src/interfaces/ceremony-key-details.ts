@@ -5,6 +5,7 @@ import { OrganisationKeyDetailsDTO } from "./organisation-key-details";
 export interface CeremonyKeyDetailsDTO {
     id: number;
     name: string;
+    ceremonyTypeId: number;
     ceremonyTypeName: string;
     ceremonyTypeCode: string;
     ceremonyDate: Date;
