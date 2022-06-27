@@ -65,5 +65,11 @@ namespace CelebrancyHQ.Entities
         /// </summary>
         [Required]
         public bool RequiresPhoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sort order of the ceremony type participant.
+        /// </summary>
+        [Required]
+        public int SortOrder { get; set; }
     }
 }
