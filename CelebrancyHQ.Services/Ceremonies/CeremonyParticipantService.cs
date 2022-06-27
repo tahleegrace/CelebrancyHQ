@@ -229,9 +229,11 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             if (!person.Registered)
             {
-                var userIsParticipantInOtherCeremonies = await this._ceremonyParticipantRepository.PersonIsParticipantInOtherCeremonies(person.Id, ceremony.Id);
+                var personIsParticipantInOtherCeremonies = await this._ceremonyParticipantRepository.PersonIsParticipantInOtherCeremonies(person.Id, ceremony.Id);
+                var personIsOtherParticipantInCeremony = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipantOfOtherType(person.Id, ceremony.Id, 
+                    participant.CeremonyTypeParticipant.Code);
 
-                if (!userIsParticipantInOtherCeremonies)
+                if (!personIsParticipantInOtherCeremonies && !personIsOtherParticipantInCeremony)
                 {
                     await this._personRepository.Delete(person.Id);
 

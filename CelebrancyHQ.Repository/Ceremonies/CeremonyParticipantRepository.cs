@@ -60,6 +60,21 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets whether the specified person is a participant other than the specified type in the specified ceremony.
+        /// </summary>
+        /// <param name="personId">The ID of the person.</param>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="codeToExclude">The ceremony type participant code.</param>
+        /// <returns>Whether the specified is a participant other than the specified type in the specified ceremony.</returns>
+        public async Task<bool> PersonIsCeremonyParticipantOfOtherType(int personId, int ceremonyId, string codeToExclude)
+        {
+            return await this._context.CeremonyParticipants.Include(cp => cp.CeremonyTypeParticipant)
+                                                           .Where(cp => cp.PersonId == personId && cp.CeremonyId == ceremonyId
+                                                                     && cp.CeremonyTypeParticipant.Code != codeToExclude && !cp.Deleted)
+                                                           .AnyAsync();
+        }
+
+        /// <summary>
         /// Gets whether the specified person is a participant in any ceremonies other than the specified ceremony.
         /// </summary>
         /// <param name="personId">The ID of the person.</param>
