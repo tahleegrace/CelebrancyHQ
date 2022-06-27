@@ -15,5 +15,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The newly created service provider.</returns>
         Task<CeremonyServiceProviderDTO> Create(CreateCeremonyServiceProviderRequest request, int ceremonyId, int currentUserId);
+
+        /// <summary>
+        /// Deletes the specified ceremony service provider.
+        /// </summary>
+        /// <param name="serviceProviderId">The ID of the service provider.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Delete(int serviceProviderId, int currentUserId);
     }
 }

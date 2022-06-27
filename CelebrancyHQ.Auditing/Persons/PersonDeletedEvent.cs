@@ -15,7 +15,7 @@ namespace CelebrancyHQ.Auditing.Persons
         /// <summary>
         /// Creates a new instance of PersonDeletedEvent.
         /// </summary>
-        /// <param name="value">The new person.</param>
+        /// <param name="value">The person that was deleted.</param>
         public PersonDeletedEvent(Person value)
             : base(null, value)
         {

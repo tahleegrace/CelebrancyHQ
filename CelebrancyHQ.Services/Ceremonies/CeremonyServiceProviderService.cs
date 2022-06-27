@@ -177,5 +177,51 @@ namespace CelebrancyHQ.Services.Ceremonies
             result.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(newPhoneNumbers);
             return result;
         }
+
+        /// <summary>
+        /// Deletes the specified ceremony service provider.
+        /// </summary>
+        /// <param name="serviceProviderId">The ID of the service provider.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Delete(int serviceProviderId, int currentUserId)
+        {
+            var serviceProvider = await this._ceremonyServiceProviderRepository.FindById(serviceProviderId);
+
+            if (serviceProvider == null)
+            {
+                throw new CeremonyServiceProviderNotFoundException(serviceProviderId);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(serviceProvider.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to delete the service provider.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.ServiceProviders);
+
+            // Delete the service provider.
+            await this._ceremonyServiceProviderRepository.Delete(serviceProviderId);
+
+            var organisation = serviceProvider.Organisation;
+
+            var organisationIsOtherServiceProviderForCeremony =
+                await this._ceremonyServiceProviderRepository.OrganisationIsCeremonyServiceProviderOfOtherType(organisation.Id, ceremony.Id,
+                serviceProvider.CeremonyTypeServiceProvider.Code);
+
+            var organisationIsServiceProviderInOtherCeremonies = 
+                await this._ceremonyServiceProviderRepository.OrganisationIsServiceProviderForOtherCeremonies(organisation.Id, ceremony.Id);
+
+            if (!organisationIsServiceProviderInOtherCeremonies && !organisationIsOtherServiceProviderForCeremony)
+            {
+                await this._organisationRepository.Delete(organisation.Id);
+
+                // Generate and save audit logs for the organisation.
+                var organisationAuditEvents = this._organisationAuditingService.GenerateAuditEvents(organisation, null);
+                await this._organisationAuditingService.SaveAuditEvents(organisation, currentUser.PersonId, organisationAuditEvents);
+            }
+
+            // Generate and save audit logs for the service provider.
+            var serviceProviderAuditEvents = this._ceremonyServiceProviderAuditingService.GenerateAuditEvents(serviceProvider, null);
+            await this._ceremonyServiceProviderAuditingService.SaveAuditEvents(serviceProvider, ceremony, currentUser.PersonId, serviceProviderAuditEvents);
+        }
     }
 }

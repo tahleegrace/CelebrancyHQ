@@ -27,5 +27,11 @@ namespace CelebrancyHQ.Repository.Organisations
         /// <param name="person">The organisation.</param>
         /// <returns>The newly created organisation.</returns>
         Task<Organisation> Create(Organisation organisation);
+
+        /// <summary>
+        /// Deletes the organisation with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the organisation.</param>
+        Task Delete(int id);
     }
 }

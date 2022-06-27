@@ -27,7 +27,8 @@ namespace CelebrancyHQ.Repository.Organisations
         /// <returns>The organisation with the specified ID.</returns>
         public async Task<Organisation?> FindById(int id)
         {
-            var organisation = await this._context.Organisations.Where(o => o.Id == id && !o.Deleted).FirstOrDefaultAsync();
+            var organisation = await this._context.Organisations.Include(o => o.Address)
+                                                                .Where(o => o.Id == id && !o.Deleted).FirstOrDefaultAsync();
 
             return organisation;
         }
@@ -60,6 +61,34 @@ namespace CelebrancyHQ.Repository.Organisations
 
             var newOrganisation = await FindById(organisation.Id);
             return newOrganisation;
+        }
+
+        /// <summary>
+        /// Deletes the organisation with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the organisation.</param>
+        public async Task Delete(int id)
+        {
+            var organisation = await FindById(id);
+
+            if (organisation.Address != null)
+            {
+                organisation.Address.Updated = DateTime.UtcNow;
+                organisation.Address.Deleted = true;
+            }
+
+            var phoneNumbers = await this._context.OrganisationPhoneNumbers.Where(op => op.OrganisationId == id && !op.Deleted).ToListAsync();
+
+            foreach (var phoneNumber in phoneNumbers)
+            {
+                phoneNumber.Updated = DateTime.UtcNow;
+                phoneNumber.Deleted = true;
+            }
+
+            organisation.Updated = DateTime.UtcNow;
+            organisation.Deleted = true;
+
+            await this._context.SaveChangesAsync();
         }
     }
 }
