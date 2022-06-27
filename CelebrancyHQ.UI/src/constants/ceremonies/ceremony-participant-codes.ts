@@ -5,5 +5,6 @@ export class CeremonyParticipantCodes {
     public static readonly Witness = "Witness";
     public static readonly BridalParty = "BridalParty";
     public static readonly InvitedGuest = "InvitedGuest";
+    public static readonly Interpreter = "Interpreter";
     public static readonly Other = "Other";
 }

@@ -21,6 +21,24 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Finds the ceremony type participants for the specified ceremony type.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <param name="codeToExclude">The code of ceremony type participants to exclude.</param>
+        /// <returns>The ceremony type participants for the specified ceremony type.</returns>
+        public async Task<List<CeremonyTypeParticipant>> FindByCeremonyTypeId(int ceremonyTypeId, string? codeToExclude)
+        {
+            if (!String.IsNullOrWhiteSpace(codeToExclude))
+            {
+                return await this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code != codeToExclude && !tp.Deleted).ToListAsync();
+            }
+            else
+            {
+                return await this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && !tp.Deleted).ToListAsync();
+            }
+        }
+
+        /// <summary>
         /// Finds the IDs of the ceremony type participants with the specified code.
         /// </summary>
         /// <param name="code">The code.</param>

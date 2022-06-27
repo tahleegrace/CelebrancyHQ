@@ -8,6 +8,14 @@ namespace CelebrancyHQ.Repository.Ceremonies
     public interface ICeremonyTypeParticipantRepository
     {
         /// <summary>
+        /// Finds the ceremony type participants for the specified ceremony type.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <param name="codeToExclude">The code of ceremony type participants to exclude.</param>
+        /// <returns>The ceremony type participants for the specified ceremony type.</returns>
+        Task<List<CeremonyTypeParticipant>> FindByCeremonyTypeId(int ceremonyTypeId, string? codeToExclude);
+
+        /// <summary>
         /// Finds the IDs of the ceremony type participants with the specified code.
         /// </summary>
         /// <param name="code">The code.</param>

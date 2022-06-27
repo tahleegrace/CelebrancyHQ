@@ -18,6 +18,11 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the ID of the ceremony type.
+        /// </summary>
+        public int CeremonyTypeId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the ceremony type.
         /// </summary>
         public string CeremonyTypeName { get; set; }

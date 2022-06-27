@@ -21,6 +21,16 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Finds the ceremony type with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the ceremony type.</param>
+        /// <returns>The ceremony type with the specified ID.</returns>
+        public async Task<CeremonyType?> FindById(int id)
+        {
+            return await this._context.CeremonyTypes.Where(t => t.Id == id && !t.Deleted).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Finds the ceremony types that can be offered by the specified organisation.
         /// </summary>
         /// <param name="organisationId">The ID of the organisation.</param>

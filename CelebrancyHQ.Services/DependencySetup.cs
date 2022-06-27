@@ -18,6 +18,7 @@ namespace CelebrancyHQ.Services
             services.AddScoped<IUniqueCodeGenerationService, UniqueCodeGenerationService>();
 
             services.AddScoped<ICeremonyTypeService, CeremonyTypeService>();
+            services.AddScoped<ICeremonyTypeParticipantService, CeremonyTypeParticipantService>();
 
             services.AddScoped<ICeremonyHelpers, CeremonyHelpers>();
             services.AddScoped<ICeremonyService, CeremonyService>();
