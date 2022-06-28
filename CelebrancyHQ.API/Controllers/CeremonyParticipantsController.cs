@@ -32,6 +32,30 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
+        /// Gets all the participants (excluding invited guests) for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The participants for the specified ceremony.</returns>
+        [HttpGet("{ceremonyId}/participants")]
+        public async Task<ActionResult<List<CeremonyParticipantDTO>>> GetAll(int ceremonyId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyParticipantService.GetCeremonyParticipants(ceremonyId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Creates a new participant.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

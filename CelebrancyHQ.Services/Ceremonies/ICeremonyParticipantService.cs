@@ -8,6 +8,14 @@ namespace CelebrancyHQ.Services.Ceremonies
     public interface ICeremonyParticipantService
     {
         /// <summary>
+        /// Gets the participants (excluding invited guests) for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The participants for the specified ceremony.</returns>
+        Task<List<CeremonyParticipantDTO>> GetCeremonyParticipants(int ceremonyId, int currentUserId);
+
+        /// <summary>
         /// Creates a new ceremony participant.
         /// </summary>
         /// <param name="request">The participant.</param>

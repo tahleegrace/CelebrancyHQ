@@ -95,6 +95,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         public async Task<List<CeremonyParticipant>> GetCeremonyParticipants(int ceremonyId, string codeToExclude)
         {
             return await this._context.CeremonyParticipants.Include(cp => cp.Person)
+                                                           .Include(cp => cp.Person.Address)
                                                            .Include(cp => cp.Person.Organisation)
                                                            .Include(cp => cp.CeremonyTypeParticipant)
                                                            .Where(cp => cp.CeremonyId == ceremonyId && cp.CeremonyTypeParticipant.Code != codeToExclude && !cp.Deleted)

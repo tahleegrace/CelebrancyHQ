@@ -46,6 +46,21 @@ namespace CelebrancyHQ.Repository.Persons
         }
 
         /// <summary>
+        /// Gets the phone numbers for the specified persons.
+        /// </summary>
+        /// <param name="personIds">The IDs of the persons.</param>
+        /// <returns>The phone numbers for the specified persons.</returns>
+        public async Task<Dictionary<int, List<PersonPhoneNumber>>> GetPhoneNumbersForPersons(List<int> personIds)
+        {
+            var result = from pp in this._context.PersonPhoneNumbers
+                         where personIds.Contains(pp.PersonId) && !pp.Deleted
+                         group pp by pp.PersonId into g
+                         select new { PersonId = g.Key, PhoneNumbers = g.ToList() };
+
+            return await result.ToDictionaryAsync(g => g.PersonId, g => g.PhoneNumbers);
+        }
+
+        /// <summary>
         /// Creates new phone numbers for a person.
         /// </summary>
         /// <param name="phoneNumbers">The phone numbers.</param>

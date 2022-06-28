@@ -73,6 +73,40 @@ namespace CelebrancyHQ.Services.Ceremonies
         }
 
         /// <summary>
+        /// Gets the participants (excluding invited guests) for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The participants for the specified ceremony.</returns>
+        public async Task<List<CeremonyParticipantDTO>> GetCeremonyParticipants(int ceremonyId, int currentUserId)
+        {
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+
+            // Make sure the user has permissions to view the participants for the ceremony.
+            await this._ceremonyHelpers.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Participants);
+
+            // Get the participants for the ceremony.
+            var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId, CeremonyTypeParticipantConstants.InvitedGuestCode);
+            var personIds = participants.Select(p => p.PersonId).Distinct().ToList();
+            var allPhoneNumbers = await this._personPhoneNumberRepository.GetPhoneNumbersForPersons(personIds);
+
+            var result = participants.Select(participant =>
+            {
+                var dto = this._mapper.Map<CeremonyParticipantDTO>(participant);
+                this._mapper.Map(participant.Person, dto);
+
+                dto.Address = this._mapper.Map<AddressDTO>(participant.Person.Address);
+                
+                var participantPhoneNumbers = allPhoneNumbers.ContainsKey(participant.PersonId) ? allPhoneNumbers[participant.PersonId] : new List<PersonPhoneNumber>();
+                dto.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(participantPhoneNumbers);
+
+                return dto;
+            }).ToList();
+
+            return result;
+        }
+
+        /// <summary>
         /// Creates a new ceremony participant.
         /// </summary>
         /// <param name="request">The participant.</param>
