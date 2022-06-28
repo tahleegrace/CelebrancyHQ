@@ -1,9 +1,7 @@
 import moment from "moment";
 import { RootContextProps } from "../../context/root-context";
-import { CeremonyDateDTO } from "../../interfaces/ceremony-date";
 import { CeremonyKeyDetailsDTO } from "../../interfaces/ceremony-key-details";
 import { CeremonySummaryDTO } from "../../interfaces/ceremony-summary";
-import { UpdateCeremonyDateRequest } from "../../interfaces/update-ceremony-date-request";
 import { UpdateCeremonyRequest } from "../../interfaces/update-ceremony-request";
 import { DependencyService } from "../dependencies/dependency.service";
 import { HttpService } from "../http/http.service";
@@ -28,21 +26,9 @@ export class CeremoniesService {
         return await this.httpService.get<CeremonyKeyDetailsDTO>(url, context);
     }
 
-    public async getDates(ceremonyId: number, context: RootContextProps): Promise<CeremonyDateDTO[]> {
-        const url = `ceremonies/${ceremonyId}/dates`;
-
-        return await this.httpService.get<CeremonyDateDTO[]>(url, context);
-    }
-
     public async update(ceremony: UpdateCeremonyRequest, context: RootContextProps): Promise<void> {
         const url = `ceremonies/${ceremony.id}`;
 
         await this.httpService.putWithNoResponse(url, ceremony, context);
-    }
-
-    public async updateDate(ceremonyId: number, date: UpdateCeremonyDateRequest, context: RootContextProps): Promise<CeremonyDateDTO> {
-        const url = `ceremonies/${ceremonyId}/dates`;
-
-        return await this.httpService.put(url, date, context);
     }
 }

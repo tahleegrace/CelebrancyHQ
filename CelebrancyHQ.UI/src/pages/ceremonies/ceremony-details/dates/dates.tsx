@@ -5,7 +5,7 @@ import { CeremonyTypeCodes } from "../../../../constants/ceremonies/ceremony-typ
 import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../../context/root-context";
 import { CeremonyDateDTO } from "../../../../interfaces/ceremony-date";
-import { CeremoniesService } from "../../../../services/ceremonies/ceremonies.service";
+import { CeremonyDatesService } from "../../../../services/ceremonies/ceremomy-dates.service";
 import { DependencyService } from "../../../../services/dependencies/dependency.service";
 import { getCeremonyPermission } from "../../../../utilities/ceremonies/ceremony-permission-helpers";
 import { withRouter } from "../../../../utilities/with-router";
@@ -14,7 +14,7 @@ import { CommonTab } from "../common-tab/common-tab";
 class CeremonyDates extends CommonTab<CeremonyDatesProps, CeremonyDatesState> {
     static tabName = 'dates';
 
-    private ceremoniesService = DependencyService.getInstance().getDependency<CeremoniesService>(CeremoniesService.serviceName);
+    private ceremonyDatesService = DependencyService.getInstance().getDependency<CeremonyDatesService>(CeremonyDatesService.serviceName);
 
     constructor(props: CeremonyDatesProps) {
         super(props);
@@ -35,7 +35,7 @@ class CeremonyDates extends CommonTab<CeremonyDatesProps, CeremonyDatesState> {
         };
 
         const context = this.context as CeremonyDetailsContextProps;
-        const createdDate = await this.ceremoniesService.updateDate(context.ceremonyId as number, updateRequest, context.rootContext as RootContextProps);
+        const createdDate = await this.ceremonyDatesService.update(context.ceremonyId as number, updateRequest, context.rootContext as RootContextProps);
 
         if (date.id) {
             let newDate = this.state.dates.filter(d => d.id == date.id)[0];
@@ -51,7 +51,7 @@ class CeremonyDates extends CommonTab<CeremonyDatesProps, CeremonyDatesState> {
         this.setCurrentTab(CeremonyDates.tabName);
 
         const context = this.context as CeremonyDetailsContextProps;
-        const dates = await this.ceremoniesService.getDates(context.ceremonyId as number, context.rootContext as RootContextProps);
+        const dates = await this.ceremonyDatesService.getDates(context.ceremonyId as number, context.rootContext as RootContextProps);
 
         this.setState({
             dates: dates,
