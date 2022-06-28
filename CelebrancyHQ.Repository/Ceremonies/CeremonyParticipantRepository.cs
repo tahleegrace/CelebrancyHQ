@@ -90,13 +90,14 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// Gets the participants for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="codeToExclude">The ceremony type participant code of participants to exclude.</param>
         /// <returns>The participants for the specified ceremony.</returns>
-        public async Task<List<CeremonyParticipant>> GetCeremonyParticipants(int ceremonyId)
+        public async Task<List<CeremonyParticipant>> GetCeremonyParticipants(int ceremonyId, string codeToExclude)
         {
             return await this._context.CeremonyParticipants.Include(cp => cp.Person)
                                                            .Include(cp => cp.Person.Organisation)
                                                            .Include(cp => cp.CeremonyTypeParticipant)
-                                                           .Where(cp => cp.CeremonyId == ceremonyId && !cp.Deleted)
+                                                           .Where(cp => cp.CeremonyId == ceremonyId && cp.CeremonyTypeParticipant.Code != codeToExclude && !cp.Deleted)
                                                            .ToListAsync();
                 
         }

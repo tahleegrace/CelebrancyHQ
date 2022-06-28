@@ -52,8 +52,9 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// Gets the participants for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="codeToExclude">The ceremony type participant code of participants to exclude.</param>
         /// <returns>The participants for the specified ceremony.</returns>
-        Task<List<CeremonyParticipant>> GetCeremonyParticipants(int ceremonyId);
+        Task<List<CeremonyParticipant>> GetCeremonyParticipants(int ceremonyId, string codeToExclude);
 
         /// <summary>
         /// Creates a new ceremony participant.

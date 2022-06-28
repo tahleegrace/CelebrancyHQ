@@ -109,8 +109,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Get the participants in the ceremony.
-            // TODO: Don't show invited guests here.
-            var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId);
+            var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId, CeremonyTypeParticipantConstants.InvitedGuestCode);
             var participantPhoneNumbers = await this._personPhoneNumberRepository.GetPrimaryPhoneNumbersForCeremonyParticipants(ceremonyId);
 
             var participantDTOs = participants.Select(participant =>
