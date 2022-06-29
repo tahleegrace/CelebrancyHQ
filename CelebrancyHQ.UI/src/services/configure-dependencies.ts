@@ -1,6 +1,7 @@
 import { AuthenticationService } from "./authentication/authentication.service";
 import { CeremonyDatesService } from "./ceremonies/ceremomy-dates.service";
 import { CeremoniesService } from "./ceremonies/ceremonies.service";
+import { CeremonyParticipantsService } from "./ceremonies/ceremony-participants.service";
 import { CeremonyTypeParticipantsService } from "./ceremonies/ceremony-type-participants.service";
 import { CeremonyTypesService } from "./ceremonies/ceremony-types.service";
 import { DependencyService } from "./dependencies/dependency.service";
@@ -13,6 +14,7 @@ function configureDependencies() {
     DependencyService.getInstance().setDependency(CeremonyTypeParticipantsService.serviceName, new CeremonyTypeParticipantsService());
     DependencyService.getInstance().setDependency(CeremoniesService.serviceName, new CeremoniesService());
     DependencyService.getInstance().setDependency(CeremonyDatesService.serviceName, new CeremonyDatesService());
+    DependencyService.getInstance().setDependency(CeremonyParticipantsService.serviceName, new CeremonyParticipantsService());
 }
 
 export default configureDependencies;
