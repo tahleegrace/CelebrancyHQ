@@ -8,6 +8,11 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
     public class CeremonyParticipantDTO : PersonDTO
     {
         /// <summary>
+        /// Gets or sets the ID of the ceremony participant.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the code of the ceremony type participant.
         /// </summary>
         public string Code { get; set; }

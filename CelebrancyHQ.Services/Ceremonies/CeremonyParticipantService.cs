@@ -229,6 +229,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
+            result.Id = newParticipant.Id;
             result.Name = ceremonyTypeParticipant.Name;
             result.Code = ceremonyTypeParticipant.Code;
             result.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(newPhoneNumbers);
