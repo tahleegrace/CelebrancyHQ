@@ -40,6 +40,43 @@ namespace CelebrancyHQ.Auditing.Persons
             {
                 auditEvents.Add(new PersonDeletedEvent(oldEntity));
             }
+            else if (oldEntity != null && newEntity != null)
+            {
+                if (oldEntity.FirstName != newEntity.FirstName)
+                {
+                    auditEvents.Add(new PersonFirstNameUpdatedEvent(oldEntity.FirstName, newEntity.FirstName));
+                }
+
+                if (oldEntity.MiddleNames != newEntity.MiddleNames)
+                {
+                    auditEvents.Add(new PersonMiddleNamesUpdatedEvent(oldEntity.MiddleNames, newEntity.MiddleNames));
+                }
+
+                if (oldEntity.LastName != newEntity.LastName)
+                {
+                    auditEvents.Add(new PersonLastNameUpdatedEvent(oldEntity.LastName, newEntity.LastName));
+                }
+
+                if (oldEntity.PreferredName != newEntity.PreferredName)
+                {
+                    auditEvents.Add(new PersonPreferredNameUpdatedEvent(oldEntity.PreferredName, newEntity.PreferredName));
+                }
+
+                if (oldEntity.Title != newEntity.Title)
+                {
+                    auditEvents.Add(new PersonTitleUpdatedEvent(oldEntity.Title, newEntity.Title));
+                }
+
+                if (oldEntity.Gender != newEntity.Gender)
+                {
+                    auditEvents.Add(new PersonGenderUpdatedEvent(oldEntity.Gender, newEntity.Gender));
+                }
+
+                if (oldEntity.EmailAddress != newEntity.EmailAddress)
+                {
+                    auditEvents.Add(new PersonEmailAddressUpdatedEvent(oldEntity.EmailAddress, newEntity.EmailAddress));
+                }
+            }
 
             return auditEvents;
         }
