@@ -203,7 +203,8 @@ namespace CelebrancyHQ.Services.Ceremonies
             {
                 CeremonyId = ceremony.Id,
                 PersonId = newPerson.Id,
-                CeremonyTypeParticipantId = ceremonyTypeParticipant.Id
+                CeremonyTypeParticipantId = ceremonyTypeParticipant.Id,
+                Notes = request.Notes
             };
 
             var newParticipant = await this._ceremonyParticipantRepository.Create(participantToCreate);
@@ -229,9 +230,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             var result = this._mapper.Map<CeremonyParticipantDTO>(newPerson);
-            result.Id = newParticipant.Id;
-            result.Name = ceremonyTypeParticipant.Name;
-            result.Code = ceremonyTypeParticipant.Code;
+            this._mapper.Map(newParticipant, result);
             result.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(newPhoneNumbers);
             result.Address = this._mapper.Map<AddressDTO>(newAddress);
             return result;

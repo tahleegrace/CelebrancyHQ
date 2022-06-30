@@ -16,7 +16,8 @@ export class CeremonyParticipantDetails extends React.Component<CeremonyParticip
                     <strong>{getPersonFullName(this.props.participant, true)}</strong>
                     <Fragment><br /><a href={'mailto:' + this.props.participant.emailAddress}>{this.props.participant.emailAddress}</a></Fragment>
                     {this.props.participant.phoneNumbers.map(number => (<Fragment><br />{getPhoneNumberDisplay(number)}</Fragment>))}
-                        {this.props.participant.address ? (<Fragment><br />{formatAddress(this.props.participant.address)}</Fragment>) : ""}
+                    {this.props.participant.address ? (<Fragment><br />{formatAddress(this.props.participant.address)}</Fragment>) : ""}
+                    {this.props.participant.notes ? (<p className="mb-0">{this.props.participant.notes}</p>) : ""}
                 </div>
                 <div className="d-inline-block float-right">
                     Edit

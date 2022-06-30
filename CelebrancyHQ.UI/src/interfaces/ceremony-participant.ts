@@ -4,4 +4,5 @@ export interface CeremonyParticipantDTO extends PersonDTO {
     id: number;
     code: string;
     name: string;
+    notes?: string;
 }

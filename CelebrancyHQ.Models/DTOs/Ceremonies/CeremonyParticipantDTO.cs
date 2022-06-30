@@ -21,5 +21,10 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// Gets or sets the name of the ceremony type participant.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets any notes about the participant.
+        /// </summary>
+        public string? Notes { get; set; }
     }
 }

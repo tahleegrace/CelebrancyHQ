@@ -57,5 +57,10 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// Gets or sets the address of the participant.
         /// </summary>
         public CreateAddressRequest? Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets any notes about the participant.
+        /// </summary>
+        public string? Notes { get; set; }
     }
 }
