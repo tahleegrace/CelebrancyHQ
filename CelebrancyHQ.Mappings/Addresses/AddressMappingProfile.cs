@@ -14,7 +14,7 @@ namespace CelebrancyHQ.Mappings.Addresses
         {
             CreateMap<Address, AddressDTO>();
 
-            CreateMap<CreateAddressRequest, Address>();
+            CreateMap<CreateOrUpdateAddressRequest, Address>();
         }
     }
 }

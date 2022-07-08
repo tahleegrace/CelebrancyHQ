@@ -41,6 +41,6 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// <summary>
         /// Gets or sets the address of the service provider.
         /// </summary>
-        public CreateAddressRequest? Address { get; set; }
+        public CreateOrUpdateAddressRequest? Address { get; set; }
     }
 }

@@ -47,5 +47,16 @@ namespace CelebrancyHQ.Repository.Addresses
             var newAddress = await this.FindById(address.Id);
             return newAddress;
         }
+
+        /// <summary>
+        /// Updates the details of the specified address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        public async Task Update(Address address)
+        {
+            address.Updated = DateTime.UtcNow;
+            this._context.Entry(address).State = EntityState.Modified;
+            await this._context.SaveChangesAsync();
+        }
     }
 }

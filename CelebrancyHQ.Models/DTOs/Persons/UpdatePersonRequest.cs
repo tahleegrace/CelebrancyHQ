@@ -1,4 +1,6 @@
-﻿namespace CelebrancyHQ.Models.DTOs.Persons
+﻿using CelebrancyHQ.Models.DTOs.Addresses;
+
+namespace CelebrancyHQ.Models.DTOs.Persons
 {
     /// <summary>
     /// Stores details about a request to update a person.
@@ -54,5 +56,10 @@
         /// Gets or sets the date of birth of the person.
         /// </summary>
         public DateTime? DateOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address of the participant.
+        /// </summary>
+        public CreateOrUpdateAddressRequest? Address { get; set; }
     }
 }

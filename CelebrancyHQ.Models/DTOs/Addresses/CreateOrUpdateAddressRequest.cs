@@ -1,9 +1,9 @@
 ﻿namespace CelebrancyHQ.Models.DTOs.Addresses
 {
     /// <summary>
-    /// Stores details about a request to create an address.
+    /// Stores details about a request to create or update an address.
     /// </summary>
-    public class CreateAddressRequest
+    public class CreateOrUpdateAddressRequest
     {
         /// <summary>
         /// Gets or sets the street address.

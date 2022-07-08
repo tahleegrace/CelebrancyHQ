@@ -22,6 +22,33 @@ namespace CelebrancyHQ.Auditing.Addresses
             {
                 auditEvents.Add(new AddressCreatedEvent(newEntity));
             }
+            else if (oldEntity != null && newEntity != null)
+            {
+                if (oldEntity.StreetAddress != newEntity.StreetAddress)
+                {
+                    auditEvents.Add(new AddressStreetAddressUpdatedEvent(oldEntity.StreetAddress, newEntity.StreetAddress));
+                }
+
+                if (oldEntity.Suburb != newEntity.Suburb)
+                {
+                    auditEvents.Add(new AddressSuburbUpdatedEvent(oldEntity.Suburb, newEntity.Suburb));
+                }
+
+                if (oldEntity.State != newEntity.State)
+                {
+                    auditEvents.Add(new AddressStateUpdatedEvent(oldEntity.State, newEntity.State));
+                }
+
+                if (oldEntity.Postcode != newEntity.Postcode)
+                {
+                    auditEvents.Add(new AddressPostcodeUpdatedEvent(oldEntity.Postcode, newEntity.Postcode));
+                }
+
+                if (oldEntity.Country != newEntity.Country)
+                {
+                    auditEvents.Add(new AddressCountryUpdatedEvent(oldEntity.Country, newEntity.Country));
+                }
+            }
 
             return auditEvents;
         }

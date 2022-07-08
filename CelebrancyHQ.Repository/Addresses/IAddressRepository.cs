@@ -20,5 +20,11 @@ namespace CelebrancyHQ.Repository.Addresses
         /// <param name="address">The address.</param>
         /// <returns>The newly created address.</returns>
         Task<Address> Create(Address address);
+
+        /// <summary>
+        /// Updates the details of the specified address.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        Task Update(Address address);
     }
 }
