@@ -40,6 +40,15 @@ namespace CelebrancyHQ.Auditing.Ceremonies
             {
                 auditEvents.Add(new CeremonyParticipantDeletedEvent(oldEntity.Id, oldEntity.CeremonyTypeParticipant.Code, null, oldEntity.Person));
             }
+            else if (oldEntity != null && newEntity != null)
+            {
+                auditEvents.Add(new CeremonyParticipantUpdatedEvent(oldEntity.PersonId));
+
+                if (oldEntity.Notes != newEntity.Notes)
+                {
+                    auditEvents.Add(new CeremonyParticipantNotesUpdatedEvent(oldEntity.Notes, newEntity.Notes));
+                }
+            }
 
             return auditEvents;
         }

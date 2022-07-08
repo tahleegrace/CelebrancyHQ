@@ -12,6 +12,7 @@ using CelebrancyHQ.Repository.Addresses;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Services.Authentication;
+using CelebrancyHQ.Services.Persons;
 
 namespace CelebrancyHQ.Services.Ceremonies
 {
@@ -28,6 +29,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly ICeremonyParticipantAuditingService _ceremonyParticipantAuditingService;
+        private readonly IPersonService _personService;
         private readonly IPersonAuditingService _personAuditingService;
         private readonly IPersonPhoneNumberAuditingService _personPhoneNumberAuditingService;
         private readonly IPersonAddressAuditingService _personAddressAuditingService;
@@ -45,6 +47,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="personPhoneNumberRepository">The person phone numbers repository.</param>
         /// <param name="addressRepository">The address repository.</param>
         /// <param name="ceremonyParticipantAuditingService">The ceremony participant auditing service.</param>
+        /// <param name="personService">The person service.</param>
         /// <param name="personAuditingService">The person auditing service.</param>
         /// <param name="personPhoneNumberAuditingService">The person phone number auditing service.</param>
         /// <param name="personAddressAuditingService">The person address auditing service.</param>
@@ -53,7 +56,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         public CeremonyParticipantService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyParticipantRepository ceremonyParticipantRepository, ICeremonyAccessInvitationRepository ceremonyAccessInvitationRepository,
             IPersonRepository personRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, IAddressRepository addressRepository,
-            ICeremonyParticipantAuditingService ceremonyParticipantAuditingService, IPersonAuditingService personAuditingService,
+            ICeremonyParticipantAuditingService ceremonyParticipantAuditingService, IPersonService personService, IPersonAuditingService personAuditingService,
             IPersonPhoneNumberAuditingService personPhoneNumberAuditingService, IPersonAddressAuditingService personAddressAuditingService,
             IUniqueCodeGenerationService uniqueCodeGenerationService, IMapper mapper)
         {
@@ -66,6 +69,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._addressRepository = addressRepository;
             this._ceremonyParticipantAuditingService = ceremonyParticipantAuditingService;
             this._personAuditingService = personAuditingService;
+            this._personService = personService;
             this._personPhoneNumberAuditingService = personPhoneNumberAuditingService;
             this._personAddressAuditingService = personAddressAuditingService;
             this._uniqueCodeGenerationService = uniqueCodeGenerationService;
@@ -234,6 +238,48 @@ namespace CelebrancyHQ.Services.Ceremonies
             result.PhoneNumbers = this._mapper.Map<List<PhoneNumberDTO>>(newPhoneNumbers);
             result.Address = this._mapper.Map<AddressDTO>(newAddress);
             return result;
+        }
+
+
+        /// <summary>
+        /// Updates the details of the specified ceremony participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Update(UpdateCeremonyParticipantRequest participant, int currentUserId)
+        {
+            // Make sure the ceremony participant has been provided and has an ID.
+            if ((participant == null) || (participant.Id <= 0))
+            {
+                throw new CeremonyParticipantNotProvidedException();
+            }
+
+            var existingParticipant = await this._ceremonyParticipantRepository.FindById(participant.Id);
+
+            if (existingParticipant == null)
+            {
+                throw new CeremonyParticipantNotFoundException(participant.Id);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(existingParticipant.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to update the participant.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
+
+            // Generate audit events for the participant.
+            var auditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(existingParticipant, this._mapper.Map<CeremonyParticipant>(participant));
+
+            // Save the person.
+            // TODO: Handle updating a person when they're in multiple ceremonies here or they're already registered.
+            await this._personService.Update(participant, currentUserId);
+
+            // Save the participant.
+            this._mapper.Map(participant, existingParticipant);
+            await this._ceremonyParticipantRepository.Update(existingParticipant);
+
+            // Save the audit logs for the participant.
+            await this._ceremonyParticipantAuditingService.SaveAuditEvents(existingParticipant, ceremony, currentUser.PersonId, auditEvents);
         }
 
         /// <summary>

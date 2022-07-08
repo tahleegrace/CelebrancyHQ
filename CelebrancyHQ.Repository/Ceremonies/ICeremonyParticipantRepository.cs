@@ -64,6 +64,12 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyParticipant> Create(CeremonyParticipant participant);
 
         /// <summary>
+        /// Updates the details of the specified ceremony participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        Task Update(CeremonyParticipant participant);
+
+        /// <summary>
         /// Deletes the specified participant.
         /// </summary>
         /// <param name="id">The ID of the participant to delete.</param>

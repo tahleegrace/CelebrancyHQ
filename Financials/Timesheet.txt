@@ -1,4 +1,2 @@
 CelebrancyHQ timesheet:
 -----------------------
-30/06/2022 4:30PM - 5:00PM: CHQ-10: Adding API for adding a new ceremony participant.
-30/06/2022 5:00PM - 5:30PM: Adding API for updating a ceremony participant.

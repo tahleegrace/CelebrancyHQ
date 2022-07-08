@@ -47,6 +47,16 @@ namespace CelebrancyHQ.Repository.Persons
         }
 
         /// <summary>
+        /// Gets whether a person exists with the specified email address.
+        /// </summary>
+        /// <param name="emailAddress">The email address of the person.</param>
+        /// <returns>Whether a person exists with the specified email address.</returns>
+        public async Task<bool> PersonExistsWithEmailAddress(string emailAddress)
+        {
+            return await this._context.Persons.Where(p => p.EmailAddress == emailAddress && !p.Deleted).AnyAsync();
+        }
+
+        /// <summary>
         /// Creates a new person
         /// </summary>
         /// <param name="person">The person.</param>
@@ -62,6 +72,17 @@ namespace CelebrancyHQ.Repository.Persons
 
             var newPerson = await FindById(person.Id);
             return newPerson;
+        }
+
+        /// <summary>
+        /// Updates the details of the specified person.
+        /// </summary>
+        /// <param name="person">The person.</param>
+        public async Task Update(Person person)
+        {
+            person.Updated = DateTime.UtcNow;
+            this._context.Entry(person).State = EntityState.Modified;
+            await this._context.SaveChangesAsync();
         }
 
         /// <summary>

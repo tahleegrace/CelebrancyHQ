@@ -18,6 +18,8 @@ namespace CelebrancyHQ.Mappings.Ceremonies
 
             CreateMap<CreateCeremonyParticipantRequest, Person>()
                 .ForMember(dest => dest.Address, source => source.Ignore());
+
+            CreateMap<UpdateCeremonyParticipantRequest, CeremonyParticipant>();
         }
     }
 }

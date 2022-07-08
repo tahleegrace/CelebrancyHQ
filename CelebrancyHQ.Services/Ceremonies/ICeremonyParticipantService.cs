@@ -25,6 +25,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         Task<CeremonyParticipantDTO> Create(CreateCeremonyParticipantRequest request, int ceremonyId, int currentUserId);
 
         /// <summary>
+        /// Updates the details of the specified ceremony participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Update(UpdateCeremonyParticipantRequest participant, int currentUserId);
+
+        /// <summary>
         /// Deletes the specified ceremony participant.
         /// </summary>
         /// <param name="participantId">The ID of the participant.</param>

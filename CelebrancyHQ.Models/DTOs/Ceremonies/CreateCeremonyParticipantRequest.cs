@@ -49,6 +49,11 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// Gets or sets the date of birth of the participant.
+        /// </summary>
+        public DateTime? DateOfBirth { get; set; }
+
+        /// <summary>
         /// Gets or sets the phone numbers of the participant.
         /// </summary>
         public List<CreatePhoneNumberRequest> PhoneNumbers { get; set; } = new List<CreatePhoneNumberRequest>();

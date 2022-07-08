@@ -6,6 +6,7 @@ using CelebrancyHQ.Services.Authentication;
 using CelebrancyHQ.Services.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Models.Exceptions.Persons;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -75,6 +76,37 @@ namespace CelebrancyHQ.API.Controllers
                 return NotFound();
             }
             catch (Exception ex) when (ex is CeremonyParticipantNotProvidedException || ex is PersonAlreadyCeremonyParticipantException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
+        /// Updates the details of the specified participant.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="participantId">The ID of the participant.</param>
+        /// <param name="request">The participant.</param>
+        [HttpPut("{ceremonyId}/participants/{participantId}")]
+        public async Task<ActionResult> Update(int ceremonyId, int participantId, UpdateCeremonyParticipantRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremonyParticipantService.Update(request, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyParticipantNotFoundException || ex is UserNotFoundException || ex is PersonNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is CeremonyParticipantNotProvidedException || ex is PersonNotProvidedException || ex is PersonAlreadyExistsWithEmailAddressException)
             {
                 return BadRequest();
             }

@@ -122,6 +122,17 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Updates the details of the specified ceremony participant.
+        /// </summary>
+        /// <param name="participant">The participant.</param>
+        public async Task Update(CeremonyParticipant participant)
+        {
+            participant.Updated = DateTime.UtcNow;
+            this._context.Entry(participant).State = EntityState.Modified;
+            await this._context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Deletes the specified participant.
         /// </summary>
         /// <param name="id">The ID of the participant to delete.</param>

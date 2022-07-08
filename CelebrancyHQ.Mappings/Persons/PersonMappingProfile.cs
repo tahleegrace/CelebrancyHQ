@@ -20,6 +20,9 @@ namespace CelebrancyHQ.Mappings.Persons
             CreateMap<Person, CeremonyParticipantDTO>()
                 .ForMember(dest => dest.PersonId, source => source.MapFrom(item => item.Id))
                 .ForMember(dest => dest.OrganisationName, source => source.MapFrom(item => item.Organisation != null ? item.Organisation.Name : null));
+
+            CreateMap<UpdatePersonRequest, Person>()
+                .ForMember(dest => dest.Id, source => source.MapFrom(item => item.PersonId));
         }
     }
 }
