@@ -46,7 +46,7 @@ namespace CelebrancyHQ.Auditing.Ceremonies
 
                 if (oldEntity.Notes != newEntity.Notes)
                 {
-                    auditEvents.Add(new CeremonyParticipantNotesUpdatedEvent(oldEntity.Notes, newEntity.Notes));
+                    auditEvents.Add(new CeremonyParticipantNotesUpdatedEvent(newEntity.Id, oldEntity.Notes, newEntity.Notes));
                 }
             }
 

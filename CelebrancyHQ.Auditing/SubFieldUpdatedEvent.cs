@@ -11,6 +11,20 @@
         public int Id { get; }
 
         /// <summary>
+        /// Gets the event data.
+        /// </summary>
+        public override Dictionary<string, object> EventData
+        {
+            get
+            {
+                var eventData = base.EventData;
+                eventData.Add("Id", this.Id);
+
+                return eventData;
+            }
+        }
+
+        /// <summary>
         /// Creates a new instance of SubFieldUpdatedEvent.
         /// </summary>
         /// <param name="id">The ID of the entity that was updated.</param>
