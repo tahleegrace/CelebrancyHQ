@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Models.DTOs.Addresses;
+using CelebrancyHQ.Models.DTOs.PhoneNumbers;
 
 namespace CelebrancyHQ.Models.DTOs.Persons
 {
@@ -61,5 +62,10 @@ namespace CelebrancyHQ.Models.DTOs.Persons
         /// Gets or sets the address of the participant.
         /// </summary>
         public CreateOrUpdateAddressRequest? Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone numbers of the participant.
+        /// </summary>
+        public List<CreateOrUpdatePhoneNumberRequest>? PhoneNumbers { get; set; }
     }
 }

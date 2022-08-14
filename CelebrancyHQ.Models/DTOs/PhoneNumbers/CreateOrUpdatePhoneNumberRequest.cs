@@ -1,10 +1,15 @@
 ﻿namespace CelebrancyHQ.Models.DTOs.PhoneNumbers
 {
     /// <summary>
-    /// Stores details about a request to create a phone number.
+    /// Stores details about a request to create or update a phone number.
     /// </summary>
-    public class CreatePhoneNumberRequest
+    public class CreateOrUpdatePhoneNumberRequest
     {
+        /// <summary>
+        /// Gets or sets the ID of the phone number.
+        /// </summary>
+        public int? Id { get; set; }
+
         /// <summary>
         /// Gets or sets the type of the phone number (e.g. mobile, landline, etc).
         /// </summary>

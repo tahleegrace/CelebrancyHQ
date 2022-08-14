@@ -84,5 +84,41 @@ namespace CelebrancyHQ.Repository.Persons
 
             return phoneNumbers;
         }
+
+        /// <summary>
+        /// Updates the specified person phone numbers.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        public async Task Update(List<PersonPhoneNumber> phoneNumbers)
+        {
+            if (phoneNumbers != null)
+            {
+                foreach (var phoneNumber in phoneNumbers)
+                {
+                    phoneNumber.Updated = DateTime.UtcNow;
+                    this._context.Entry(phoneNumber).State = EntityState.Modified;
+                }
+
+                await this._context.SaveChangesAsync();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the specified person phone numbers.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        public async Task Delete(List<PersonPhoneNumber> phoneNumbers)
+        {
+            if (phoneNumbers != null)
+            {
+                foreach (var phoneNumber in phoneNumbers)
+                {
+                    phoneNumber.Updated = DateTime.UtcNow;
+                    phoneNumber.Deleted = true;
+                }
+
+                await this._context.SaveChangesAsync();
+            }
+        }
     }
 }

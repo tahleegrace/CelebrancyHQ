@@ -14,7 +14,7 @@ namespace CelebrancyHQ.Mappings.Organisations
         {
             CreateMap<OrganisationPhoneNumber, PhoneNumberDTO>();
 
-            CreateMap<CreatePhoneNumberRequest, OrganisationPhoneNumber>();
+            CreateMap<CreateOrUpdatePhoneNumberRequest, OrganisationPhoneNumber>();
         }
     }
 }

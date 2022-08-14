@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-using CelebrancyHQ.Entities.Auditing;
+﻿using CelebrancyHQ.Entities.Auditing;
 
 namespace CelebrancyHQ.Auditing
 {

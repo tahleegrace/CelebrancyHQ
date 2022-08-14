@@ -11,6 +11,11 @@
         public abstract string FieldName { get; }
 
         /// <summary>
+        /// Gets the sub field name.
+        /// </summary>
+        public virtual string SubFieldName { get; } = null;
+
+        /// <summary>
         /// Gets the event name.
         /// </summary>
         public abstract string EventName { get; }

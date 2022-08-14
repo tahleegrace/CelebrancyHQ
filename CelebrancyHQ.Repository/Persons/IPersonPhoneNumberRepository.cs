@@ -34,5 +34,17 @@ namespace CelebrancyHQ.Repository.Persons
         /// <param name="phoneNumbers">The phone numbers.</param>
         /// <returns>The newly created phone numbers.</returns>
         Task<List<PersonPhoneNumber>> Create(List<PersonPhoneNumber> phoneNumbers);
+
+        /// <summary>
+        /// Updates the specified person phone numbers.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        Task Update(List<PersonPhoneNumber> phoneNumbers);
+
+        /// <summary>
+        /// Deletes the specified person phone numbers.
+        /// </summary>
+        /// <param name="phoneNumbers">The phone numbers.</param>
+        Task Delete(List<PersonPhoneNumber> phoneNumbers);
     }
 }

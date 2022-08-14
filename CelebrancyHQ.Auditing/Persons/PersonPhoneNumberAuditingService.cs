@@ -36,6 +36,27 @@ namespace CelebrancyHQ.Auditing.Persons
             {
                 auditEvents.Add(new PersonPhoneNumberCreatedEvent(newEntity));
             }
+            else if (oldEntity != null && newEntity == null)
+            {
+                auditEvents.Add(new PersonPhoneNumberDeletedEvent(oldEntity));
+            }
+            else if (oldEntity != null && newEntity != null)
+            {
+                if (oldEntity.Type != newEntity.Type)
+                {
+                    auditEvents.Add(new PersonPhoneNumberTypeUpdatedEvent(newEntity.Id, oldEntity.Type, newEntity.Type));
+                }
+
+                if (oldEntity.Description != newEntity.Description)
+                {
+                    auditEvents.Add(new PersonPhoneNumberDescriptionUpdatedEvent(newEntity.Id, oldEntity.Description, newEntity.Description));
+                }
+
+                if (oldEntity.PhoneNumber != newEntity.PhoneNumber)
+                {
+                    auditEvents.Add(new PersonPhoneNumberPhoneNumberUpdatedEvent(newEntity.Id, oldEntity.PhoneNumber, newEntity.PhoneNumber));
+                }
+            }
 
             return auditEvents;
         }

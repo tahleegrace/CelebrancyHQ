@@ -2,7 +2,6 @@
 
 using CelebrancyHQ.Auditing.Persons;
 using CelebrancyHQ.Entities;
-using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Models.DTOs.Persons;
 using CelebrancyHQ.Models.Exceptions.Persons;
 using CelebrancyHQ.Models.Exceptions.Users;
@@ -18,29 +17,36 @@ namespace CelebrancyHQ.Services.Persons
     public class PersonService : IPersonService
     {
         private readonly IPersonRepository _personRepository;
+        private readonly IPersonPhoneNumberRepository _personPhoneNumberRepository;
         private readonly IUserRepository _userRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly IPersonAuditingService _personAuditingService;
         private readonly IPersonAddressAuditingService _personAddressAuditingService;
+        private readonly IPersonPhoneNumberAuditingService _personPhoneNumberAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates a new instance of PersonService.
         /// </summary>
         /// <param name="personRepository">The person repository.</param>
+        /// <param name="personPhoneNumberRepository">The person phone number repository.</param>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="addressRepository">The address repository.</param>
         /// <param name="personAuditingService">The person auditing service.</param>
         /// <param name="personAddressAuditingService">The person address auditing service.</param>
+        /// <param name="personPhoneNumberAuditingService">The person phone number auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public PersonService(IPersonRepository personRepository, IUserRepository userRepository, IAddressRepository addressRepository, 
-            IPersonAuditingService personAuditingService, IPersonAddressAuditingService personAddressAuditingService, IMapper mapper)
+        public PersonService(IPersonRepository personRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, 
+            IUserRepository userRepository, IAddressRepository addressRepository, IPersonAuditingService personAuditingService, 
+            IPersonAddressAuditingService personAddressAuditingService, IPersonPhoneNumberAuditingService personPhoneNumberAuditingService, IMapper mapper)
         {
             this._personRepository = personRepository;
+            this._personPhoneNumberRepository = personPhoneNumberRepository;
             this._userRepository = userRepository;
             this._addressRepository = addressRepository;
             this._personAuditingService = personAuditingService;
             this._personAddressAuditingService = personAddressAuditingService;
+            this._personPhoneNumberAuditingService = personPhoneNumberAuditingService;
             this._mapper = mapper;
         }
 
@@ -116,7 +122,51 @@ namespace CelebrancyHQ.Services.Persons
             this._mapper.Map(request, existingPerson);
             await this._personRepository.Update(existingPerson);
 
-            // TODO: Update the phone numbers for the person here.
+            // Save the phone numbers for the person.
+            if (request.PhoneNumbers != null)
+            {
+                var existingPhoneNumbers = await this._personPhoneNumberRepository.GetPhoneNumbersForPerson(existingPerson.Id);
+
+                var existingPhoneNumberIds = existingPhoneNumbers.Select(p => p.Id).ToList();
+                var newPhoneNumbers = request.PhoneNumbers.Where(p => p.Id == null).ToList();
+                var updatedPhoneNumbers = request.PhoneNumbers.Where(p => p.Id != null).ToList();
+                var updatedPhoneNumberIds = updatedPhoneNumbers.Select(p => p.Id).ToList();
+                var deletedPhoneNumbers = existingPhoneNumbers.Where(p => !updatedPhoneNumberIds.Contains(p.Id)).ToList();
+
+                // Save any new phone numbers.
+                var phoneNumbersToCreate = this._mapper.Map<List<PersonPhoneNumber>>(newPhoneNumbers);
+                await this._personPhoneNumberRepository.Create(phoneNumbersToCreate);
+
+                // Save any updated phone numbers.
+                var phoneNumbersToUpdate = this._mapper.Map<List<PersonPhoneNumber>>(updatedPhoneNumbers);
+                await this._personPhoneNumberRepository.Update(phoneNumbersToUpdate);
+
+                // Delete any deleted phone numbers.
+                await this._personPhoneNumberRepository.Delete(deletedPhoneNumbers);
+
+                // Generate and save audit logs for the new phone numbers.
+                foreach (var phoneNumber in phoneNumbersToCreate)
+                {
+                    var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
+                    await this._personPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, existingPerson, currentUser.Person.Id, phoneNumberAuditEvents);
+                }
+
+                // Generate and save audit logs for the updated phone numbers.
+                foreach (var newPhoneNumber in phoneNumbersToUpdate)
+                {
+                    var existingPhoneNumber = existingPhoneNumbers.Where(p => p.Id == newPhoneNumber.Id).FirstOrDefault();
+
+                    var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(existingPhoneNumber, newPhoneNumber);
+                    await this._personPhoneNumberAuditingService.SaveAuditEvents(newPhoneNumber, existingPerson, currentUser.Person.Id, phoneNumberAuditEvents);
+                }
+
+                // Generate and save audit logs for the deleted phone numbers.
+                foreach (var phoneNumber in deletedPhoneNumbers)
+                {
+                    var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(phoneNumber, null);
+                    await this._personPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, existingPerson, currentUser.Person.Id, phoneNumberAuditEvents);
+                }
+            }
 
             // Save the audit logs for the person.
             await this._personAuditingService.SaveAuditEvents(existingPerson, currentUser.PersonId, auditEvents);

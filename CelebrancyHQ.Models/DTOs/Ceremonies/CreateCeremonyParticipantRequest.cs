@@ -56,7 +56,7 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// <summary>
         /// Gets or sets the phone numbers of the participant.
         /// </summary>
-        public List<CreatePhoneNumberRequest> PhoneNumbers { get; set; } = new List<CreatePhoneNumberRequest>();
+        public List<CreateOrUpdatePhoneNumberRequest> PhoneNumbers { get; set; } = new List<CreateOrUpdatePhoneNumberRequest>();
 
         /// <summary>
         /// Gets or sets the address of the participant.
