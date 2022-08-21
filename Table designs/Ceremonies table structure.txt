@@ -169,3 +169,62 @@ Ceremony
 CeremonyTypeServiceProvider
 Organisation
 Notes
+
+Files
+-----
+ID
+Name
+ContentType
+Size
+FileData
+CreatedBy
+
+CeremonyFiles - files that are linked to a ceremony
+-------------
+ID
+Ceremony
+File
+
+CeremonyTypeMeetings - a type of meeting that can be held for a ceremony (e.g. initial phone call, initial interview, etc)
+------------------------
+ID
+CeremonyType
+Code
+Name
+Description
+Template - whether this meeting is based on another ceremony type meeting.
+Organisation
+
+CeremonyTypeMeetingQuestionTypes - a type of a question for a ceremony type meeting (e.g. dropdown, text, image, file)
+-----------------------
+ID
+Code
+Description
+
+CeremonyTypeMeetingQuestions - a question for a ceremony type meeting
+----------------------
+ID
+CeremonyTypeMeeting
+Question
+Description
+
+CeremonyMeeting
+---------------
+ID
+CeremonyTypeMeeting
+Description
+Date
+
+CeremonyMeetingParticipants
+-----------------
+ID
+CeremonyMeeting
+Person
+
+CeremonyMeetingQuestions
+-----------------
+ID
+CeremonyMeeting
+CeremonyTypeQuestion
+Answer
+File - only used if the question type is file or image
