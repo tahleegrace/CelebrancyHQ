@@ -44,17 +44,17 @@ namespace CelebrancyHQ.Auditing.Persons
             {
                 if (oldEntity.Type != newEntity.Type)
                 {
-                    auditEvents.Add(new PersonPhoneNumberTypeUpdatedEvent(newEntity.Id, oldEntity.Type, newEntity.Type));
+                    auditEvents.Add(new PersonPhoneNumberTypeUpdatedEvent(oldEntity.Id, oldEntity.Type, newEntity.Type));
                 }
 
                 if (oldEntity.Description != newEntity.Description)
                 {
-                    auditEvents.Add(new PersonPhoneNumberDescriptionUpdatedEvent(newEntity.Id, oldEntity.Description, newEntity.Description));
+                    auditEvents.Add(new PersonPhoneNumberDescriptionUpdatedEvent(oldEntity.Id, oldEntity.Description, newEntity.Description));
                 }
 
                 if (oldEntity.PhoneNumber != newEntity.PhoneNumber)
                 {
-                    auditEvents.Add(new PersonPhoneNumberPhoneNumberUpdatedEvent(newEntity.Id, oldEntity.PhoneNumber, newEntity.PhoneNumber));
+                    auditEvents.Add(new PersonPhoneNumberPhoneNumberUpdatedEvent(oldEntity.Id, oldEntity.PhoneNumber, newEntity.PhoneNumber));
                 }
             }
 

@@ -135,10 +135,27 @@ namespace CelebrancyHQ.Services.Persons
 
                 // Save any new phone numbers.
                 var phoneNumbersToCreate = this._mapper.Map<List<PersonPhoneNumber>>(newPhoneNumbers);
+
+                foreach (var phoneNumber in phoneNumbersToCreate)
+                {
+                    phoneNumber.PersonId = existingPerson.Id;
+                }
+
                 await this._personPhoneNumberRepository.Create(phoneNumbersToCreate);
 
                 // Save any updated phone numbers.
-                var phoneNumbersToUpdate = this._mapper.Map<List<PersonPhoneNumber>>(updatedPhoneNumbers);
+                var phoneNumbersToUpdate = existingPhoneNumbers.Where(p => updatedPhoneNumberIds.Contains(p.Id)).ToList();
+
+                foreach(var existingPhoneNumber in phoneNumbersToUpdate)
+                {
+                    var newPhoneNumber = updatedPhoneNumbers.Where(p => p.Id == existingPhoneNumber.Id).FirstOrDefault();
+                    var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(existingPhoneNumber, this._mapper.Map<PersonPhoneNumber>(newPhoneNumber));
+
+                    this._mapper.Map(newPhoneNumber, existingPhoneNumber);
+
+                    await this._personPhoneNumberAuditingService.SaveAuditEvents(existingPhoneNumber, existingPerson, currentUser.Person.Id, phoneNumberAuditEvents);
+                }
+
                 await this._personPhoneNumberRepository.Update(phoneNumbersToUpdate);
 
                 // Delete any deleted phone numbers.
@@ -149,15 +166,6 @@ namespace CelebrancyHQ.Services.Persons
                 {
                     var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(null, phoneNumber);
                     await this._personPhoneNumberAuditingService.SaveAuditEvents(phoneNumber, existingPerson, currentUser.Person.Id, phoneNumberAuditEvents);
-                }
-
-                // Generate and save audit logs for the updated phone numbers.
-                foreach (var newPhoneNumber in phoneNumbersToUpdate)
-                {
-                    var existingPhoneNumber = existingPhoneNumbers.Where(p => p.Id == newPhoneNumber.Id).FirstOrDefault();
-
-                    var phoneNumberAuditEvents = this._personPhoneNumberAuditingService.GenerateAuditEvents(existingPhoneNumber, newPhoneNumber);
-                    await this._personPhoneNumberAuditingService.SaveAuditEvents(newPhoneNumber, existingPerson, currentUser.Person.Id, phoneNumberAuditEvents);
                 }
 
                 // Generate and save audit logs for the deleted phone numbers.

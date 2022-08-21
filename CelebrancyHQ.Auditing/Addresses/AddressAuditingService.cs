@@ -26,27 +26,27 @@ namespace CelebrancyHQ.Auditing.Addresses
             {
                 if (oldEntity.StreetAddress != newEntity.StreetAddress)
                 {
-                    auditEvents.Add(new AddressStreetAddressUpdatedEvent(newEntity.Id, oldEntity.StreetAddress, newEntity.StreetAddress));
+                    auditEvents.Add(new AddressStreetAddressUpdatedEvent(oldEntity.Id, oldEntity.StreetAddress, newEntity.StreetAddress));
                 }
 
                 if (oldEntity.Suburb != newEntity.Suburb)
                 {
-                    auditEvents.Add(new AddressSuburbUpdatedEvent(newEntity.Id, oldEntity.Suburb, newEntity.Suburb));
+                    auditEvents.Add(new AddressSuburbUpdatedEvent(oldEntity.Id, oldEntity.Suburb, newEntity.Suburb));
                 }
 
                 if (oldEntity.State != newEntity.State)
                 {
-                    auditEvents.Add(new AddressStateUpdatedEvent(newEntity.Id, oldEntity.State, newEntity.State));
+                    auditEvents.Add(new AddressStateUpdatedEvent(oldEntity.Id, oldEntity.State, newEntity.State));
                 }
 
                 if (oldEntity.Postcode != newEntity.Postcode)
                 {
-                    auditEvents.Add(new AddressPostcodeUpdatedEvent(newEntity.Id, oldEntity.Postcode, newEntity.Postcode));
+                    auditEvents.Add(new AddressPostcodeUpdatedEvent(oldEntity.Id, oldEntity.Postcode, newEntity.Postcode));
                 }
 
                 if (oldEntity.Country != newEntity.Country)
                 {
-                    auditEvents.Add(new AddressCountryUpdatedEvent(newEntity.Id, oldEntity.Country, newEntity.Country));
+                    auditEvents.Add(new AddressCountryUpdatedEvent(oldEntity.Id, oldEntity.Country, newEntity.Country));
                 }
             }
 
