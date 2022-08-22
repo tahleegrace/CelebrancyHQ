@@ -83,6 +83,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyTypeMeeting> CeremonyTypeMeetings { get; set; }
 
         /// <summary>
+        /// The ceremony type meeting question types table.
+        /// </summary>
+        public DbSet<CeremonyTypeMeetingQuestionType> CeremonyTypeMeetingQuestionTypes { get; set; }
+
+        /// <summary>
         /// The ceremonies table.
         /// </summary>
         public DbSet<Ceremony> Ceremonies { get; set; }
@@ -150,6 +155,7 @@ namespace CelebrancyHQ.Entities
             modelBuilder.ApplyConfiguration(new CeremonyTypeParticipantConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeDateConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeServiceProviderConfiguration());
+            modelBuilder.ApplyConfiguration(new CeremonyTypeMeetingQuestionTypeConfiguration());
         }
     }
 }
