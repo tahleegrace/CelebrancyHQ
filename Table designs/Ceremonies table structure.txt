@@ -184,6 +184,7 @@ CeremonyFiles - files that are linked to a ceremony
 ID
 Ceremony
 File
+Description
 
 CeremonyTypeMeetings - a type of meeting that can be held for a ceremony (e.g. initial phone call, initial interview, etc)
 ------------------------
@@ -205,8 +206,10 @@ CeremonyTypeMeetingQuestions - a question for a ceremony type meeting
 ----------------------
 ID
 CeremonyTypeMeeting
+QuestionType
 Question
 Description
+Options
 
 CeremonyMeeting
 ---------------
