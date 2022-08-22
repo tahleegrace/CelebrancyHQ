@@ -88,6 +88,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyTypeMeetingQuestionType> CeremonyTypeMeetingQuestionTypes { get; set; }
 
         /// <summary>
+        /// The ceremony type meeting questions table.
+        /// </summary>
+        public DbSet<CeremonyTypeMeetingQuestion> CeremonyTypeMeetingQuestions { get; set; }
+
+        /// <summary>
         /// The ceremonies table.
         /// </summary>
         public DbSet<Ceremony> Ceremonies { get; set; }

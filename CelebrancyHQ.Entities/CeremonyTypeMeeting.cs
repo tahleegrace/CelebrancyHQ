@@ -18,11 +18,13 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the ceremony type.
         /// </summary>
+        [Required]
         public CeremonyType CeremonyType { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the ceremony type.
         /// </summary>
+        [Required]
         public int CeremonyTypeId { get; set; }
 
         /// <summary>
