@@ -138,6 +138,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyFile> CeremonyFiles { get; set; }
 
         /// <summary>
+        /// The ceremony meetings table.
+        /// </summary>
+        public DbSet<CeremonyMeeting> CeremonyMeetings { get; set; }
+
+        /// <summary>
         /// Creates a new instance of CelebrancyHQContext.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
