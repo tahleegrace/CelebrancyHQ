@@ -148,6 +148,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyMeetingQuestion> CeremonyMeetingQuestions { get; set; }
 
         /// <summary>
+        /// The ceremony meeting participants table.
+        /// </summary>
+        public DbSet<CeremonyMeetingParticipant> CeremonyMeetingParticipants { get; set; }
+
+        /// <summary>
         /// Creates a new instance of CelebrancyHQContext.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
