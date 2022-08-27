@@ -231,4 +231,9 @@ ID
 CeremonyMeeting
 CeremonyTypeMeetingQuestion
 Answer
-File - only used if the question type is file or image
+
+CeremonyMeetingQuestionFiles
+----------------
+ID
+CeremonyMeetingQuestion
+File
