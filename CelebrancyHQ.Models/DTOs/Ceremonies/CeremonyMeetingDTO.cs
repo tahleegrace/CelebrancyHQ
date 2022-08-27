@@ -1,42 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CelebrancyHQ.Entities
+﻿namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
     /// <summary>
-    /// A meeting hosted to discuss a ceremony.
+    /// Stores details about a ceremony meeting.
     /// </summary>
-    public class CeremonyMeeting : BaseEntity
+    public class CeremonyMeetingDTO
     {
         /// <summary>
         /// Gets or sets the ID of the ceremony meeting.
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the ceremony.
+        /// Gets or sets the code of the ceremony type date.
         /// </summary>
-        [Required]
-        public Ceremony Ceremony { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the ceremony.
+        /// Gets or sets the name of the ceremony type date.
         /// </summary>
-        [Required]
-        public int CeremonyId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ceremony type meeting.
-        /// </summary>
-        [Required]
-        public CeremonyTypeMeeting CeremonyTypeMeeting { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the ceremony type meeting.
         /// </summary>
-        [Required]
         public int CeremonyTypeMeetingId { get; set; }
 
         /// <summary>
@@ -47,7 +33,6 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the date of the ceremony meeting.
         /// </summary>
-        [Required]
         public DateTime Date { get; set; }
     }
 }

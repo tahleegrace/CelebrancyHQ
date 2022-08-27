@@ -9,7 +9,8 @@
         public const string Dates = "Dates";
         public const string Participants = "Participants";
         public const string ServiceProviders = "ServiceProviders";
+        public const string Meetings = "Meetings";
 
-        public static readonly IReadOnlyList<string> FieldNames = new List<string>() { KeyDetails, Dates, Participants, ServiceProviders };
+        public static readonly IReadOnlyList<string> FieldNames = new List<string>() { KeyDetails, Dates, Participants, ServiceProviders, Meetings };
     }
 }

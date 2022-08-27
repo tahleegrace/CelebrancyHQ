@@ -32,6 +32,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();
             services.AddScoped<ICeremonyTypeDateRepository, CeremonyTypeDateRepository>();
             services.AddScoped<ICeremonyTypeServiceProviderRepository, CeremonyTypeServiceProviderRepository>();
+            services.AddScoped<ICeremonyTypeMeetingRepository, CeremonyTypeMeetingRepository>();
 
             services.AddScoped<ICeremonyRepository, CeremonyRepository>();
             services.AddScoped<ICeremonyPermissionRepository, CeremonyPermissionRepository>();
@@ -41,6 +42,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyDateRepository, CeremonyDateRepository>();
             services.AddScoped<ICeremonyVenueRepository, CeremonyVenueRepository>();
             services.AddScoped<ICeremonyServiceProviderRepository, CeremonyServiceProviderRepository>();
+            services.AddScoped<ICeremonyMeetingRepository, CeremonyMeetingRepository>();
         }
     }
 }
