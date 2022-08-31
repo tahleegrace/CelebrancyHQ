@@ -179,10 +179,20 @@ Size
 FileData
 CreatedBy
 
+CeremonyTypeFileCategory - the categories of files that can be added to a ceremony (e.g. meeting documents, marriage certificates, etc)
+--------------------------------------------------
+ID
+CeremonyType
+Code
+PermissionCode
+Name
+Description
+
 CeremonyFiles - files that are linked to a ceremony
 -------------
 ID
 Ceremony
+CeremonyTypeFileCategory
 File
 Description
 
