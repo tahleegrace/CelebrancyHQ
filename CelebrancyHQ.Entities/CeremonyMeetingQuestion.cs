@@ -43,15 +43,5 @@ namespace CelebrancyHQ.Entities
         /// Gets or sets the answer to the ceremony question (not applicable for file or image questions).
         /// </summary>
         public string? Answer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the file for the question (only applicable for file or image questions).
-        /// </summary>
-        public File? File { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ID of the file for the question (only applicable for file or image questions).
-        /// </summary>
-        public int? FileId { get; set; }
     }
 }

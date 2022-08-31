@@ -153,6 +153,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyMeetingQuestion> CeremonyMeetingQuestions { get; set; }
 
         /// <summary>
+        /// The ceremony meeting question files table.
+        /// </summary>
+        public DbSet<CeremonyMeetingQuestionFile> CeremonyMeetingQuestionFiles { get; set; }
+
+        /// <summary>
         /// The ceremony meeting participants table.
         /// </summary>
         public DbSet<CeremonyMeetingParticipant> CeremonyMeetingParticipants { get; set; }
