@@ -18,21 +18,37 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the ceremony.
         /// </summary>
+        [Required]
         public Ceremony Ceremony { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the ceremony.
         /// </summary>
+        [Required]
         public int CeremonyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file category.
+        /// </summary>
+        [Required]
+        public CeremonyTypeFileCategory Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the file category.
+        /// </summary>
+        [Required]
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the file.
         /// </summary>
+        [Required]
         public File File { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the file.
         /// </summary>
+        [Required]
         public int FileId { get; set; }
 
         /// <summary>
