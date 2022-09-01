@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
@@ -18,6 +19,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyTypeMeetingQuestionRepository _ceremonyTypeMeetingQuestionRepository;
         private readonly ICeremonyMeetingRepository _ceremonyMeetingRepository;
         private readonly ICeremonyMeetingQuestionRepository _ceremonyMeetingQuestionRepository;
+        private readonly ICeremonyMeetingAuditingService _ceremonyMeetingAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -25,17 +27,21 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// </summary>
         /// <param name="ceremonyHelpers">The ceremony helpers.</param>
         /// <param name="ceremonyTypeMeetingRepository">The ceremony type meeting repository.</param>
+        /// <param name="ceremonyTypeMeetingQuestionRepository">The ceremony type meeting question repository.</param>
         /// <param name="ceremonyMeetingRepository">The ceremony meeting repository.</param>
-        /// <param name="mapper">The mappers.</param>
+        /// <param name="ceremonyMeetingQuestionRepository">The ceremony meeting question repository.</param>
+        /// <param name="ceremonyMeetingAuditingService">The ceremony meeting auditing service.</param>
+        /// <param name="mapper">The mapper.</param>
         public CeremonyMeetingService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeMeetingRepository ceremonyTypeMeetingRepository, 
             ICeremonyTypeMeetingQuestionRepository ceremonyTypeMeetingQuestionRepository, ICeremonyMeetingRepository ceremonyMeetingRepository, 
-            ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, IMapper mapper)
+            ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, ICeremonyMeetingAuditingService ceremonyMeetingAuditingService, IMapper mapper)
         {
             this._ceremonyHelpers = ceremonyHelpers;
             this._ceremonyTypeMeetingRepository = ceremonyTypeMeetingRepository;
             this._ceremonyTypeMeetingQuestionRepository = ceremonyTypeMeetingQuestionRepository;
             this._ceremonyMeetingRepository = ceremonyMeetingRepository;
             this._ceremonyMeetingQuestionRepository = ceremonyMeetingQuestionRepository;
+            this._ceremonyMeetingAuditingService = ceremonyMeetingAuditingService;
             this._mapper = mapper;
         }
 
@@ -84,7 +90,9 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             await this._ceremonyMeetingQuestionRepository.Create(ceremonyQuestions);
 
-            // TODO: Generate audit logs for the meeting.
+            // Generate and save audit logs for the meeting.
+            var auditEvents = this._ceremonyMeetingAuditingService.GenerateAuditEvents(null, newMeeting);
+            await this._ceremonyMeetingAuditingService.SaveAuditEvents(newMeeting, ceremony, currentUser.PersonId, auditEvents);
 
             return this._mapper.Map<CeremonyMeetingDTO>(newMeeting);
         }
