@@ -15,7 +15,9 @@ namespace CelebrancyHQ.Services.Ceremonies
     {
         private readonly ICeremonyHelpers _ceremonyHelpers;
         private readonly ICeremonyTypeMeetingRepository _ceremonyTypeMeetingRepository;
+        private readonly ICeremonyTypeMeetingQuestionRepository _ceremonyTypeMeetingQuestionRepository;
         private readonly ICeremonyMeetingRepository _ceremonyMeetingRepository;
+        private readonly ICeremonyMeetingQuestionRepository _ceremonyMeetingQuestionRepository;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -26,11 +28,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyMeetingRepository">The ceremony meeting repository.</param>
         /// <param name="mapper">The mappers.</param>
         public CeremonyMeetingService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeMeetingRepository ceremonyTypeMeetingRepository, 
-            ICeremonyMeetingRepository ceremonyMeetingRepository, IMapper mapper)
+            ICeremonyTypeMeetingQuestionRepository ceremonyTypeMeetingQuestionRepository, ICeremonyMeetingRepository ceremonyMeetingRepository, 
+            ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, IMapper mapper)
         {
             this._ceremonyHelpers = ceremonyHelpers;
             this._ceremonyTypeMeetingRepository = ceremonyTypeMeetingRepository;
+            this._ceremonyTypeMeetingQuestionRepository = ceremonyTypeMeetingQuestionRepository;
             this._ceremonyMeetingRepository = ceremonyMeetingRepository;
+            this._ceremonyMeetingQuestionRepository = ceremonyMeetingQuestionRepository;
             this._mapper = mapper;
         }
 
@@ -69,7 +74,16 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             var newMeeting = await this._ceremonyMeetingRepository.Create(meetingToCreate);
 
-            // TODO: Create questions for the meeting.
+            // Create questions for the meeting.
+            var ceremonyTypeMeetingQuestions = await this._ceremonyTypeMeetingQuestionRepository.FindByCeremonyTypeMeetingId(ceremonyTypeMeeting.Id);
+            var ceremonyQuestions = ceremonyTypeMeetingQuestions.Select(ctmq => new CeremonyMeetingQuestion()
+            {
+                CeremonyMeetingId = newMeeting.Id,
+                CeremonyTypeMeetingQuestionId = ctmq.Id
+            }).ToList();
+
+            await this._ceremonyMeetingQuestionRepository.Create(ceremonyQuestions);
+
             // TODO: Generate audit logs for the meeting.
 
             return this._mapper.Map<CeremonyMeetingDTO>(newMeeting);
