@@ -19,5 +19,10 @@
         /// Gets or sets the date of the ceremony meeting.
         /// </summary>
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets the IDs of the persons who are participants in the meeting.
+        /// </summary>
+        public List<int>? Participants { get; set; }
     }
 }

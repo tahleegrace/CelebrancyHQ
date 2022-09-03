@@ -1,4 +1,6 @@
-﻿namespace CelebrancyHQ.Models.DTOs.Ceremonies
+﻿using CelebrancyHQ.Models.DTOs.Persons;
+
+namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
     /// <summary>
     /// Stores details about a ceremony meeting.
@@ -34,5 +36,10 @@
         /// Gets or sets the date of the ceremony meeting.
         /// </summary>
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets the participants in the meeting.
+        /// </summary>
+        public List<PersonDTO> Participants { get; set; }
     }
 }
