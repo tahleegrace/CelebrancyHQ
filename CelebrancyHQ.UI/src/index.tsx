@@ -6,6 +6,7 @@ import CeremonyDetails from './pages/ceremonies/ceremony-details/ceremony-detail
 import CeremonyDates from './pages/ceremonies/ceremony-details/dates/dates';
 import CeremonyKeyDetails from './pages/ceremonies/ceremony-details/key-details/key-details';
 import CeremonyParticipants from './pages/ceremonies/ceremony-details/participants/participants';
+import CeremonyMeetings from './pages/ceremonies/ceremony-details/meetings/meetings';
 import { MyCeremonies } from './pages/ceremonies/my-ceremonies/my-ceremonies';
 import { Dashboard } from './pages/dashboard/dashboard';
 import DefaultPage from './pages/default/default-page';
@@ -33,6 +34,7 @@ root.render(
                         <Route path="" element={<AuthenticatedRoute><CeremonyKeyDetails /></AuthenticatedRoute>} />
                         <Route path="dates" element={<AuthenticatedRoute><CeremonyDates /></AuthenticatedRoute>} />
                         <Route path="participants" element={<AuthenticatedRoute><CeremonyParticipants /></AuthenticatedRoute>} />
+                        <Route path="meetings" element={<AuthenticatedRoute><CeremonyMeetings /></AuthenticatedRoute>} />
                     </Route>
                 </Route>
             </Routes>
