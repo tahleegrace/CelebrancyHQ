@@ -3,6 +3,7 @@
 using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
+using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Persons;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
@@ -23,6 +24,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyMeetingQuestionRepository _ceremonyMeetingQuestionRepository;
         private readonly ICeremonyMeetingParticipantRepository _ceremonyMeetingParticipantRepository;
         private readonly ICeremonyMeetingAuditingService _ceremonyMeetingAuditingService;
+        private readonly ICeremonyMeetingParticipantAuditingService _ceremonyMeetingParticipantAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -36,11 +38,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyMeetingQuestionRepository">The ceremony meeting question repository.</param>
         /// <param name="ceremonyMeetingParticipantRepository">The ceremony meeting participants repository.</param>
         /// <param name="ceremonyMeetingAuditingService">The ceremony meeting auditing service.</param>
+        /// <param name="ceremonyMeetingParticipantAuditingService">The ceremony meeting participant auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyMeetingService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeMeetingRepository ceremonyTypeMeetingRepository, 
             ICeremonyParticipantRepository ceremonyParticipantRepository, ICeremonyTypeMeetingQuestionRepository ceremonyTypeMeetingQuestionRepository, 
             ICeremonyMeetingRepository ceremonyMeetingRepository, ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, 
-            ICeremonyMeetingParticipantRepository ceremonyMeetingParticipantRepository, ICeremonyMeetingAuditingService ceremonyMeetingAuditingService, IMapper mapper)
+            ICeremonyMeetingParticipantRepository ceremonyMeetingParticipantRepository, ICeremonyMeetingAuditingService ceremonyMeetingAuditingService, 
+            ICeremonyMeetingParticipantAuditingService ceremonyMeetingParticipantAuditingService, IMapper mapper)
         {
             this._ceremonyHelpers = ceremonyHelpers;
             this._ceremonyTypeMeetingRepository = ceremonyTypeMeetingRepository;
@@ -50,6 +54,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._ceremonyMeetingQuestionRepository = ceremonyMeetingQuestionRepository;
             this._ceremonyMeetingParticipantRepository = ceremonyMeetingParticipantRepository;
             this._ceremonyMeetingAuditingService = ceremonyMeetingAuditingService;
+            this._ceremonyMeetingParticipantAuditingService = ceremonyMeetingParticipantAuditingService;
             this._mapper = mapper;
         }
 
@@ -98,6 +103,10 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             await this._ceremonyMeetingQuestionRepository.Create(ceremonyQuestions);
 
+            // Generate and save audit logs for the meeting.
+            var auditEvents = this._ceremonyMeetingAuditingService.GenerateAuditEvents(null, newMeeting);
+            await this._ceremonyMeetingAuditingService.SaveAuditEvents(newMeeting, ceremony, currentUser.PersonId, auditEvents);
+
             // Create participants for the meeting.
             var newParticipants = new List<PersonDTO>();
 
@@ -121,13 +130,10 @@ namespace CelebrancyHQ.Services.Ceremonies
                     newParticipant = await this._ceremonyMeetingParticipantRepository.Create(newParticipant);
                     newParticipants.Add(this._mapper.Map<PersonDTO>(newParticipant.Person));
 
-                    // TODO: Generate audit logs for the new participant.
+                    var participantAuditEvents = this._ceremonyMeetingParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
+                    await this._ceremonyMeetingParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, currentUser.PersonId, participantAuditEvents);
                 }
             }
-
-            // Generate and save audit logs for the meeting.
-            var auditEvents = this._ceremonyMeetingAuditingService.GenerateAuditEvents(null, newMeeting);
-            await this._ceremonyMeetingAuditingService.SaveAuditEvents(newMeeting, ceremony, currentUser.PersonId, auditEvents);
 
             var result = this._mapper.Map<CeremonyMeetingDTO>(newMeeting);
             result.Participants = newParticipants;
