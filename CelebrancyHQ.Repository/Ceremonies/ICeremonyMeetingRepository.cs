@@ -15,6 +15,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyMeeting?> FindById(int ceremonyMeetingId);
 
         /// <summary>
+        /// Gets the meetings for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The meetings for the specified ceremony.</returns>
+        Task<List<CeremonyMeeting>> GetCeremonyMeetings(int ceremonyId);
+
+        /// <summary>
         /// Creates a new ceremony meeting.
         /// </summary>
         /// <param name="meeting">The meeting.</param>

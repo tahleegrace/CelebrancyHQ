@@ -33,6 +33,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets the meetings for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The meetings for the specified ceremony.</returns>
+        public async Task<List<CeremonyMeeting>> GetCeremonyMeetings(int ceremonyId)
+        {
+            return await this._context.CeremonyMeetings.Include(cm => cm.CeremonyTypeMeeting)
+                                                       .Where(cm => cm.CeremonyId == ceremonyId && !cm.Deleted)
+                                                       .ToListAsync();
+        }
+
+        /// <summary>
         /// Creates a new ceremony meeting.
         /// </summary>
         /// <param name="meeting">The meeting.</param>

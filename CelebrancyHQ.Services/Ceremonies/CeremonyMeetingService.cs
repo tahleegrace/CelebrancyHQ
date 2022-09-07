@@ -59,6 +59,26 @@ namespace CelebrancyHQ.Services.Ceremonies
         }
 
         /// <summary>
+        /// Gets the meetings for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The meetings for the specified ceremony.</returns>
+        public async Task<List<CeremonyMeetingDTO>> GetCeremonyMeetings(int ceremonyId, int currentUserId)
+        {
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+
+            // Make sure the user has permissions to view the meetings for the ceremony.
+            await this._ceremonyHelpers.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
+
+            // Get the meetings for the ceremony.
+            var meetings = await this._ceremonyMeetingRepository.GetCeremonyMeetings(ceremonyId);
+
+            var result = this._mapper.Map<List<CeremonyMeetingDTO>>(meetings);
+            return result;
+        }
+
+        /// <summary>
         /// Creates a new ceremony meeting.
         /// </summary>
         /// <param name="meeting">The meeting.</param>
