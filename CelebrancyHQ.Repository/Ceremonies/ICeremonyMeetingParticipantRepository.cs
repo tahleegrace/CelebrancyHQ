@@ -15,6 +15,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyMeetingParticipant?> FindById(int participantId);
 
         /// <summary>
+        /// Gets the participants for the specified meeting.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <returns>The participants for the specified meeting.</returns>
+        Task<List<CeremonyMeetingParticipant>> GetParticipantsForMeeting(int meetingId);
+
+        /// <summary>
         /// Gets whether a ceremony meeting participant exists in the specified meeting with the specified person ID.
         /// </summary>
         /// <param name="meetingId">The ID of the meeting.</param>

@@ -3,7 +3,6 @@
 using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
-using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Persons;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
@@ -79,7 +78,12 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             await this._ceremonyHelpers.CheckCanViewCeremony(meeting.CeremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
+            // Retrieve the participants for the meeting.
+            var participants = await this._ceremonyMeetingParticipantRepository.GetParticipantsForMeeting(meetingId);
+
             var result = this._mapper.Map<CeremonyMeetingDTO>(meeting);
+            result.Participants = participants.Select(participant => this._mapper.Map<PersonDTO>(participant.Person)).ToList();
+
             return result;
         }
 
