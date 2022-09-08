@@ -84,6 +84,25 @@ namespace CelebrancyHQ.Services.Ceremonies
             var result = this._mapper.Map<CeremonyMeetingDTO>(meeting);
             result.Participants = participants.Select(participant => this._mapper.Map<PersonDTO>(participant.Person)).ToList();
 
+            // Retrieve the questions for the meeting.
+            var questions = await this._ceremonyMeetingQuestionRepository.GetQuestionsForMeeting(meetingId);
+            var ceremonyTypeMeetingQuestions = await this._ceremonyTypeMeetingQuestionRepository.FindByCeremonyTypeMeetingId(meeting.CeremonyTypeMeetingId);
+
+            result.Questions = ceremonyTypeMeetingQuestions.Select(ceremonyTypeMeetingQuestion =>
+            {
+                var meetingQuestion = questions.Where(q => q.CeremonyTypeMeetingQuestionId == ceremonyTypeMeetingQuestion.Id).FirstOrDefault();
+
+                return new CeremonyMeetingQuestionDTO()
+                {
+                    Id = meetingQuestion?.Id,
+                    CeremonyTypeQuestionId = ceremonyTypeMeetingQuestion.Id,
+                    QuestionTypeCode = ceremonyTypeMeetingQuestion.QuestionType.Code,
+                    Question = ceremonyTypeMeetingQuestion.Question,
+                    QuestionDescription = ceremonyTypeMeetingQuestion.Description,
+                    Answer = meetingQuestion?.Answer
+                };
+            }).ToList();
+
             return result;
         }
 

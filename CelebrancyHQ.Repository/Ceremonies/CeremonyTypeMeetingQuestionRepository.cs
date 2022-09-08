@@ -27,7 +27,9 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The questions for the specified ceremony type meeting.</returns>
         public async Task<List<CeremonyTypeMeetingQuestion>> FindByCeremonyTypeMeetingId(int ceremonyTypeMeetingId)
         {
-            return await this._context.CeremonyTypeMeetingQuestions.Where(ctmq => ctmq.CeremonyTypeMeetingId == ceremonyTypeMeetingId && !ctmq.Deleted).ToListAsync();
+            return await this._context.CeremonyTypeMeetingQuestions.Include(ctmq => ctmq.QuestionType)
+                                                                   .Where(ctmq => ctmq.CeremonyTypeMeetingId == ceremonyTypeMeetingId && !ctmq.Deleted)
+                                                                   .ToListAsync();
         }
     }
 }

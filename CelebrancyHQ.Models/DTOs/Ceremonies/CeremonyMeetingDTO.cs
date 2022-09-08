@@ -41,5 +41,10 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// Gets or sets the participants in the meeting.
         /// </summary>
         public List<PersonDTO> Participants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the questions in the meeting.
+        /// </summary>
+        public List<CeremonyMeetingQuestionDTO> Questions { get; set; }
     }
 }
