@@ -59,6 +59,31 @@ namespace CelebrancyHQ.Services.Ceremonies
         }
 
         /// <summary>
+        /// Gets the ceremony meeting with the specified ID.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The ceremony meeting with the specified ID.</returns>
+        public async Task<CeremonyMeetingDTO> GetCeremonyMeeting(int meetingId, int currentUserId)
+        {
+            // Retrieve the meeting and make sure it exists.
+            var meeting = await this._ceremonyMeetingRepository.FindById(meetingId);
+
+            if (meeting == null)
+            {
+                throw new CeremonyMeetingNotFoundException(meetingId);
+            }
+
+            // Make sure the user has permissions to view the meetings for the ceremony.
+            var (currentUser, _) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+
+            await this._ceremonyHelpers.CheckCanViewCeremony(meeting.CeremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
+
+            var result = this._mapper.Map<CeremonyMeetingDTO>(meeting);
+            return result;
+        }
+
+        /// <summary>
         /// Gets the meetings for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
@@ -66,7 +91,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <returns>The meetings for the specified ceremony.</returns>
         public async Task<List<CeremonyMeetingDTO>> GetCeremonyMeetings(int ceremonyId, int currentUserId)
         {
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, _) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to view the meetings for the ceremony.
             await this._ceremonyHelpers.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);

@@ -8,6 +8,14 @@ namespace CelebrancyHQ.Services.Ceremonies
     public interface ICeremonyMeetingService
     {
         /// <summary>
+        /// Gets the ceremony meeting with the specified ID.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The ceremony meeting with the specified ID.</returns>
+        Task<CeremonyMeetingDTO> GetCeremonyMeeting(int meetingId, int currentUserId);
+
+        /// <summary>
         /// Gets the meetings for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

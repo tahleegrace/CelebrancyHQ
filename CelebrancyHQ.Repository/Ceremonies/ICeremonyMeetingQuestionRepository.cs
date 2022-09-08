@@ -8,6 +8,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
     public interface ICeremonyMeetingQuestionRepository
     {
         /// <summary>
+        /// Gets the questions for the specified ceremony meeting.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <returns>The questions for the specified ceremony meeting.</returns>
+        Task<List<CeremonyMeetingQuestion>> GetQuestionsForMeeting(int meetingId);
+
+        /// <summary>
         /// Creates new questions for a ceremony meeting.
         /// </summary>
         /// <param name="questions">The questions.</param>

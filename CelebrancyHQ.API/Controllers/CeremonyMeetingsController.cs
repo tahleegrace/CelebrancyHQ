@@ -32,6 +32,30 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
+        /// Gets the meeting with the specified ID.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <returns>The meeting with the specified ID.</returns>
+        [HttpGet("{ceremonyId}/meetings/{meetingId}")]
+        public async Task<ActionResult<CeremonyMeetingDTO>> Get(int meetingId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyMeetingService.GetCeremonyMeeting(meetingId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Gets all the meetings for the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
