@@ -15,17 +15,22 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// <summary>
         /// Gets or sets the code of the ceremony type meeting.
         /// </summary>
-        public string Code { get; set; }
+        public string CeremonyTypeMeetingCode { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the ceremony type meeting.
         /// </summary>
-        public string Name { get; set; }
+        public string CeremonyTypeMeetingName { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the ceremony type meeting.
         /// </summary>
         public int CeremonyTypeMeetingId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the ceremony meeting.
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the description of the ceremony meeting.

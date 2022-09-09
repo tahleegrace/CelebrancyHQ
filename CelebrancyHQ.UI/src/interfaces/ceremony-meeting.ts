@@ -2,9 +2,10 @@ import { PersonDTO } from "./person";
 
 export interface CeremonyMeetingDTO {
     id: number;
-    code: string;
-    name: string;
+    ceremonyTypeMeetingCode: string;
+    ceremonyTypeMeetingName: string;
     ceremonyTypeMeetingId: number;
+    name: string;
     description: string;
     date: Date;
     participants: PersonDTO[];

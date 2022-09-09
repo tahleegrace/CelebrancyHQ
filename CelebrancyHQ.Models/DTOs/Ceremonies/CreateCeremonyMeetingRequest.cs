@@ -11,6 +11,11 @@
         public int CeremonyTypeMeetingId { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the ceremony meeting.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the description of the ceremony meeting.
         /// </summary>
         public string? Description { get; set; }

@@ -226,6 +226,7 @@ CeremonyMeeting
 ---------------
 ID
 CeremonyTypeMeeting
+Name
 Description
 Date
 

@@ -13,8 +13,8 @@ namespace CelebrancyHQ.Mappings.Ceremonies
         public CeremonyMeetingMappingProfile()
         {
             CreateMap<CeremonyMeeting, CeremonyMeetingDTO>()
-                .ForMember(dest => dest.Code, source => source.MapFrom(item => item.CeremonyTypeMeeting.Code))
-                .ForMember(dest => dest.Name, source => source.MapFrom(item => item.CeremonyTypeMeeting.Name));
+                .ForMember(dest => dest.CeremonyTypeMeetingCode, source => source.MapFrom(item => item.CeremonyTypeMeeting.Code))
+                .ForMember(dest => dest.CeremonyTypeMeetingName, source => source.MapFrom(item => item.CeremonyTypeMeeting.Name));
 
             CreateMap<CreateCeremonyMeetingRequest, CeremonyMeeting>();
         }

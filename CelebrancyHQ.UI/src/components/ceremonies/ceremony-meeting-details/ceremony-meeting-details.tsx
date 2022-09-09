@@ -11,7 +11,7 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
         return (
             <div className="border border-dark rounded p-2 m-2">
                 <div className="d-inline-block">
-                    <strong>{this.props.meeting.name}</strong>
+                    <strong>{this.props.meeting.name} ({this.props.meeting.ceremonyTypeMeetingName})</strong>
                     <p>{this.props.meeting.description}</p>
                 </div>
                 <div className="d-inline-block float-right">
