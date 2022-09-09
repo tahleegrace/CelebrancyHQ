@@ -1,5 +1,6 @@
 import React from "react";
 import { CeremonyMeetingDTO } from "../../../interfaces/ceremony-meeting";
+import { EditCeremonyMeeting } from "../edit-ceremony-meeting/edit-ceremony-meeting";
 
 export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetailsProps, CeremonyMeetingDetailsState> {
     constructor(props: CeremonyMeetingDetailsProps) {
@@ -14,7 +15,7 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
                     <p>{this.props.meeting.description}</p>
                 </div>
                 <div className="d-inline-block float-right">
-                    View
+                    <EditCeremonyMeeting meetingId={this.props.meeting.id} />
                 </div>
             </div>
         );

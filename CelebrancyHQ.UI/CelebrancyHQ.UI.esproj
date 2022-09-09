@@ -16,6 +16,7 @@
     <Folder Include="src\components\ceremonies\ceremony-date-details\" />
     <Folder Include="src\components\ceremonies\ceremony-meetings-list\" />
     <Folder Include="src\components\ceremonies\ceremony-meeting-details\" />
+    <Folder Include="src\components\ceremonies\edit-ceremony-meeting\" />
     <Folder Include="src\pages\ceremonies\ceremony-details\dates\" />
     <Folder Include="src\pages\ceremonies\ceremony-details\meetings\" />
     <Folder Include="src\pages\ceremonies\ceremony-details\participants\" />
