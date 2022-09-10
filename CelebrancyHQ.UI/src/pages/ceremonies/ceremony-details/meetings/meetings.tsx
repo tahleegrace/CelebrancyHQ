@@ -18,6 +18,7 @@ class CeremonyMeetings extends CommonTab<CeremonyMeetingsProps, CeremonyMeetings
         super(props);
 
         this.state = {
+            ceremonyId: null,
             meetings: [],
             canEditMeetings: false
         };
@@ -32,15 +33,19 @@ class CeremonyMeetings extends CommonTab<CeremonyMeetingsProps, CeremonyMeetings
         const meetings = await this.ceremonyMeetingsService.getMeetings(context.ceremonyId as number, context.rootContext as RootContextProps);
 
         this.setState({
+            ceremonyId: context.ceremonyId as number,
             meetings: meetings,
             canEditMeetings: getCeremonyPermission(context.ceremony.effectivePermissions, CeremonyFieldNames.Meetings)?.canEdit || false
         });
     }
 
     render() {
+
+        const context = this.context as CeremonyDetailsContextProps;
+
         return (
             <div className="container-fluid p-0">
-                <CeremonyMeetingsList meetings={this.state.meetings} canEditMeetings={this.state.canEditMeetings} />
+                <CeremonyMeetingsList context={context} ceremonyId={this.state.ceremonyId as number} meetings={this.state.meetings} canEditMeetings={this.state.canEditMeetings} />
             </div>
         );
     }
@@ -53,6 +58,7 @@ interface CeremonyMeetingsProps {
 }
 
 interface CeremonyMeetingsState {
+    ceremonyId: number | null;
     meetings: CeremonyMeetingDTO[];
     canEditMeetings: boolean;
 }

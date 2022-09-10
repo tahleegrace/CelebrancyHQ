@@ -1,4 +1,5 @@
 import React from "react";
+import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { CeremonyMeetingDTO } from "../../../interfaces/ceremony-meeting";
 import { EditCeremonyMeeting } from "../edit-ceremony-meeting/edit-ceremony-meeting";
 
@@ -15,7 +16,7 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
                     <p>{this.props.meeting.description}</p>
                 </div>
                 <div className="d-inline-block float-right">
-                    <EditCeremonyMeeting meetingId={this.props.meeting.id} />
+                    <EditCeremonyMeeting context={this.props.context} ceremonyId={this.props.ceremonyId} meetingId={this.props.meeting.id} />
                 </div>
             </div>
         );
@@ -23,6 +24,8 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
 }
 
 interface CeremonyMeetingDetailsProps {
+    context: CeremonyDetailsContextProps;
+    ceremonyId: number;
     meeting: CeremonyMeetingDTO;
 }
 

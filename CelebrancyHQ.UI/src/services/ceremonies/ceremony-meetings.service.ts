@@ -13,4 +13,10 @@ export class CeremonyMeetingsService {
 
         return await this.httpService.get<CeremonyMeetingDTO[]>(url, context);
     }
+
+    public async getMeeting(ceremonyId: number, meetingId: number, context: RootContextProps): Promise<CeremonyMeetingDTO> {
+        const url = `ceremonies/${ceremonyId}/meetings/${meetingId}`;
+
+        return await this.httpService.get<CeremonyMeetingDTO>(url, context);
+    }
 }

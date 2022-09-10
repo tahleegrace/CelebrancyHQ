@@ -1,3 +1,4 @@
+import { CeremonyMeetingQuestionDTO } from "./ceremony-meeting-question";
 import { PersonDTO } from "./person";
 
 export interface CeremonyMeetingDTO {
@@ -9,4 +10,5 @@ export interface CeremonyMeetingDTO {
     description: string;
     date: Date;
     participants: PersonDTO[];
+    questions: CeremonyMeetingQuestionDTO[];
 }
