@@ -31,5 +31,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The newly created ceremony meeting.</returns>
         Task<CeremonyMeetingDTO> Create(CreateCeremonyMeetingRequest meeting, int ceremonyId, int currentUserId);
+
+        /// <summary>
+        /// Updates the details of the specified ceremony meeting.
+        /// </summary>
+        /// <param name="meeting">The meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Update(UpdateCeremonyMeetingRequest meeting, int currentUserId);
     }
 }

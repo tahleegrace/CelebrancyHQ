@@ -207,5 +207,52 @@ namespace CelebrancyHQ.Services.Ceremonies
             result.Participants = newParticipants;
             return result;
         }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony meeting.
+        /// </summary>
+        /// <param name="meeting">The meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Update(UpdateCeremonyMeetingRequest meeting, int currentUserId)
+        {
+            // Make sure the ceremony meeting has been provided and has an ID.
+            if ((meeting == null) || (meeting.Id <= 0))
+            {
+                throw new CeremonyMeetingNotProvidedException();
+            }
+
+            var existingMeeting = await this._ceremonyMeetingRepository.FindById(meeting.Id);
+
+            if (existingMeeting == null)
+            {
+                throw new CeremonyMeetingNotFoundException(meeting.Id);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(existingMeeting.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to update the meeting.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+
+            // TODO: Generate audit logs for the meeting.
+
+            // Save the meeting.
+            if (meeting.Name.Updated)
+            {
+                existingMeeting.Name = meeting.Name.Value;
+            }
+
+            if (meeting.Description.Updated)
+            {
+                existingMeeting.Description = meeting.Description.Value;
+            }
+
+            if (meeting.Date.Updated)
+            {
+                existingMeeting.Date = meeting.Date.Value;
+            }
+
+            await this._ceremonyMeetingRepository.Update(existingMeeting);
+        }
     }
 }

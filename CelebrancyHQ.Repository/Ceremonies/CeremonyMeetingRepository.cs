@@ -61,5 +61,15 @@ namespace CelebrancyHQ.Repository.Ceremonies
             var newMeeting = await FindById(meeting.Id);
             return newMeeting;
         }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony meeting.
+        /// </summary>
+        /// <param name="meeting">The meeting.</param>
+        public async Task Update(CeremonyMeeting meeting)
+        {
+            meeting.Updated = DateTime.UtcNow;
+            await this._context.SaveChangesAsync();
+        }
     }
 }

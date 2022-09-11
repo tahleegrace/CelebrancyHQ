@@ -27,5 +27,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="meeting">The meeting.</param>
         /// <returns>The newly created ceremony meeting.</returns>
         Task<CeremonyMeeting> Create(CeremonyMeeting meeting);
+
+        /// <summary>
+        /// Updates the details of the specified ceremony meeting.
+        /// </summary>
+        /// <param name="meeting">The meeting.</param>
+        Task Update(CeremonyMeeting meeting);
     }
 }
