@@ -36,6 +36,23 @@ namespace CelebrancyHQ.Auditing.Ceremonies
             {
                 auditEvents.Add(new CeremonyMeetingCreatedEvent(newEntity.Id, null, newEntity));
             }
+            else if (oldEntity != null && newEntity != null)
+            {
+                if (oldEntity.Name != newEntity.Name)
+                {
+                    auditEvents.Add(new CeremonyMeetingNameUpdatedEvent(newEntity.Id, oldEntity.Name, newEntity.Name));
+                }
+
+                if (oldEntity.Description != newEntity.Description)
+                {
+                    auditEvents.Add(new CeremonyMeetingDescriptionUpdatedEvent(newEntity.Id, oldEntity.Description, newEntity.Description));
+                }
+
+                if (oldEntity.Date != newEntity.Date)
+                {
+                    auditEvents.Add(new CeremonyMeetingDateUpdatedEvent(newEntity.Id, oldEntity.Date, newEntity.Date));
+                }
+            }
 
             return auditEvents;
         }

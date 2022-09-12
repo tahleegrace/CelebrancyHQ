@@ -234,25 +234,19 @@ namespace CelebrancyHQ.Services.Ceremonies
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
-            // TODO: Generate audit logs for the meeting.
+            // Generate audit logs for the meeting.
+            var newMeetingForAuditing = this._mapper.Map<CeremonyMeeting>(existingMeeting);
+            this._mapper.Map(meeting, newMeetingForAuditing);
+
+            var auditEvents = this._ceremonyMeetingAuditingService.GenerateAuditEvents(existingMeeting, newMeetingForAuditing);
 
             // Save the meeting.
-            if (meeting.Name.Updated)
-            {
-                existingMeeting.Name = meeting.Name.Value;
-            }
-
-            if (meeting.Description.Updated)
-            {
-                existingMeeting.Description = meeting.Description.Value;
-            }
-
-            if (meeting.Date.Updated)
-            {
-                existingMeeting.Date = meeting.Date.Value;
-            }
+            this._mapper.Map(meeting, existingMeeting);
 
             await this._ceremonyMeetingRepository.Update(existingMeeting);
+
+            // Save the audit logs for the meeting.
+            await this._ceremonyMeetingAuditingService.SaveAuditEvents(existingMeeting, ceremony, currentUser.PersonId, auditEvents);
         }
     }
 }
