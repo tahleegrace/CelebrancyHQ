@@ -1,5 +1,6 @@
 import { cloneDeep } from "lodash";
 import React, { Fragment } from "react";
+import { Editor } from '@tinymce/tinymce-react';
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../context/root-context";
@@ -7,6 +8,7 @@ import { CeremonyMeetingDTO } from "../../../interfaces/ceremony-meeting";
 import { UpdateCeremonyMeetingRequest } from "../../../interfaces/update-ceremony-meeting-request";
 import { CeremonyMeetingsService } from "../../../services/ceremonies/ceremony-meetings.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
+import config from "../../../config";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -101,7 +103,25 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <p>Modal body text goes here.</p>
+                                <Editor
+                                    apiKey={config.tinyMce.apiKey}
+                                    init={{
+                                        menubar: false,
+                                        inline: false,
+                                        plugins: [
+                                            'link'
+                                        ],
+                                        toolbar: [
+                                            'undo redo | bold italic underline | fontsize',
+                                            'forecolor backcolor | numlist bullist outdent indent'
+                                        ],
+                                        valid_elements: 'p[style],strong,em,span[style],a[href],ul,ol,li',
+                                        valid_styles: {
+                                            '*': 'font-size,font-family,color,text-decoration,text-align'
+                                        },
+                                    }}
+                                    initialValue={this.state.meeting?.description}
+                                    disabled={!this.props.canEdit} />
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-primary">Save changes</button>
