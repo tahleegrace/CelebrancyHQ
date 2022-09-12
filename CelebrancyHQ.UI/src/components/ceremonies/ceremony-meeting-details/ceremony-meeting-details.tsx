@@ -8,6 +8,12 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
         super(props);
     }
 
+    meetingUpdated(meeting: CeremonyMeetingDTO) {
+        if (this.props.meetingUpdated != null) {
+            this.props.meetingUpdated(meeting);
+        }
+    }
+
     render() {
         return (
             <div className="border border-dark rounded p-2 m-2">
@@ -16,7 +22,7 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
                     <p>{this.props.meeting.description}</p>
                 </div>
                 <div className="d-inline-block float-right">
-                    <EditCeremonyMeeting context={this.props.context} ceremonyId={this.props.ceremonyId} meetingId={this.props.meeting.id} />
+                    <EditCeremonyMeeting context={this.props.context} ceremonyId={this.props.ceremonyId} meetingId={this.props.meeting.id} canEdit={this.props.canEdit} meetingUpdated={this.props.meetingUpdated} />
                 </div>
             </div>
         );
@@ -27,6 +33,8 @@ interface CeremonyMeetingDetailsProps {
     context: CeremonyDetailsContextProps;
     ceremonyId: number;
     meeting: CeremonyMeetingDTO;
+    canEdit: boolean;
+    meetingUpdated: (meeting: CeremonyMeetingDTO) => void;
 }
 
 interface CeremonyMeetingDetailsState {

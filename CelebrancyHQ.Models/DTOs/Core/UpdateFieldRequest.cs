@@ -1,10 +1,10 @@
 ﻿namespace CelebrancyHQ.Models.DTOs.Core
 {
     /// <summary>
-    /// A request for updating a single field 
+    /// A request for updating a single field.
     /// </summary>
     /// <typeparam name="FieldType">The type of field that is being updated.</typeparam>
-    public class UpdateSingleFieldRequest<FieldType>
+    public class UpdateFieldRequest<FieldType>
     {
         /// <summary>
         /// Gets or sets the value of the field.
@@ -14,6 +14,6 @@
         /// <summary>
         /// Gets or sets whether the field has been updated.
         /// </summary>
-        public bool Updated { get; set; }
+        public bool Updated { get; set; } = false;
     }
 }

@@ -1,5 +1,6 @@
 import { RootContextProps } from "../../context/root-context";
 import { CeremonyMeetingDTO } from "../../interfaces/ceremony-meeting";
+import { UpdateCeremonyMeetingRequest } from "../../interfaces/update-ceremony-meeting-request";
 import { DependencyService } from "../dependencies/dependency.service";
 import { HttpService } from "../http/http.service";
 
@@ -18,5 +19,11 @@ export class CeremonyMeetingsService {
         const url = `ceremonies/${ceremonyId}/meetings/${meetingId}`;
 
         return await this.httpService.get<CeremonyMeetingDTO>(url, context);
+    }
+
+    public async update(ceremonyId: number, meeting: UpdateCeremonyMeetingRequest, context: RootContextProps): Promise<void> {
+        const url = `ceremonies/${ceremonyId}/meetings/${ceremonyId}`;
+
+        await this.httpService.putWithNoResponse(url, meeting, context);
     }
 }

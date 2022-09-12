@@ -8,11 +8,17 @@ export class CeremonyMeetingsList extends React.Component<CeremonyMeetingsListPr
         super(props);
     }
 
+    meetingUpdated(meeting: CeremonyMeetingDTO) {
+        if (this.props.meetingUpdated != null) {
+            this.props.meetingUpdated(meeting);
+        }
+    }
+
     render() {
         return (
             <div className="container border border-dark rounded p-2 m-2">
                 {this.props.meetings.length > 0 ?
-                    this.props.meetings.map(meeting => (<CeremonyMeetingDetails key={meeting.id} context={this.props.context} ceremonyId={this.props.ceremonyId} meeting={meeting} />)) :
+                    this.props.meetings.map(meeting => (<CeremonyMeetingDetails key={meeting.id} context={this.props.context} ceremonyId={this.props.ceremonyId} meeting={meeting} canEdit={this.props.canEdit} meetingUpdated={this.props.meetingUpdated} />)) :
                     (<div>No participants</div>)
                 }
             </div>
@@ -24,7 +30,8 @@ interface CeremonyMeetingsListProps {
     context: CeremonyDetailsContextProps;
     ceremonyId: number;
     meetings: CeremonyMeetingDTO[];
-    canEditMeetings: boolean;
+    canEdit: boolean;
+    meetingUpdated: (meeting: CeremonyMeetingDTO) => void;
 }
 
 interface CeremonyMeetingsListState {

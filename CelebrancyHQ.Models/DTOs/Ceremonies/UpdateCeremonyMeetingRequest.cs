@@ -15,16 +15,16 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// <summary>
         /// Gets or sets the name of the ceremony meeting.
         /// </summary>
-        public UpdateSingleFieldRequest<string> Name { get; set; } = new UpdateSingleFieldRequest<string>();
+        public UpdateFieldRequest<string> Name { get; set; } = new UpdateFieldRequest<string>();
 
         /// <summary>
         /// Gets or sets the description of the ceremony meeting.
         /// </summary>
-        public UpdateSingleFieldRequest<string?> Description { get; set; } = new UpdateSingleFieldRequest<string?>();
+        public UpdateFieldRequest<string?> Description { get; set; } = new UpdateFieldRequest<string?>();
 
         /// <summary>
         /// Gets or sets the date of the ceremony meeting.
         /// </summary>
-        public UpdateSingleFieldRequest<DateTime> Date { get; set; } = new UpdateSingleFieldRequest<DateTime>();
+        public UpdateFieldRequest<DateTime> Date { get; set; } = new UpdateFieldRequest<DateTime>();
     }
 }

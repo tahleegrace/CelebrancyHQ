@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import { CeremonyMeetingsList } from "../../../../components/ceremonies/ceremony-meetings-list/ceremony-meetings-list";
 import { CeremonyFieldNames } from "../../../../constants/ceremonies/ceremony-field-names";
 import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
@@ -39,13 +40,25 @@ class CeremonyMeetings extends CommonTab<CeremonyMeetingsProps, CeremonyMeetings
         });
     }
 
-    render() {
+    meetingUpdated(meeting: CeremonyMeetingDTO) {
+        const newMeetings = cloneDeep(this.state.meetings);
 
+        const newMeeting = newMeetings.filter(m => m.id == meeting.id)[0];
+        newMeeting.name = meeting.name;
+        newMeeting.description = meeting.description;
+        newMeeting.date = meeting.date;
+
+        this.setState({
+            meetings: newMeetings
+        });
+    }
+
+    render() {
         const context = this.context as CeremonyDetailsContextProps;
 
         return (
             <div className="container-fluid p-0">
-                <CeremonyMeetingsList context={context} ceremonyId={this.state.ceremonyId as number} meetings={this.state.meetings} canEditMeetings={this.state.canEditMeetings} />
+                <CeremonyMeetingsList context={context} ceremonyId={this.state.ceremonyId as number} meetings={this.state.meetings} canEdit={this.state.canEditMeetings} meetingUpdated={this.meetingUpdated.bind(this)} />
             </div>
         );
     }
