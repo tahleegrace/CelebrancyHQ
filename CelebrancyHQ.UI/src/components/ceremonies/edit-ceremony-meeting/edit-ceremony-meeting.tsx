@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
@@ -9,6 +9,7 @@ import { UpdateCeremonyMeetingRequest } from "../../../interfaces/update-ceremon
 import { CeremonyMeetingsService } from "../../../services/ceremonies/ceremony-meetings.service";
 import { DependencyService } from "../../../services/dependencies/dependency.service";
 import config from "../../../config";
+import { EditorEvent } from "tinymce";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -20,7 +21,8 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
 
         this.state = {
             meeting: null,
-            oldName: ''
+            oldName: '',
+            oldDescription: ''
         };
 
         this.nameContentEditable = React.createRef<HTMLHeadingElement>();
@@ -34,7 +36,9 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
         const meeting = await this.ceremonyMeetingsService.getMeeting(this.props.ceremonyId, this.props.meetingId, this.props.context.rootContext as RootContextProps);
 
         this.setState({
-            meeting: meeting
+            meeting: meeting,
+            oldName: meeting.name,
+            oldDescription: meeting.description
         });
     }
 
@@ -78,6 +82,55 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
         });
     }
 
+    descriptionChanged(event: any, editor: any) {
+        if (this.state.meeting) {
+            const meeting = cloneDeep(this.state.meeting);
+            meeting.description = editor.getContent();
+
+            this.setState({ meeting: meeting });
+        }
+    }
+
+    descriptionOnKeyUp(event: EditorEvent<KeyboardEvent>) {
+        if (event.key === "Escape" && this.state.meeting) {
+            const meeting = cloneDeep(this.state.meeting);
+            meeting.description = this.state.oldDescription;
+
+            this.setState({ meeting: meeting });
+        }
+    }
+
+    saveDescription(event: any) {
+        setTimeout(async () => {
+            if (this.state.meeting && this.state.meeting.description != this.state.oldDescription) {
+                const request: UpdateCeremonyMeetingRequest = {
+                    id: this.state.meeting.id,
+                    description: {
+                        value: this.state.meeting.description,
+                        updated: true
+                    }
+                };
+
+                await this.ceremonyMeetingsService.update(this.props.ceremonyId, request, this.props.context.rootContext as RootContextProps);
+                this.setState({ oldDescription: this.state.meeting.description });
+
+                if (this.props.meetingUpdated != null) {
+                    this.props.meetingUpdated(this.state.meeting);
+                }
+            }
+        });
+    }
+
+    componentDidMount() {
+        const handler = (e: any) => {
+            if (e.target.closest(".tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
+                e.stopImmediatePropagation();
+            }
+        };
+
+        document.addEventListener("focusin", handler);
+    }
+
     render() {
         // TODO: Split the modal component into a separate component or library.
         return (
@@ -107,7 +160,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     apiKey={config.tinyMce.apiKey}
                                     init={{
                                         menubar: false,
-                                        inline: false,
+                                        inline: true,
                                         plugins: [
                                             'link'
                                         ],
@@ -121,7 +174,10 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                         },
                                     }}
                                     initialValue={this.state.meeting?.description}
-                                    disabled={!this.props.canEdit} />
+                                    disabled={!this.props.canEdit}
+                                    onChange={this.descriptionChanged.bind(this)}
+                                    onKeyUp={this.descriptionOnKeyUp.bind(this)}
+                                    onBlur={this.saveDescription.bind(this)} />
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-primary">Save changes</button>
@@ -146,4 +202,5 @@ interface EditCeremonyMeetingProps {
 interface EditCeremonyMeetingState {
     meeting: CeremonyMeetingDTO | null;
     oldName: string;
+    oldDescription: string;
 }
