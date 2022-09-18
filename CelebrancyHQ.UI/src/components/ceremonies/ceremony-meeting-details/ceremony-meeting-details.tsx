@@ -17,8 +17,8 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
     render() {
         return (
             <div className="border border-dark rounded p-2 m-2">
-                <div className="d-inline-block">
-                    <strong>{this.props.meeting.name} ({this.props.meeting.ceremonyTypeMeetingName})</strong>
+                <div>
+                    <h3>{this.props.meeting.name} ({this.props.meeting.ceremonyTypeMeetingName})</h3>
                     <div dangerouslySetInnerHTML={{ __html: this.props.meeting.description }}></div>
                 </div>
                 <div>

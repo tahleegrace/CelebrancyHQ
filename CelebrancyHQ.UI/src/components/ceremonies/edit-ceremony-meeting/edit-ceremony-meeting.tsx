@@ -10,6 +10,7 @@ import { CeremonyMeetingsService } from "../../../services/ceremonies/ceremony-m
 import { DependencyService } from "../../../services/dependencies/dependency.service";
 import config from "../../../config";
 import { EditorEvent } from "tinymce";
+import { EditCeremonyMeetingQuestion } from "../edit-ceremony-meeting-question/edit-ceremony-meeting-question";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -145,7 +146,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                             <div className="modal-header">
                                 <ContentEditable innerRef={this.nameContentEditable}
                                     html={this.state.meeting?.name || ""}
-                                    tagName="h5"
+                                    tagName="h1"
                                     disabled={!this.props.canEdit}
                                     onChange={this.nameChanged.bind(this)}
                                     onKeyUp={this.nameOnKeyUp.bind(this)}
@@ -178,6 +179,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     onChange={this.descriptionChanged.bind(this)}
                                     onKeyUp={this.descriptionOnKeyUp.bind(this)}
                                     onBlur={this.saveDescription.bind(this)} />
+                                {this.state.meeting?.questions ? this.state.meeting.questions.map(question => (<EditCeremonyMeetingQuestion question={question} />)) : ""}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-primary">Save changes</button>

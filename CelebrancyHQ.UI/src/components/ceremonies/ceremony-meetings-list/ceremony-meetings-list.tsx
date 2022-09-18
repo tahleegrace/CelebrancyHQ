@@ -19,7 +19,7 @@ export class CeremonyMeetingsList extends React.Component<CeremonyMeetingsListPr
             <div className="container border border-dark rounded p-2 m-2">
                 {this.props.meetings.length > 0 ?
                     this.props.meetings.map(meeting => (<CeremonyMeetingDetails key={meeting.id} context={this.props.context} ceremonyId={this.props.ceremonyId} meeting={meeting} canEdit={this.props.canEdit} meetingUpdated={this.props.meetingUpdated} />)) :
-                    (<div>No participants</div>)
+                    (<div>No meetings</div>)
                 }
             </div>
         );
