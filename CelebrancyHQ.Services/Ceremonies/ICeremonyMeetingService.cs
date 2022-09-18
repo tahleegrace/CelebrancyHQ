@@ -38,5 +38,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="meeting">The meeting.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         Task Update(UpdateCeremonyMeetingRequest meeting, int currentUserId);
+
+        /// <summary>
+        /// Updates the specified ceremony meeting question.
+        /// </summary>
+        /// <param name="question">The question.</param>
+        /// <param name="meetingId">The meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task UpdateQuestion(UpdateCeremonyMeetingQuestionRequest question, int meetingId, int currentUserId);
     }
 }

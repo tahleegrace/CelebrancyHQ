@@ -248,5 +248,64 @@ namespace CelebrancyHQ.Services.Ceremonies
             // Save the audit logs for the meeting.
             await this._ceremonyMeetingAuditingService.SaveAuditEvents(existingMeeting, ceremony, currentUser.PersonId, auditEvents);
         }
+
+        /// <summary>
+        /// Updates the specified ceremony meeting question.
+        /// </summary>
+        /// <param name="question">The question.</param>
+        /// <param name="meetingId">The meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task UpdateQuestion(UpdateCeremonyMeetingQuestionRequest question, int meetingId, int currentUserId)
+        {
+            // Make sure the ceremony meeting question has been provided and has an ID.
+            if ((question == null) || (question.CeremonyTypeQuestionId <= 0))
+            {
+                throw new CeremonyMeetingQuestionNotProvidedException();
+            }
+
+            // Make sure the meeting exists.
+            var meeting = await this._ceremonyMeetingRepository.FindById(meetingId);
+
+            if (meeting == null)
+            {
+                throw new CeremonyMeetingNotFoundException(meetingId);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to update the question.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+
+            // Make sure the ceremony type meeting question exists and it belongs to the ceremony type meeting.
+            var ceremonyTypeMeetingQuestion = await this._ceremonyTypeMeetingQuestionRepository.FindById(question.CeremonyTypeQuestionId);
+
+            if (ceremonyTypeMeetingQuestion?.CeremonyTypeMeetingId != meeting.CeremonyTypeMeetingId)
+            {
+                throw new CeremonyTypeMeetingQuestionNotFoundException(question.CeremonyTypeQuestionId);
+            }
+
+            var questionToUpdate = await this._ceremonyMeetingQuestionRepository.FindByCeremonyTypeMeetingQuestionId(meetingId, question.CeremonyTypeQuestionId);
+
+            if (questionToUpdate == null)
+            {
+                questionToUpdate = new CeremonyMeetingQuestion()
+                {
+                    CeremonyMeetingId = meetingId,
+                    CeremonyTypeMeetingQuestionId = question.CeremonyTypeQuestionId
+                };
+
+                await this._ceremonyMeetingQuestionRepository.Create(new List<CeremonyMeetingQuestion> { questionToUpdate });
+            }
+
+            // TODO: Handle field types other than text fields here.
+            if (ceremonyTypeMeetingQuestion.QuestionType.Code == CeremonyTypeMeetingQuestionTypeConstants.TextFieldCode)
+            {
+                questionToUpdate.Answer = question.Answer;
+                await this._ceremonyMeetingQuestionRepository.Update(questionToUpdate);
+            }
+
+            // TODO: Add audit logs for updating a ceremony meeting question here.
+        }
     }
 }

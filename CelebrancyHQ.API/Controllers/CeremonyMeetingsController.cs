@@ -138,5 +138,37 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
+
+        /// <summary>
+        /// Updates the details of the specified question.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="request">The question.</param>
+        [HttpPut("{ceremonyId}/meetings/{meetingId}/questions")]
+        public async Task<ActionResult> UpdateQuestion(int ceremonyId, int meetingId, UpdateCeremonyMeetingQuestionRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremonyMeetingService.UpdateQuestion(request, meetingId, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingNotFoundException 
+                || ex is CeremonyTypeMeetingQuestionNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is CeremonyMeetingQuestionNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
     }
 }

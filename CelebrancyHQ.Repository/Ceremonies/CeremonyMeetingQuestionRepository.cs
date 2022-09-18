@@ -31,6 +31,19 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Finds the question for the specified meeting with the specified ceremony type meeting question.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="ceremonyTypeMeetingQuestionId">The ID of the ceremony type meeting question.</param>
+        /// <returns>The question for the specified meeting with the specified ceremony type meeting question.returns>
+        public async Task<CeremonyMeetingQuestion?> FindByCeremonyTypeMeetingQuestionId(int meetingId, int ceremonyTypeMeetingQuestionId)
+        {
+            return await this._context.CeremonyMeetingQuestions.Where(cmq => cmq.CeremonyMeetingId == meetingId
+                                                                          && cmq.CeremonyTypeMeetingQuestionId == ceremonyTypeMeetingQuestionId && !cmq.Deleted)
+                                                               .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Creates new questions for a ceremony meeting.
         /// </summary>
         /// <param name="questions">The questions.</param>
@@ -53,6 +66,16 @@ namespace CelebrancyHQ.Repository.Ceremonies
             await this._context.SaveChangesAsync();
 
             return questions;
+        }
+
+        /// <summary>
+        /// Updates the details of the specified question.
+        /// </summary>
+        /// <param name="question">The question.</param>
+        public async Task Update(CeremonyMeetingQuestion question)
+        {
+            question.Updated = DateTime.UtcNow;
+            await this._context.SaveChangesAsync();
         }
     }
 }
