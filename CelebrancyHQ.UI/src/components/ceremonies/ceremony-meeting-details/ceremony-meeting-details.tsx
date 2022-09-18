@@ -19,9 +19,9 @@ export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetai
             <div className="border border-dark rounded p-2 m-2">
                 <div className="d-inline-block">
                     <strong>{this.props.meeting.name} ({this.props.meeting.ceremonyTypeMeetingName})</strong>
-                    <p>{this.props.meeting.description}</p>
+                    <div dangerouslySetInnerHTML={{ __html: this.props.meeting.description }}></div>
                 </div>
-                <div className="d-inline-block float-right">
+                <div>
                     <EditCeremonyMeeting context={this.props.context} ceremonyId={this.props.ceremonyId} meetingId={this.props.meeting.id} canEdit={this.props.canEdit} meetingUpdated={this.props.meetingUpdated} />
                 </div>
             </div>
