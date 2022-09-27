@@ -325,5 +325,60 @@ namespace CelebrancyHQ.Services.Ceremonies
             // Save the audit logs for the question.
             await this._ceremonyMeetingQuestionAuditingService.SaveAuditEvents(questionToUpdate, ceremony, currentUserId, auditEvents);
         }
+
+        /// <summary>
+        /// Creates a new ceremony meeting participant.
+        /// </summary>
+        /// <param name="personId">The ID of the person to be added as a participant.</param>
+        /// <param name="meetingId">The ID of the participant.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The newly created participant.</returns>
+        public async Task<PersonDTO> CreateParticipant(int personId, int meetingId, int currentUserId)
+        {
+            // Make sure a ceremony meeting exists with the specified ID.
+            var meeting = await this._ceremonyMeetingRepository.FindById(meetingId);
+
+            if (meeting == null)
+            {
+                throw new CeremonyMeetingNotFoundException(meetingId);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to update the meeting.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+
+            // Make sure the person is not already a participant in the meeting.
+            var isMeetingParticipant = await this._ceremonyMeetingParticipantRepository.ParticipantExistsWithPersonId(meetingId, personId);
+
+            if (isMeetingParticipant)
+            {
+                throw new PersonAlreadyCeremonyMeetingParticipantException(meetingId, personId);
+            }
+
+            // Make sure the person is a ceremony participant.
+            var isCeremonyParticipant = await this._ceremonyParticipantRepository.PersonIsCeremonyParticipant(personId, meeting.CeremonyId);
+
+            if (!isCeremonyParticipant)
+            {
+                throw new PersonNotCeremonyParticipantException(personId);
+            }
+
+            var newParticipant = new CeremonyMeetingParticipant()
+            {
+                CeremonyMeetingId = meeting.Id,
+                PersonId = personId
+            };
+
+            newParticipant = await this._ceremonyMeetingParticipantRepository.Create(newParticipant);
+
+            // Generate and save audit events for the new participant.
+            var participantAuditEvents = this._ceremonyMeetingParticipantAuditingService.GenerateAuditEvents(null, newParticipant);
+            await this._ceremonyMeetingParticipantAuditingService.SaveAuditEvents(newParticipant, ceremony, currentUser.PersonId, participantAuditEvents);
+
+            var result = this._mapper.Map<PersonDTO>(newParticipant.Person);
+            return result;
+        }
     }
 }

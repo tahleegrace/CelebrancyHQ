@@ -6,6 +6,7 @@ using CelebrancyHQ.Services.Authentication;
 using CelebrancyHQ.Services.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Models.DTOs.Persons;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -162,6 +163,36 @@ namespace CelebrancyHQ.API.Controllers
                 return NotFound();
             }
             catch (Exception ex) when (ex is CeremonyMeetingQuestionNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
+        /// Adds a participant to a ceremony meeting.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="personId">The ID of the participant.</param>
+        /// <returns>The newly created participant.</returns>
+        [HttpPost("{ceremonyId}/meetings/{meetingId}/participants")]
+        public async Task<ActionResult<PersonDTO>> CreateParticipant(int ceremonyId, int meetingId, int personId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyMeetingService.CreateParticipant(personId, meetingId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonAlreadyCeremonyMeetingParticipantException)
             {
                 return BadRequest();
             }
