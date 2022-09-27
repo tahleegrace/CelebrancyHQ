@@ -414,7 +414,9 @@ namespace CelebrancyHQ.Services.Ceremonies
             // Delete the participant.
             await this._ceremonyMeetingParticipantRepository.Delete(participant.Id);
 
-            // TODO: Generate audit logs for deleting the participant.
+            // Generate and save audit events for the deleted participant.
+            var participantAuditEvents = this._ceremonyMeetingParticipantAuditingService.GenerateAuditEvents(participant, null);
+            await this._ceremonyMeetingParticipantAuditingService.SaveAuditEvents(participant, ceremony, currentUser.PersonId, participantAuditEvents);
         }
     }
 }
