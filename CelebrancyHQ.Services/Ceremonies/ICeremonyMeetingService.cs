@@ -52,9 +52,17 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// Creates a new ceremony meeting participant.
         /// </summary>
         /// <param name="personId">The ID of the person to be added as a participant.</param>
-        /// <param name="meetingId">The ID of the participant.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The newly created participant.</returns>
         Task<PersonDTO> CreateParticipant(int personId, int meetingId, int currentUserId);
+
+        /// <summary>
+        /// Deletes a ceremony meeting participant.
+        /// </summary>
+        /// <param name="personId">The ID of the person to be removed as a participant.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task DeleteParticipant(int personId, int meetingId, int currentUserId);
     }
 }

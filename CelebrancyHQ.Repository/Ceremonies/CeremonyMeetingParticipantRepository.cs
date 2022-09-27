@@ -33,6 +33,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets the ceremony meeting participant for the specified meeting with the specified person ID.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The ceremony meeting participant for the specified meeting with the specified person ID.</returns>
+        public async Task<CeremonyMeetingParticipant?> FindByPersonId(int meetingId, int personId)
+        {
+            return await this._context.CeremonyMeetingParticipants.Where(cmp => cmp.CeremonyMeetingId == meetingId && cmp.PersonId == personId && !cmp.Deleted)
+                                                                  .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Gets the participants for the specified meeting.
         /// </summary>
         /// <param name="meetingId">The ID of the meeting.</param>
@@ -72,6 +84,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             var newParticipant = await FindById(participant.Id);
             return newParticipant;
+        }
+
+        /// <summary>
+        /// Deletes the specified ceremony meeting participant.
+        /// </summary>
+        /// <param name="id">The ID of the participant.</param>
+        public async Task Delete(int id)
+        {
+            var participant = await this.FindById(id);
+            participant.Updated = DateTime.UtcNow;
+            participant.Deleted = true;
+            await this._context.SaveChangesAsync();
         }
     }
 }

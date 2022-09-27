@@ -15,6 +15,14 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyMeetingParticipant?> FindById(int participantId);
 
         /// <summary>
+        /// Gets the ceremony meeting participant for the specified meeting with the specified person ID.
+        /// </summary>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The ceremony meeting participant for the specified meeting with the specified person ID.</returns>
+        Task<CeremonyMeetingParticipant?> FindByPersonId(int meetingId, int personId);
+
+        /// <summary>
         /// Gets the participants for the specified meeting.
         /// </summary>
         /// <param name="meetingId">The ID of the meeting.</param>
@@ -33,8 +41,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// Creates a new ceremony meeting participant.
         /// </summary>
         /// <param name="participant">The participant.</param>
-        /// <returns>The newly created ceremony meeting participant.
-        /// </returns>
+        /// <returns>The newly created ceremony meeting participant.</returns>
         Task<CeremonyMeetingParticipant> Create(CeremonyMeetingParticipant participant);
+
+        /// <summary>
+        /// Deletes the specified ceremony meeting participant.
+        /// </summary>
+        /// <param name="id">The ID of the participant.</param>
+        Task Delete(int id);
     }
 }

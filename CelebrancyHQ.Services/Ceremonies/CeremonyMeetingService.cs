@@ -380,5 +380,41 @@ namespace CelebrancyHQ.Services.Ceremonies
             var result = this._mapper.Map<PersonDTO>(newParticipant.Person);
             return result;
         }
+
+        /// <summary>
+        /// Deletes a ceremony meeting participant.
+        /// </summary>
+        /// <param name="personId">The ID of the person to be removed as a participant.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task DeleteParticipant(int personId, int meetingId, int currentUserId)
+        {
+            // Make sure a ceremony meeting exists with the specified ID.
+            var meeting = await this._ceremonyMeetingRepository.FindById(meetingId);
+
+            if (meeting == null)
+            {
+                throw new CeremonyMeetingNotFoundException(meetingId);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to update the meeting.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+
+            // Make sure there is a participant with the specified person ID.
+            var participant = await this._ceremonyMeetingParticipantRepository.FindByPersonId(meetingId, personId);
+
+            if (participant == null)
+            {
+                throw new CeremonyMeetingParticipantNotFoundException(meetingId, personId);
+            }
+
+            // Delete the participant.
+            await this._ceremonyMeetingParticipantRepository.Delete(participant.Id);
+
+            // TODO: Generate audit logs for deleting the participant.
+        }
     }
 }
