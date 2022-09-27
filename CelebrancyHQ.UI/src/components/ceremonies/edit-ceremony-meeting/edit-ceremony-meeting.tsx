@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
@@ -11,6 +11,7 @@ import { DependencyService } from "../../../services/dependencies/dependency.ser
 import config from "../../../config";
 import { EditorEvent } from "tinymce";
 import { EditCeremonyMeetingQuestion } from "../edit-ceremony-meeting-question/edit-ceremony-meeting-question";
+import { CeremonyMeetingQuestionDTO } from "../../../interfaces/ceremony-meeting-question";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -122,6 +123,23 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
         });
     }
 
+    questionUpdated(question: CeremonyMeetingQuestionDTO) {
+        if (this.state.meeting) {
+            const newMeeting = cloneDeep(this.state.meeting);
+
+            const newQuestion = newMeeting.questions.filter(q => q.ceremonyTypeQuestionId == question.ceremonyTypeQuestionId)[0];
+            newQuestion.answer = question.answer;
+
+            this.setState({
+                meeting: newMeeting
+            });
+
+            if (this.props.meetingUpdated != null) {
+                this.props.meetingUpdated(this.state.meeting);
+            }
+        }
+    }
+
     componentDidMount() {
         const handler = (e: any) => {
             if (e.target.closest(".tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
@@ -179,7 +197,16 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     onChange={this.descriptionChanged.bind(this)}
                                     onKeyUp={this.descriptionOnKeyUp.bind(this)}
                                     onBlur={this.saveDescription.bind(this)} />
-                                {this.state.meeting?.questions ? this.state.meeting.questions.map(question => (<EditCeremonyMeetingQuestion question={question} />)) : ""}
+
+                                {this.state.meeting?.questions ? this.state.meeting.questions.map(question =>
+                                (<EditCeremonyMeetingQuestion
+                                    key={question.ceremonyTypeQuestionId}
+                                    question={question}
+                                    canEdit={this.props.canEdit}
+                                    ceremonyId={this.props.ceremonyId}
+                                    meetingId={this.props.meetingId}
+                                    context={this.props.context}
+                                    questionUpdated={this.questionUpdated.bind(this)} />)) : ""}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-primary">Save changes</button>
