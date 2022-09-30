@@ -1,6 +1,6 @@
 import React from "react";
-import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
-import { CeremonyMeetingDTO } from "../../../interfaces/ceremony-meeting";
+import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
+import { CeremonyMeetingDTO } from "../../../../interfaces/ceremony-meeting";
 import { EditCeremonyMeeting } from "../edit-ceremony-meeting/edit-ceremony-meeting";
 
 export class CeremonyMeetingDetails extends React.Component<CeremonyMeetingDetailsProps, CeremonyMeetingDetailsState> {

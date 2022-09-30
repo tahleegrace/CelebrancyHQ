@@ -2,14 +2,14 @@ import { Editor } from "@tinymce/tinymce-react";
 import { cloneDeep } from "lodash";
 import React, { Fragment } from "react";
 import { EditorEvent } from "tinymce";
-import config from "../../../config";
-import { CeremonyMeetingQuestionTypeCodes } from "../../../constants/ceremonies/ceremony-meeting-question-type-codes";
-import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
-import { RootContextProps } from "../../../context/root-context";
-import { CeremonyMeetingQuestionDTO } from "../../../interfaces/ceremony-meeting-question";
-import { UpdateCeremonyMeetingQuestionRequest } from "../../../interfaces/update-ceremony-meeting-question-request";
-import { CeremonyMeetingsService } from "../../../services/ceremonies/ceremony-meetings.service";
-import { DependencyService } from "../../../services/dependencies/dependency.service";
+import config from "../../../../config";
+import { CeremonyMeetingQuestionTypeCodes } from "../../../../constants/ceremonies/ceremony-meeting-question-type-codes";
+import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
+import { RootContextProps } from "../../../../context/root-context";
+import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meeting-question";
+import { UpdateCeremonyMeetingQuestionRequest } from "../../../../interfaces/update-ceremony-meeting-question-request";
+import { CeremonyMeetingsService } from "../../../../services/ceremonies/ceremony-meetings.service";
+import { DependencyService } from "../../../../services/dependencies/dependency.service";
 
 export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMeetingQuestionProps, EditCeremonyMeetingQuestionState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);

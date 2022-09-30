@@ -2,16 +2,17 @@ import { cloneDeep } from "lodash";
 import React, { Fragment } from "react";
 import { Editor } from '@tinymce/tinymce-react';
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
-import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
-import { RootContextProps } from "../../../context/root-context";
-import { CeremonyMeetingDTO } from "../../../interfaces/ceremony-meeting";
-import { UpdateCeremonyMeetingRequest } from "../../../interfaces/update-ceremony-meeting-request";
-import { CeremonyMeetingsService } from "../../../services/ceremonies/ceremony-meetings.service";
-import { DependencyService } from "../../../services/dependencies/dependency.service";
-import config from "../../../config";
+import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
+import { RootContextProps } from "../../../../context/root-context";
+import { CeremonyMeetingDTO } from "../../../../interfaces/ceremony-meeting";
+import { UpdateCeremonyMeetingRequest } from "../../../../interfaces/update-ceremony-meeting-request";
+import { CeremonyMeetingsService } from "../../../../services/ceremonies/ceremony-meetings.service";
+import { DependencyService } from "../../../../services/dependencies/dependency.service";
+import config from "../../../../config";
 import { EditorEvent } from "tinymce";
 import { EditCeremonyMeetingQuestion } from "../edit-ceremony-meeting-question/edit-ceremony-meeting-question";
-import { CeremonyMeetingQuestionDTO } from "../../../interfaces/ceremony-meeting-question";
+import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meeting-question";
+import { CeremonyMeetingParticipantsList } from "../ceremony-meeting-participants-list/ceremony-meeting-participants-list";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -197,6 +198,8 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     onChange={this.descriptionChanged.bind(this)}
                                     onKeyUp={this.descriptionOnKeyUp.bind(this)}
                                     onBlur={this.saveDescription.bind(this)} />
+
+                                {this.state.meeting ? <CeremonyMeetingParticipantsList meeting={this.state.meeting} canEdit={this.props.canEdit} /> : ""}
 
                                 {this.state.meeting?.questions ? this.state.meeting.questions.map(question =>
                                 (<EditCeremonyMeetingQuestion
