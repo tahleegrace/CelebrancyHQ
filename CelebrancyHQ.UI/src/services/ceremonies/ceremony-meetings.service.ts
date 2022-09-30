@@ -33,4 +33,10 @@ export class CeremonyMeetingsService {
 
         return this.httpService.putWithNoResponse(url, question, context);
     }
+
+    public async deleteParticipant(ceremonyId: number, meetingId: number, personId: number, context: RootContextProps): Promise<void> {
+        const url = `ceremonies/${ceremonyId}/meetings/${meetingId}/participants?personId=${personId}`;
+
+        return this.httpService.delete(url, context);
+    }
 }

@@ -53,4 +53,11 @@ export class HttpService {
             body: JSON.stringify(body)
         });
     }
+
+    public async delete(url: string, context?: RootContextProps): Promise<void> {
+        await fetch(`${config.api.url}/${url}`, {
+            method: 'DELETE',
+            headers: this.getHeaders(context) as any
+        });
+    }
 }

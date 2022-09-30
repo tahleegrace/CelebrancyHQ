@@ -13,6 +13,7 @@ import { EditorEvent } from "tinymce";
 import { EditCeremonyMeetingQuestion } from "../edit-ceremony-meeting-question/edit-ceremony-meeting-question";
 import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meeting-question";
 import { CeremonyMeetingParticipantsList } from "../ceremony-meeting-participants-list/ceremony-meeting-participants-list";
+import { PersonDTO } from "../../../../interfaces/person";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -141,6 +142,21 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
         }
     }
 
+    participantsUpdated(participants: PersonDTO[]) {
+        if (this.state.meeting) {
+            const newMeeting = cloneDeep(this.state.meeting);
+            newMeeting.participants = participants;
+
+            this.setState({
+                meeting: newMeeting
+            });
+
+            if (this.props.meetingUpdated != null) {
+                this.props.meetingUpdated(this.state.meeting);
+            }
+        }
+    }
+
     componentDidMount() {
         const handler = (e: any) => {
             if (e.target.closest(".tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
@@ -199,7 +215,12 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     onKeyUp={this.descriptionOnKeyUp.bind(this)}
                                     onBlur={this.saveDescription.bind(this)} />
 
-                                {this.state.meeting ? <CeremonyMeetingParticipantsList meeting={this.state.meeting} canEdit={this.props.canEdit} /> : ""}
+                                {this.state.meeting ? <CeremonyMeetingParticipantsList
+                                    ceremonyId={this.props.ceremonyId}
+                                    context={this.props.context}
+                                    meeting={this.state.meeting}
+                                    participantsUpdated={this.participantsUpdated.bind(this)}
+                                    canEdit={this.props.canEdit} /> : ""}
 
                                 {this.state.meeting?.questions ? this.state.meeting.questions.map(question =>
                                 (<EditCeremonyMeetingQuestion
