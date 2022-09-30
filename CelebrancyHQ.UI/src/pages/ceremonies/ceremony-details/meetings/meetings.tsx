@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import { CeremonyMeetingsList } from "../../../../components/ceremonies/ceremony-meetings-list/ceremony-meetings-list";
+import { CeremonyMeetingsList } from "../../../../components/ceremonies/meetings/ceremony-meetings-list/ceremony-meetings-list";
 import { CeremonyFieldNames } from "../../../../constants/ceremonies/ceremony-field-names";
 import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../../context/root-context";
