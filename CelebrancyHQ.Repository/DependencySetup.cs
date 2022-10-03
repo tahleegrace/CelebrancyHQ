@@ -1,5 +1,6 @@
 ﻿using CelebrancyHQ.Repository.Addresses;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.Files;
 using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;
@@ -27,6 +28,8 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<IOrganisationPhoneNumberRepository, OrganisationPhoneNumberRepository>();
 
             services.AddScoped<IAddressRepository, AddressRepository>();
+
+            services.AddScoped<IFileRepository, FileRepository>();
 
             services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();

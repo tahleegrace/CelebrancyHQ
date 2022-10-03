@@ -1,5 +1,6 @@
 ﻿using CelebrancyHQ.Services.Authentication;
 using CelebrancyHQ.Services.Ceremonies;
+using CelebrancyHQ.Services.Files;
 using CelebrancyHQ.Services.Persons;
 
 namespace CelebrancyHQ.Services
@@ -19,6 +20,8 @@ namespace CelebrancyHQ.Services
             services.AddScoped<IUniqueCodeGenerationService, UniqueCodeGenerationService>();
 
             services.AddScoped<IPersonService, PersonService>();
+
+            services.AddScoped<IFileService, FileService>();
 
             services.AddScoped<ICeremonyTypeService, CeremonyTypeService>();
             services.AddScoped<ICeremonyTypeParticipantService, CeremonyTypeParticipantService>();

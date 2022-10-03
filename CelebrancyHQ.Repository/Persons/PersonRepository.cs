@@ -57,7 +57,7 @@ namespace CelebrancyHQ.Repository.Persons
         }
 
         /// <summary>
-        /// Creates a new person
+        /// Creates a new person.
         /// </summary>
         /// <param name="person">The person.</param>
         /// <returns>The newly created person.</returns>
