@@ -40,6 +40,12 @@ namespace CelebrancyHQ.Entities
         public byte[] FileData { get; set; }
 
         /// <summary>
+        /// Gets or sets the status of the file.
+        /// </summary>
+        [Required]
+        public string Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the person who created the file.
         /// </summary>
         [Required]

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using CelebrancyHQ.Entities;
+using CelebrancyHQ.Entities.Constants.Files;
 using CelebrancyHQ.Models.DTOs.Files;
 using CelebrancyHQ.Models.Exceptions.Files;
 using CelebrancyHQ.Repository.Files;
@@ -42,6 +43,7 @@ namespace CelebrancyHQ.Services.Files
             // Create the file.
             var newFile = this._mapper.Map<Entities.File>(file);
             newFile.CreatedById = currentUserId;
+            newFile.Status = FileStatus.Pending;
             newFile = await this._fileRepository.Create(newFile);
 
             // TODO: Scan the file for viruses.

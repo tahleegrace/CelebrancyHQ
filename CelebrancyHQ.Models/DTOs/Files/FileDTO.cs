@@ -28,6 +28,11 @@ namespace CelebrancyHQ.Models.DTOs.Files
         public long Size { get; set; }
 
         /// <summary>
+        /// Gets or sets the status of the file.
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
         /// Gets or sets the person who created the file.
         /// </summary>
         public PersonDTO CreatedBy { get; set; }
