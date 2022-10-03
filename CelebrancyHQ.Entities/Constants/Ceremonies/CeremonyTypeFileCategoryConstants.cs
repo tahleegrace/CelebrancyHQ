@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Entities.Constants
+﻿namespace CelebrancyHQ.Entities.Constants.Ceremonies
 {
     /// <summary>
     /// Constants specific to ceremony type file categories.

@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyType()
                 {
-                    Id = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Name = "Marriage Ceremony",
                     Code = CeremonyConstants.CeremonyTypeConstants.MarriageCeremonyCode,
                     Description = "A ceremony to celebrate the joining of two persons in marriage.",
@@ -31,7 +31,7 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyType()
                 {
-                    Id = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Name = "Funeral Ceremony",
                     Code = CeremonyConstants.CeremonyTypeConstants.FuneralCeremonyCode,
                     Description = "A ceremony to celebrate the life of and remember a person who has recently passed way.",

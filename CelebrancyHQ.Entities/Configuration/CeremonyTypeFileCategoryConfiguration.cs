@@ -18,8 +18,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeFileCategory()
                 {
-                    Id = EntitiesConstants.CeremonyTypeFileCategoryConstants.MarriageMeetingId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeFileCategoryConstants.MarriageMeetingId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeFileCategoryConstants.MeetingCode,
                     PermissionCode = "Meeting",
                     Name = "Meeting",
@@ -32,8 +32,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeFileCategory()
                 {
-                    Id = EntitiesConstants.CeremonyTypeFileCategoryConstants.FuneralMeetingId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeFileCategoryConstants.FuneralMeetingId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeFileCategoryConstants.MeetingCode,
                     PermissionCode = "Meeting",
                     Name = "Meeting",

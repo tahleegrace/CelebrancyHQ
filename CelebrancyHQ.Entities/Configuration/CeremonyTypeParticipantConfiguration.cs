@@ -18,8 +18,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.CelebrantForMarriageId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.CelebrantForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.CelebrantCode,
                     Name = "Celebrant",
                     SortOrder = 1,
@@ -37,8 +37,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.CelebrantForFuneralId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.CelebrantForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.CelebrantCode,
                     Name = "Celebrant",
                     SortOrder = 1,
@@ -56,8 +56,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.CoupleId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.CoupleId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.CoupleCode,
                     Name = "Couple",
                     SortOrder = 2,
@@ -75,8 +75,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OrganiserForMarriageId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.OrganiserForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.OrganiserCode,
                     Name = "Organiser",
                     SortOrder = 3,
@@ -92,8 +92,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OrganiserForFuneralId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.OrganiserForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.OrganiserCode,
                     Name = "Organiser",
                     SortOrder = 3,
@@ -110,8 +110,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.WitnessId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.WitnessId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.WitnessCode,
                     Name = "Witness",
                     SortOrder = 4,
@@ -129,8 +129,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.BridalPartyId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.BridalPartyId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.BridalPartyCode,
                     Name = "Bridal party",
                     SortOrder = 5,
@@ -146,8 +146,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InvitedGuestForMarriageId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.InvitedGuestForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.InvitedGuestCode,
                     Name = "Invited guest",
                     SortOrder = 7,
@@ -163,8 +163,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.DeceasedPersonId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.DeceasedPersonId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.DeceasedPersonCode,
                     Name = "Deceased person",
                     SortOrder = 2,
@@ -182,8 +182,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InvitedGuestForFuneralId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.InvitedGuestForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.InvitedGuestCode,
                     Name = "Invited guest",
                     SortOrder = 6,
@@ -199,8 +199,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OtherForMarriageId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.OtherForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.OtherCode,
                     Name = "Other",
                     SortOrder = 8,
@@ -216,8 +216,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.OtherForFuneralId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.OtherForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.OtherCode,
                     Name = "Other",
                     SortOrder = 7,
@@ -233,8 +233,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InterpreterForMarriageId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.MarriageCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.InterpreterForMarriageId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.InterpreterCode,
                     Name = "Interpreter",
                     SortOrder = 6,
@@ -251,8 +251,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.InterpreterForFuneralId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.InterpreterForFuneralId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.InterpreterCode,
                     Name = "Interpreter",
                     SortOrder = 5,
@@ -269,8 +269,8 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeParticipant()
                 {
-                    Id = EntitiesConstants.CeremonyTypeParticipantConstants.FuneralDirectorId,
-                    CeremonyTypeId = EntitiesConstants.CeremonyTypeConstants.FuneralCeremonyId,
+                    Id = EntitiesConstants.Ceremonies.CeremonyTypeParticipantConstants.FuneralDirectorId,
+                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeParticipantConstants.FuneralDirectorCode,
                     Name = "Funeral director",
                     SortOrder = 4,
