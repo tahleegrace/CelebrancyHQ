@@ -54,6 +54,6 @@ namespace CelebrancyHQ.Entities
         /// <summary>
         /// Gets or sets the description of the file.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }
