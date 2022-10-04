@@ -66,7 +66,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, ceremonyTypeFileCategory.PermissionCode);
 
             // Save the file.
-            var newFile = await this._fileService.CreateFile(file, currentUserId);
+            var newFile = await this._fileService.CreateFile(file, currentUser.Person);
 
             // Save the ceremony file.
             var newCeremonyFile = this._mapper.Map<CeremonyFile>(file);

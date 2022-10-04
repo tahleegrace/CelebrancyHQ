@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Auditing.Files;
 using CelebrancyHQ.Auditing.Organisations;
 using CelebrancyHQ.Auditing.Persons;
 
@@ -21,6 +22,8 @@ namespace CelebrancyHQ.Auditing
             services.AddScoped<IOrganisationAuditingService, OrganisationAuditingService>();
             services.AddScoped<IOrganisationPhoneNumberAuditingService, OrganisationPhoneNumberAuditingService>();
             services.AddScoped<IOrganisationAddressAuditingService, OrganisationAddressAuditingService>();
+
+            services.AddScoped<IFileAuditingService, FileAuditingService>();
 
             services.AddScoped<ICeremonyAuditingService, CeremonyAuditingService>();
             services.AddScoped<ICeremonyDateAuditingService, CeremonyDateAuditingService>();

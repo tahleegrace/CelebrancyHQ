@@ -1,4 +1,5 @@
-﻿using CelebrancyHQ.Models.DTOs.Files;
+﻿using CelebrancyHQ.Entities;
+using CelebrancyHQ.Models.DTOs.Files;
 
 namespace CelebrancyHQ.Services.Files
 {
@@ -11,8 +12,8 @@ namespace CelebrancyHQ.Services.Files
         /// Creates a new file.
         /// </summary>
         /// <param name="file">The file.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <param name="currentUser">The current user.</param>
         /// <returns>The newly created file.</returns>
-        Task<FileDTO> CreateFile(CreateFileRequest file, int currentUserId);
+        Task<FileDTO> CreateFile(CreateFileRequest file, Person currentUser);
     }
 }

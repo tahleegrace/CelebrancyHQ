@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 
+using CelebrancyHQ.Auditing.Files;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Entities.Constants.Files;
 using CelebrancyHQ.Models.DTOs.Files;
@@ -14,16 +15,19 @@ namespace CelebrancyHQ.Services.Files
     public class FileService : IFileService
     {
         private readonly IFileRepository _fileRepository;
+        private readonly IFileAuditingService _fileAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates a new instance of FileService.
         /// </summary>
         /// <param name="fileRepository">The files repository.</param>
+        /// <param name="fileAuditingService">The file auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public FileService(IFileRepository fileRepository, IMapper mapper)
+        public FileService(IFileRepository fileRepository, IFileAuditingService fileAuditingService, IMapper mapper)
         {
             this._fileRepository = fileRepository;
+            this._fileAuditingService = fileAuditingService;
             this._mapper = mapper;
         }
 
@@ -31,9 +35,9 @@ namespace CelebrancyHQ.Services.Files
         /// Creates a new file.
         /// </summary>
         /// <param name="file">The file.</param>
-        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <param name="currentUser">The current user.</param>
         /// <returns>The newly created file.</returns>
-        public async Task<FileDTO> CreateFile(CreateFileRequest file, int currentUserId)
+        public async Task<FileDTO> CreateFile(CreateFileRequest file, Person currentUser)
         {
             if (file == null)
             {
@@ -51,14 +55,17 @@ namespace CelebrancyHQ.Services.Files
 
             // Create the file.
             var newFile = this._mapper.Map<Entities.File>(file);
-            newFile.CreatedById = currentUserId;
+            newFile.CreatedById = currentUser.Id;
             newFile.Status = FileStatus.Pending;
             newFile.FileData = fileData;
             newFile.Size = fileData.Length;
             newFile = await this._fileRepository.Create(newFile);
 
+            // Generate and save audit logs for creating the file.
+            var auditEvents = this._fileAuditingService.GenerateAuditEvents(null, newFile);
+            await this._fileAuditingService.SaveAuditEvents(newFile, currentUser.Id, auditEvents);
+
             // TODO: Scan the file for viruses.
-            // TODO: Add audit logs for creating file.
 
             var result = this._mapper.Map<FileDTO>(newFile);
             return result;

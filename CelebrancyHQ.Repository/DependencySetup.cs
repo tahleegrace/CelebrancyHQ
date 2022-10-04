@@ -30,6 +30,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<IAddressRepository, AddressRepository>();
 
             services.AddScoped<IFileRepository, FileRepository>();
+            services.AddScoped<IFileAuditLogRepository, FileAuditLogRepository>();
 
             services.AddScoped<ICeremonyTypeRepository, CeremonyTypeRepository>();
             services.AddScoped<ICeremonyTypeParticipantRepository, CeremonyTypeParticipantRepository>();
