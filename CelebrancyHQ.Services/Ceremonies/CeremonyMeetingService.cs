@@ -146,7 +146,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
-            // Make sure the user has permissions to add the date.
+            // Make sure the user has permissions to add the meeting.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 

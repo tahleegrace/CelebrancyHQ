@@ -40,10 +40,21 @@ namespace CelebrancyHQ.Services.Files
                 throw new FileNotProvidedException();
             }
 
+            // Read the data in the file.
+            byte[] fileData;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                await file.FileData.CopyToAsync(ms);
+                fileData = ms.ToArray();
+            }
+
             // Create the file.
             var newFile = this._mapper.Map<Entities.File>(file);
             newFile.CreatedById = currentUserId;
             newFile.Status = FileStatus.Pending;
+            newFile.FileData = fileData;
+            newFile.Size = fileData.Length;
             newFile = await this._fileRepository.Create(newFile);
 
             // TODO: Scan the file for viruses.

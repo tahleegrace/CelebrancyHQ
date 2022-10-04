@@ -11,7 +11,10 @@ namespace CelebrancyHQ.Mappings.Files
     {
         public FileMappingProfile()
         {
-            CreateMap<CreateFileRequest, Entities.File>();
+            CreateMap<CreateFileRequest, Entities.File>()
+                .ForMember(dest => dest.Name, source => source.MapFrom(item => item.FileData.FileName))
+                .ForMember(dest => dest.ContentType, source => source.MapFrom(item => item.FileData.ContentType))
+                .ForMember(dest => dest.FileData, source => source.Ignore());
 
             CreateMap<Entities.File, FileDTO>();
         }
