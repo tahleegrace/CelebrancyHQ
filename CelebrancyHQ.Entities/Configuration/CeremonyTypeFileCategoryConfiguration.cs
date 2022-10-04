@@ -21,7 +21,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     Id = EntitiesConstants.Ceremonies.CeremonyTypeFileCategoryConstants.MarriageMeetingId,
                     CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeFileCategoryConstants.MeetingCode,
-                    PermissionCode = "Meeting",
+                    PermissionCode = "Meetings",
                     Name = "Meeting",
                     Description = "A meeting with another ceremony participant."
                 }
@@ -35,7 +35,7 @@ namespace CelebrancyHQ.Entities.Configuration
                     Id = EntitiesConstants.Ceremonies.CeremonyTypeFileCategoryConstants.FuneralMeetingId,
                     CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
                     Code = CeremonyConstants.CeremonyTypeFileCategoryConstants.MeetingCode,
-                    PermissionCode = "Meeting",
+                    PermissionCode = "Meetings",
                     Name = "Meeting",
                     Description = "A meeting with another ceremony participant."
                 }
