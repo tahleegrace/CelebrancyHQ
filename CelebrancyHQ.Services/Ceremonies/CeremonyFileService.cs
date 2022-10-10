@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 
+using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Entities;
-using CelebrancyHQ.Services.Files;
-using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Services.Files;
 
 namespace CelebrancyHQ.Services.Ceremonies
 {
@@ -17,6 +18,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly IFileService _fileService;
         private readonly ICeremonyFileRepository _ceremonyFileRepository;
         private readonly ICeremonyTypeFileCategoryRepository _ceremonyTypeFileCategoryRepository;
+        private readonly ICeremonyFileAuditingService _ceremonyFileAuditingService;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -26,14 +28,17 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="fileService">The file service.</param>
         /// <param name="ceremonyFileRepository">The ceremony files repository.</param>
         /// <param name="ceremonyTypeFileCategoryRepository">The ceremony type file categories repository.</param>
+        /// <param name="ceremonyFileAuditingService">The ceremony file auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyFileService(ICeremonyHelpers ceremonyHelpers, IFileService fileService, 
-            ICeremonyFileRepository ceremonyFileRepository, ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, IMapper mapper)
+            ICeremonyFileRepository ceremonyFileRepository, ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, 
+            ICeremonyFileAuditingService ceremonyFileAuditingService, IMapper mapper)
         {
             this._ceremonyHelpers = ceremonyHelpers;
             this._fileService = fileService;
             this._ceremonyFileRepository = ceremonyFileRepository;
             this._ceremonyTypeFileCategoryRepository = ceremonyTypeFileCategoryRepository;
+            this._ceremonyFileAuditingService = ceremonyFileAuditingService;
             this._mapper = mapper;
         }
 
@@ -74,7 +79,9 @@ namespace CelebrancyHQ.Services.Ceremonies
             newCeremonyFile.FileId = newFile.Id;
             newCeremonyFile = await this._ceremonyFileRepository.Create(newCeremonyFile);
 
-            // TODO: Add audit logs for creating a ceremony file.
+            // Generate and save audit logs for the file.
+            var auditEvents = this._ceremonyFileAuditingService.GenerateAuditEvents(null, newCeremonyFile);
+            await this._ceremonyFileAuditingService.SaveAuditEvents(newCeremonyFile, ceremony, currentUser.PersonId, auditEvents);
 
             var result = this._mapper.Map<CeremonyFileDTO>(newCeremonyFile);
             return result;
