@@ -20,16 +20,20 @@ namespace CelebrancyHQ.API.Controllers
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ICeremonyMeetingService _ceremonyMeetingService;
+        private readonly ICeremonyMeetingQuestionFileService _ceremonyMeetingQuestionFileService;
 
         /// <summary>
         /// Creates a new instance of CeremonyMeetingsController.
         /// </summary>
         /// <param name="authenticationService">The authentication service.</param>
         /// <param name="ceremonyMeetingService">The ceremony meetings service.</param>
-        public CeremonyMeetingsController(IAuthenticationService authenticationService, ICeremonyMeetingService ceremonyMeetingService)
+        /// <param name="ceremonyMeetingQuestionFileService">The ceremony meeting question files service.</param>
+        public CeremonyMeetingsController(IAuthenticationService authenticationService, ICeremonyMeetingService ceremonyMeetingService,
+            ICeremonyMeetingQuestionFileService ceremonyMeetingQuestionFileService)
         {
             this._authenticationService = authenticationService;
             this._ceremonyMeetingService = ceremonyMeetingService;
+            this._ceremonyMeetingQuestionFileService = ceremonyMeetingQuestionFileService;
         }
 
         /// <summary>
@@ -172,7 +176,8 @@ namespace CelebrancyHQ.API.Controllers
             }
         }
 
-        /// <summary>
+        
+/// <summary>
         /// Adds a participant to a ceremony meeting.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
@@ -201,7 +206,6 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
-
         /// <summary>
         /// Deletes a participant from a ceremony meeting.
         /// </summary>
@@ -221,6 +225,33 @@ namespace CelebrancyHQ.API.Controllers
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingNotFoundException || ex is CeremonyMeetingParticipantNotFoundException 
             || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
+        /// Adds a file to a ceremony meeting question.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="questionId">The ID of the question</param>
+        /// <param name="file">The file.</param>
+        /// <returns>The newly created file.</returns>
+        [HttpPost("{ceremonyId}/meetings/{meetingId}/questions/{questionId}/files")]
+        public async Task<ActionResult<CeremonyFileDTO>> CreateQuestionFile(int ceremonyId, int meetingId, int questionId, [FromForm] CreateCeremonyMeetingQuestionFileRequest file)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyMeetingQuestionFileService.Create(file, questionId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingQuestionNotFoundException || ex is UserNotFoundException)
             {
                 return NotFound();
             }

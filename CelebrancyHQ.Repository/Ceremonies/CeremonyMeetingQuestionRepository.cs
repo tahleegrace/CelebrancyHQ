@@ -44,6 +44,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Finds the ceremony meeting question with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the ceremony meeting question.</param>
+        /// <returns>The ceremony meeting question with the specified ID.</returns>
+        public async Task<CeremonyMeetingQuestion?> FindById(int id)
+        {
+            return await this._context.CeremonyMeetingQuestions.Include(cmq => cmq.CeremonyMeeting)
+                                                               .Where(cmq => cmq.Id == id && !cmq.Deleted)
+                                                               .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Creates new questions for a ceremony meeting.
         /// </summary>
         /// <param name="questions">The questions.</param>

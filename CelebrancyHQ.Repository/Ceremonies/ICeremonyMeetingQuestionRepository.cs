@@ -23,6 +23,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyMeetingQuestion?> FindByCeremonyTypeMeetingQuestionId(int meetingId, int ceremonyTypeMeetingQuestionId);
 
         /// <summary>
+        /// Finds the ceremony meeting question with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the ceremony meeting question.</param>
+        /// <returns>The ceremony meeting question with the specified ID.</returns>
+        Task<CeremonyMeetingQuestion?> FindById(int id);
+
+        /// <summary>
         /// Creates new questions for a ceremony meeting.
         /// </summary>
         /// <param name="questions">The questions.</param>

@@ -51,6 +51,7 @@ namespace CelebrancyHQ.Repository
             services.AddScoped<ICeremonyMeetingRepository, CeremonyMeetingRepository>();
             services.AddScoped<ICeremonyMeetingQuestionRepository, CeremonyMeetingQuestionRepository>();
             services.AddScoped<ICeremonyMeetingParticipantRepository, CeremonyMeetingParticipantRepository>();
+            services.AddScoped<ICeremonyMeetingQuestionFileRepository, CeremonyMeetingQuestionFileRepository>();
             services.AddScoped<ICeremonyFileRepository, CeremonyFileRepository>();
         }
     }
