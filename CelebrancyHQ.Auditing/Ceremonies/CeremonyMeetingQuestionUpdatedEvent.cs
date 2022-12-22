@@ -37,7 +37,7 @@
         /// <summary>
         /// Creates a new instance of CeremonyMeetingQuestionUpdatedEvent.
         /// </summary>
-        /// <param name="id">The ID of the ceremony meeting.</param>
+        /// <param name="id">The ID of the ceremony meeting question.</param>
         /// <param name="oldValue">The old answer.</param>
         /// <param name="newValue">The new answer.</param>
         public CeremonyMeetingQuestionUpdatedEvent(int id, string? oldValue, string? newValue, int ceremonyTypeMeetingQuestionId)

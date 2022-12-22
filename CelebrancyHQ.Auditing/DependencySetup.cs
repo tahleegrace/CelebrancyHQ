@@ -33,6 +33,7 @@ namespace CelebrancyHQ.Auditing
             services.AddScoped<ICeremonyMeetingAuditingService, CeremonyMeetingAuditingService>();
             services.AddScoped<ICeremonyMeetingParticipantAuditingService, CeremonyMeetingParticipantAuditingService>();
             services.AddScoped<ICeremonyMeetingQuestionAuditingService, CeremonyMeetingQuestionAuditingService>();
+            services.AddScoped<ICeremonyMeetingQuestionFileAuditingService, CeremonyMeetingQuestionFileAuditingService>();
         }
     }
 }

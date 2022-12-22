@@ -1,4 +1,5 @@
-﻿using CelebrancyHQ.Constants.Ceremonies;
+﻿using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
@@ -16,6 +17,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyMeetingQuestionRepository _ceremonyMeetingQuestionRepository;
         private readonly ICeremonyMeetingQuestionFileRepository _ceremonyMeetingQuestionFileRepository;
         private readonly ICeremonyTypeFileCategoryRepository _ceremonyTypeFileCategoryRepository;
+        private readonly ICeremonyMeetingQuestionFileAuditingService _ceremonyMeetingQuestionFileAuditingService;
 
         /// <summary>
         /// Creates a new instance of CeremonyMeetingQuestionFileRepository.
@@ -25,15 +27,18 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyMeetingQuestionRepository">The ceremony meeting questions repository.</param>
         /// <param name="ceremonyMeetingQuestionFileRepository">The ceremony meeting question files repository.</param>
         /// <param name="ceremonyTypeFileCategoryRepository">The ceremony type file categories repository.</param>
+        /// <param name="ceremonyMeetingQuestionFileAuditingService">The ceremony meeting question file auditing service.</param>
         public CeremonyMeetingQuestionFileService(ICeremonyHelpers ceremonyHelpers, ICeremonyFileService ceremonyFileService,
             ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, ICeremonyMeetingQuestionFileRepository ceremonyMeetingQuestionFileRepository, 
-            ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository)
+            ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, ICeremonyMeetingQuestionFileAuditingService ceremonyMeetingQuestionFileAuditingService)
         {
             this._ceremonyHelpers = ceremonyHelpers;
             this._ceremonyFileService = ceremonyFileService;
             this._ceremonyMeetingQuestionRepository = ceremonyMeetingQuestionRepository;
             this._ceremonyMeetingQuestionFileRepository = ceremonyMeetingQuestionFileRepository;
             this._ceremonyTypeFileCategoryRepository = ceremonyTypeFileCategoryRepository;
+            this._ceremonyMeetingQuestionFileAuditingService = ceremonyMeetingQuestionFileAuditingService;
+            this._ceremonyMeetingQuestionFileAuditingService = ceremonyMeetingQuestionFileAuditingService;
         }
 
         /// <summary>
@@ -82,9 +87,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 FileId = ceremonyFile.Id
             };
 
-            // TODO: Add audit logs for creating a ceremony meeting question file.
-
             await this._ceremonyMeetingQuestionFileRepository.Create(ceremonyMeetingQuestionFile);
+
+            // Generate and save audit events for the new file.
+            var participantAuditEvents = this._ceremonyMeetingQuestionFileAuditingService.GenerateAuditEvents(null, ceremonyMeetingQuestionFile);
+            await this._ceremonyMeetingQuestionFileAuditingService.SaveAuditEvents(ceremonyMeetingQuestionFile, ceremony, currentUser.PersonId, participantAuditEvents);
 
             return ceremonyFile;
         }
