@@ -10,6 +10,7 @@ import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meet
 import { UpdateCeremonyMeetingQuestionRequest } from "../../../../interfaces/update-ceremony-meeting-question-request";
 import { CeremonyMeetingsService } from "../../../../services/ceremonies/ceremony-meetings.service";
 import { DependencyService } from "../../../../services/dependencies/dependency.service";
+import { CeremonyFilesList } from "../../ceremony-files-list/ceremony-files-list";
 
 export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMeetingQuestionProps, EditCeremonyMeetingQuestionState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -37,6 +38,8 @@ export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMee
     getAnswerDisplay() {
         if (this.props.question.questionTypeCode === CeremonyMeetingQuestionTypeCodes.Text) {
             return this.getTextQuestionAnswerDisplay();
+        } else if (this.props.question.questionTypeCode == CeremonyMeetingQuestionTypeCodes.File) {
+            return this.getFileQuestionAnswerDisplay();
         } else {
             return (<div>Question type not supported.</div>);
         }
@@ -88,7 +91,7 @@ export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMee
         }
     }
 
-    saveTextAnswer(event: any) {
+    saveTextAnswer() {
         setTimeout(async () => {
             if (this.state.question && this.state.question.answer != this.state.oldAnswer) {
                 const request: UpdateCeremonyMeetingQuestionRequest = {
@@ -104,6 +107,12 @@ export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMee
                 }
             }
         });
+    }
+
+    // File questions.
+    getFileQuestionAnswerDisplay() {
+        // TODO: Display actual files here.
+        return (<CeremonyFilesList context={this.props.context} ceremonyId={this.props.ceremonyId} files={[]} canEdit={this.props.canEdit}></CeremonyFilesList>);
     }
 }
 
