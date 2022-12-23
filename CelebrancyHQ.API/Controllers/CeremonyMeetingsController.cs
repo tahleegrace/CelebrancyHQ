@@ -224,7 +224,7 @@ namespace CelebrancyHQ.API.Controllers
                 return NoContent();
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingNotFoundException || ex is CeremonyMeetingParticipantNotFoundException 
-            || ex is UserNotFoundException)
+                || ex is UserNotFoundException)
             {
                 return NotFound();
             }
@@ -235,11 +235,37 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
+        /// Gets all the files for the specified ceremony meeting question.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <param name="questionId">The ID of the question.</param>
+        /// <returns>The files for the specified ceremony.</returns>
+        [HttpGet("{ceremonyId}/meetings/{meetingId}/questions/{questionId}/files")]
+        public async Task<ActionResult<List<CeremonyFileDTO>>> GetAll(int ceremonyId, int meetingId, int questionId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyMeetingQuestionFileService.GetQuestionFiles(questionId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingQuestionNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Adds a file to a ceremony meeting question.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="meetingId">The ID of the meeting.</param>
-        /// <param name="questionId">The ID of the question</param>
+        /// <param name="questionId">The ID of the question.</param>
         /// <param name="file">The file.</param>
         /// <returns>The newly created file.</returns>
         [HttpPost("{ceremonyId}/meetings/{meetingId}/questions/{questionId}/files")]

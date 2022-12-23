@@ -1,4 +1,6 @@
-﻿using CelebrancyHQ.Auditing.Ceremonies;
+﻿using AutoMapper;
+
+using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
@@ -18,6 +20,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyMeetingQuestionFileRepository _ceremonyMeetingQuestionFileRepository;
         private readonly ICeremonyTypeFileCategoryRepository _ceremonyTypeFileCategoryRepository;
         private readonly ICeremonyMeetingQuestionFileAuditingService _ceremonyMeetingQuestionFileAuditingService;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Creates a new instance of CeremonyMeetingQuestionFileRepository.
@@ -28,9 +31,11 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyMeetingQuestionFileRepository">The ceremony meeting question files repository.</param>
         /// <param name="ceremonyTypeFileCategoryRepository">The ceremony type file categories repository.</param>
         /// <param name="ceremonyMeetingQuestionFileAuditingService">The ceremony meeting question file auditing service.</param>
+        /// <param name="mapper">The mapper.</param>
         public CeremonyMeetingQuestionFileService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyFileService ceremonyFileService,
             ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, ICeremonyMeetingQuestionFileRepository ceremonyMeetingQuestionFileRepository, 
-            ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, ICeremonyMeetingQuestionFileAuditingService ceremonyMeetingQuestionFileAuditingService)
+            ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, ICeremonyMeetingQuestionFileAuditingService ceremonyMeetingQuestionFileAuditingService,
+            IMapper mapper)
         {
             this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyFileService = ceremonyFileService;
@@ -39,6 +44,33 @@ namespace CelebrancyHQ.Services.Ceremonies
             this._ceremonyTypeFileCategoryRepository = ceremonyTypeFileCategoryRepository;
             this._ceremonyMeetingQuestionFileAuditingService = ceremonyMeetingQuestionFileAuditingService;
             this._ceremonyMeetingQuestionFileAuditingService = ceremonyMeetingQuestionFileAuditingService;
+            this._mapper = mapper;
+        }
+
+        /// <summary>
+        /// Gets the files for the specified question.
+        /// </summary>
+        /// <param name="questionId">The ID of the question.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The files for the specified question.</returns>
+        public async Task<List<CeremonyFileDTO>> GetQuestionFiles(int questionId, int currentUserId)
+        {
+            // Make sure a ceremony meeting question exists with the specified ID.
+            var ceremonyMeetingQuestion = await this._ceremonyMeetingQuestionRepository.FindById(questionId);
+
+            if (ceremonyMeetingQuestion == null)
+            {
+                throw new CeremonyMeetingQuestionNotFoundException(questionId);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyMeetingQuestion.CeremonyMeeting.CeremonyId, currentUserId);
+
+            // Get the files for the question.
+            var ceremonyMeetingQuestionFiles = await this._ceremonyMeetingQuestionFileRepository.GetQuestionFiles(questionId);
+            var ceremonyFiles = ceremonyMeetingQuestionFiles.Select(cmqf => cmqf.File);
+
+            var result = this._mapper.Map<List<CeremonyFileDTO>>(ceremonyFiles);
+            return result;
         }
 
         /// <summary>
