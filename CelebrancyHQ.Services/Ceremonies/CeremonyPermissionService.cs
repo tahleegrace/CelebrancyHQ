@@ -8,9 +8,9 @@ using CelebrancyHQ.Repository.Users;
 namespace CelebrancyHQ.Services.Ceremonies
 {
     /// <summary>
-    /// Provides helper functions for managing ceremonies.
+    /// Provides helper functions for ceremony permissions.
     /// </summary>
-    public class CeremonyHelpers : ICeremonyHelpers
+    public class CeremonyPermissionService : ICeremonyPermissionService
     {
         private readonly IUserRepository _userRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
@@ -18,13 +18,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyPermissionRepository _ceremonyPermissionRepository;
 
         /// <summary>
-        /// Creates a new instance of CeremonyHelpers.
+        /// Creates a new instance of ceremonyPermissionService.
         /// </summary>
         /// <param name="userRepository">The users repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
         /// <param name="ceremonyPermissionRepository">The ceremony permissions repository.</param>
-        public CeremonyHelpers(IUserRepository userRepository, ICeremonyRepository ceremonyRepository, 
+        public CeremonyPermissionService(IUserRepository userRepository, ICeremonyRepository ceremonyRepository, 
             ICeremonyParticipantRepository ceremonyParticipantRepository, ICeremonyPermissionRepository ceremonyPermissionRepository)
         {
             this._userRepository = userRepository;
@@ -68,6 +68,29 @@ namespace CelebrancyHQ.Services.Ceremonies
         }
 
         /// <summary>
+        /// Gets the effective permissions for the specified person for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The effective permissions for the specified person for the specified ceremony.</returns>
+        public async Task<List<CeremonyPermissionDTO>> GetEffectivePermissionsForCeremony(int ceremonyId, int personId)
+        {
+            var permissions = await this._ceremonyPermissionRepository.GetCeremonyPermissionsForPerson(ceremonyId, personId);
+            var fields = permissions.Select(cp => cp.Field).Distinct().ToList();
+
+            List<CeremonyPermissionDTO> effectivePermissions = new List<CeremonyPermissionDTO>();
+
+            foreach (var field in fields)
+            {
+                var fieldPermissions = permissions.Where(cp => cp.Field == field).ToList();
+
+                effectivePermissions.Add(GetEffectivePermissionsForCeremony(field, fieldPermissions));
+            }
+
+            return effectivePermissions;
+        }
+
+        /// <summary>
         /// Gets the effective permissions for the specified person for the specified field in the specified ceremony.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
@@ -76,12 +99,23 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <returns>The effective permissions for the specified person for the specified field in the specified ceremony.</returns>
         public async Task<CeremonyPermissionDTO> GetEffectivePermissionsForCeremony(int ceremonyId, int personId, string field)
         {
+            var permissions = await this._ceremonyPermissionRepository.GetCeremonyPermissionsForPerson(ceremonyId, personId, field);
+
+            return GetEffectivePermissionsForCeremony(field, permissions);
+        }
+
+        /// <summary>
+        /// Calculates the effective permissions for the specified field.
+        /// </summary>
+        /// <param name="field">The field.</param>
+        /// <param name="permissions">The permissions.</param>
+        /// <returns>The effective permissions for the specified field.</returns>
+        private CeremonyPermissionDTO GetEffectivePermissionsForCeremony(string field, List<CeremonyPermission> permissions)
+        {
             var effectivePermissions = new CeremonyPermissionDTO()
             {
                 Field = field
             };
-
-            var permissions = await this._ceremonyPermissionRepository.GetCeremonyPermissionsForPerson(ceremonyId, personId, field);
 
             foreach (CeremonyPermission ceremonyPermission in permissions)
             {

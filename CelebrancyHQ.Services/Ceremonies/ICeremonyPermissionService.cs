@@ -4,9 +4,9 @@ using CelebrancyHQ.Models.DTOs.Ceremonies;
 namespace CelebrancyHQ.Services.Ceremonies
 {
     /// <summary>
-    /// Provides helper functions for managing ceremonies.
+    /// Provides helper functions for ceremony permissions.
     /// </summary>
-    public interface ICeremonyHelpers
+    public interface ICeremonyPermissionService
     {
         /// <summary>
         /// Checks whether the specified person can view the specified field in the specified ceremony.
@@ -25,6 +25,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="field">The field.</param>
         /// <returns>Whether the specified person can edit the specified field in the specified ceremony.</returns>
         Task CheckCanEditCeremony(int ceremonyId, int personId, string field);
+
+        /// <summary>
+        /// Gets the effective permissions for the specified person for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The effective permissions for the specified person for the specified ceremony.</returns>
+        Task<List<CeremonyPermissionDTO>> GetEffectivePermissionsForCeremony(int ceremonyId, int personId);
 
         /// <summary>
         /// Gets the effective permissions for the specified person for the specified field in the specified ceremony.

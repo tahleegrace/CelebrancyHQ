@@ -8,6 +8,14 @@ namespace CelebrancyHQ.Repository.Ceremonies
     public interface ICeremonyPermissionRepository
     {
         /// <summary>
+        /// Gets the ceremony permissions for the specified ceremony and person.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The ceremony permissions matching the specified criteria.</returns>
+        Task<List<CeremonyPermission>> GetCeremonyPermissionsForPerson(int ceremonyId, int personId);
+
+        /// <summary>
         /// Gets the ceremony permissions for the specified ceremony, person and field.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

@@ -16,7 +16,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyMeetingService : ICeremonyMeetingService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly ICeremonyTypeMeetingRepository _ceremonyTypeMeetingRepository;
         private readonly ICeremonyTypeMeetingQuestionRepository _ceremonyTypeMeetingQuestionRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
@@ -31,7 +31,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyMeetingService.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="ceremonyTypeMeetingRepository">The ceremony type meeting repository.</param>
         /// <param name="ceremonyTypeMeetingQuestionRepository">The ceremony type meeting question repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
@@ -41,14 +41,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="ceremonyMeetingAuditingService">The ceremony meeting auditing service.</param>
         /// <param name="ceremonyMeetingParticipantAuditingService">The ceremony meeting participant auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyMeetingService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeMeetingRepository ceremonyTypeMeetingRepository, 
+        public CeremonyMeetingService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyTypeMeetingRepository ceremonyTypeMeetingRepository, 
             ICeremonyParticipantRepository ceremonyParticipantRepository, ICeremonyTypeMeetingQuestionRepository ceremonyTypeMeetingQuestionRepository, 
             ICeremonyMeetingRepository ceremonyMeetingRepository, ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, 
             ICeremonyMeetingParticipantRepository ceremonyMeetingParticipantRepository, ICeremonyMeetingAuditingService ceremonyMeetingAuditingService, 
             ICeremonyMeetingParticipantAuditingService ceremonyMeetingParticipantAuditingService, 
             ICeremonyMeetingQuestionAuditingService ceremonyMeetingQuestionAuditingService, IMapper mapper)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyTypeMeetingRepository = ceremonyTypeMeetingRepository;
             this._ceremonyTypeMeetingQuestionRepository = ceremonyTypeMeetingQuestionRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
@@ -78,9 +78,9 @@ namespace CelebrancyHQ.Services.Ceremonies
             }
 
             // Make sure the user has permissions to view the meetings for the ceremony.
-            var (currentUser, _) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+            var (currentUser, _) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
 
-            await this._ceremonyHelpers.CheckCanViewCeremony(meeting.CeremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanViewCeremony(meeting.CeremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Retrieve the participants for the meeting.
             var participants = await this._ceremonyMeetingParticipantRepository.GetParticipantsForMeeting(meetingId);
@@ -118,10 +118,10 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <returns>The meetings for the specified ceremony.</returns>
         public async Task<List<CeremonyMeetingDTO>> GetCeremonyMeetings(int ceremonyId, int currentUserId)
         {
-            var (currentUser, _) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, _) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to view the meetings for the ceremony.
-            await this._ceremonyHelpers.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Get the meetings for the ceremony.
             var meetings = await this._ceremonyMeetingRepository.GetCeremonyMeetings(ceremonyId);
@@ -144,11 +144,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyMeetingNotProvidedException();
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to add the meeting.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Make sure a ceremony type meeting exists with the specified ID.
             var ceremonyTypeMeeting = await this._ceremonyTypeMeetingRepository.FindById(meeting.CeremonyTypeMeetingId);
@@ -232,11 +232,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyMeetingNotFoundException(meeting.Id);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(existingMeeting.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(existingMeeting.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to update the meeting.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Generate audit logs for the meeting.
             var newMeetingForAuditing = this._mapper.Map<CeremonyMeeting>(existingMeeting);
@@ -275,11 +275,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyMeetingNotFoundException(meetingId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to update the question.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Make sure the ceremony type meeting question exists and it belongs to the ceremony type meeting.
             var ceremonyTypeMeetingQuestion = await this._ceremonyTypeMeetingQuestionRepository.FindById(question.CeremonyTypeQuestionId);
@@ -343,11 +343,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyMeetingNotFoundException(meetingId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to update the meeting.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Make sure the person is not already a participant in the meeting.
             var isMeetingParticipant = await this._ceremonyMeetingParticipantRepository.ParticipantExistsWithPersonId(meetingId, personId);
@@ -397,11 +397,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyMeetingNotFoundException(meetingId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(meeting.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to update the meeting.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Make sure there is a participant with the specified person ID.
             var participant = await this._ceremonyMeetingParticipantRepository.FindByPersonId(meetingId, personId);

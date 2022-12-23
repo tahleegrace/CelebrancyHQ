@@ -19,7 +19,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyService : ICeremonyService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly IUserRepository _userRepository;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyRepository _ceremonyRepository;
@@ -33,7 +33,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyService.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="userRepository">The users repository.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
@@ -43,13 +43,13 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="organisationPhoneNumberRepository">The organisation phone numbers repository.</param>
         /// <param name="ceremonyAuditingService">The ceremony auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyService(ICeremonyHelpers ceremonyHelpers, IUserRepository userRepository,
+        public CeremonyService(ICeremonyPermissionService ceremonyPermissionService, IUserRepository userRepository,
             ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository, ICeremonyRepository ceremonyRepository, 
             ICeremonyVenueRepository ceremonyVenuesRepository, ICeremonyParticipantRepository ceremonyParticipantRepository,
             IPersonPhoneNumberRepository personPhoneNumberRepository, IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, 
             ICeremonyAuditingService ceremonyAuditingService, IMapper mapper)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._userRepository = userRepository;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyRepository = ceremonyRepository;
@@ -106,7 +106,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         public async Task<CeremonyKeyDetailsDTO> GetCeremonyKeyDetails(int ceremonyId, int currentUserId)
         {
             // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Get the participants in the ceremony.
             var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId, CeremonyTypeParticipantConstants.InvitedGuestCode);
@@ -131,7 +131,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             foreach (string fieldName in CeremonyFieldNames.FieldNames)
             {
-                var permissions = await this._ceremonyHelpers.GetEffectivePermissionsForCeremony(ceremonyId, currentUser.PersonId, fieldName);
+                var permissions = await this._ceremonyPermissionService.GetEffectivePermissionsForCeremony(ceremonyId, currentUser.PersonId, fieldName);
                 effectivePermissions.Add(permissions);
             }
 
@@ -164,11 +164,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyNotProvidedException();
             }
 
-            var (currentUser, existingCeremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremony.Id, currentUserId);
+            var (currentUser, existingCeremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremony.Id, currentUserId);
 
             // Make sure the user has permissions to edit the ceremony.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.KeyDetails);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.KeyDetails);
 
             // Generate audit logs for the ceremony.
             var auditEvents = this._ceremonyAuditingService.GenerateAuditEvents(existingCeremony, this._mapper.Map<Ceremony>(ceremony));

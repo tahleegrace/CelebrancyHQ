@@ -177,7 +177,7 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         
-/// <summary>
+        /// <summary>
         /// Adds a participant to a ceremony meeting.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

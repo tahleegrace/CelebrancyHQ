@@ -14,7 +14,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyFileService : ICeremonyFileService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly IFileService _fileService;
         private readonly ICeremonyFileRepository _ceremonyFileRepository;
         private readonly ICeremonyTypeFileCategoryRepository _ceremonyTypeFileCategoryRepository;
@@ -24,22 +24,46 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyFileService.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="fileService">The file service.</param>
         /// <param name="ceremonyFileRepository">The ceremony files repository.</param>
         /// <param name="ceremonyTypeFileCategoryRepository">The ceremony type file categories repository.</param>
         /// <param name="ceremonyFileAuditingService">The ceremony file auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyFileService(ICeremonyHelpers ceremonyHelpers, IFileService fileService, 
+        public CeremonyFileService(ICeremonyPermissionService ceremonyPermissionService, IFileService fileService, 
             ICeremonyFileRepository ceremonyFileRepository, ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, 
             ICeremonyFileAuditingService ceremonyFileAuditingService, IMapper mapper)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._fileService = fileService;
             this._ceremonyFileRepository = ceremonyFileRepository;
             this._ceremonyTypeFileCategoryRepository = ceremonyTypeFileCategoryRepository;
             this._ceremonyFileAuditingService = ceremonyFileAuditingService;
             this._mapper = mapper;
+        }
+
+        /// <summary>
+        /// Gets the files for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The files for the specified ceremony.</returns>
+        public async Task<List<CeremonyFileDTO>> GetCeremonyFiles(int ceremonyId, int currentUserId)
+        {
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+
+            // Find all the fields the user can view files for.
+            var effectivePermissions = await this._ceremonyPermissionService.GetEffectivePermissionsForCeremony(ceremonyId, currentUser.PersonId);
+            var accessibleFields = effectivePermissions.Select(p => p.Field).Distinct();
+
+            // Get the files for the ceremony.
+            var files = await this._ceremonyFileRepository.GetCeremonyFiles(ceremonyId);
+
+            // Get the files that the user has permission to access.
+            var accessibleFiles = files.Where(f => accessibleFields.Contains(f.Category.PermissionCode));
+
+            var result = this._mapper.Map<List<CeremonyFileDTO>>(accessibleFiles);
+            return result;
         }
 
         /// <summary>
@@ -56,7 +80,7 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyFileNotProvidedException();
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure a ceremony type file category exists with the specified ID.
             var ceremonyTypeFileCategory = await this._ceremonyTypeFileCategoryRepository.FindById(file.CategoryId);
@@ -68,7 +92,7 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Make sure the user has permissions to add the file.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, ceremonyTypeFileCategory.PermissionCode);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, ceremonyTypeFileCategory.PermissionCode);
 
             // Save the file.
             var newFile = await this._fileService.CreateFile(file, currentUser.Person);

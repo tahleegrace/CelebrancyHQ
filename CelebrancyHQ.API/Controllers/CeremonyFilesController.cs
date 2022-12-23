@@ -33,6 +33,30 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
+        /// Gets all the files for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The files for the specified ceremony.</returns>
+        [HttpGet("{ceremonyId}/files")]
+        public async Task<ActionResult<List<CeremonyFileDTO>>> GetAll(int ceremonyId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyFileService.GetCeremonyFiles(ceremonyId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
         /// Creates a new file.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

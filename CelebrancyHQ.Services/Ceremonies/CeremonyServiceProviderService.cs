@@ -20,7 +20,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyServiceProviderService : ICeremonyServiceProviderService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly ICeremonyTypeServiceProviderRepository _ceremonyTypeServiceProviderRepository;
         private readonly ICeremonyServiceProviderRepository _ceremonyServiceProviderRepository;
         private readonly IOrganisationRepository _organisationRepository;
@@ -35,7 +35,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyServiceProviderService.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="ceremonyTypeServiceProviderRepository">The ceremony type service provider repository.</param>
         /// <param name="ceremonyServiceProviderRepository">The ceremony service provider repository.</param>
         /// <param name="organisationRepository">The organisation repository.</param>
@@ -46,14 +46,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="organisationPhoneNumberAuditingService">The organisation phone number auditing service.</param>
         /// <param name="organisationAuditingService">The organisation auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyServiceProviderService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeServiceProviderRepository ceremonyTypeServiceProviderRepository,
+        public CeremonyServiceProviderService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyTypeServiceProviderRepository ceremonyTypeServiceProviderRepository,
             ICeremonyServiceProviderRepository ceremonyServiceProviderRepository, IOrganisationRepository organisationRepository,
             IOrganisationPhoneNumberRepository organisationPhoneNumberRepository, IAddressRepository addressRepository, 
             ICeremonyServiceProviderAuditingService ceremonyServiceProviderAuditingService, IOrganisationAuditingService organisationAuditingService, 
             IOrganisationAddressAuditingService organisationAddressAuditingService, IOrganisationPhoneNumberAuditingService organisationPhoneNumberAuditingService,
             IMapper mapper)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyTypeServiceProviderRepository = ceremonyTypeServiceProviderRepository;
             this._ceremonyServiceProviderRepository = ceremonyServiceProviderRepository;
             this._organisationRepository = organisationRepository;
@@ -80,11 +80,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyServiceProviderNotProvidedException();
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to create the service provider.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.ServiceProviders);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.ServiceProviders);
 
             // Make sure there is a ceremony type service provider with the specified code.
             var ceremonyTypeServiceProvider = await this._ceremonyTypeServiceProviderRepository.FindByCode(ceremony.CeremonyTypeId, request.Code);
@@ -192,11 +192,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyServiceProviderNotFoundException(serviceProviderId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(serviceProvider.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(serviceProvider.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to delete the service provider.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.ServiceProviders);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.ServiceProviders);
 
             // Delete the service provider.
             await this._ceremonyServiceProviderRepository.Delete(serviceProviderId);

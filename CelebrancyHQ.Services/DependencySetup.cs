@@ -26,7 +26,7 @@ namespace CelebrancyHQ.Services
             services.AddScoped<ICeremonyTypeService, CeremonyTypeService>();
             services.AddScoped<ICeremonyTypeParticipantService, CeremonyTypeParticipantService>();
 
-            services.AddScoped<ICeremonyHelpers, CeremonyHelpers>();
+            services.AddScoped<ICeremonyPermissionService, CeremonyPermissionService>();
             services.AddScoped<ICeremonyService, CeremonyService>();
             services.AddScoped<ICeremonyDateService, CeremonyDateService>();
             services.AddScoped<ICeremonyParticipantService, CeremonyParticipantService>();

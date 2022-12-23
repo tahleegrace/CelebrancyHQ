@@ -21,7 +21,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyParticipantService : ICeremonyParticipantService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly ICeremonyTypeParticipantRepository _ceremonyTypeParticipantRepository;
         private readonly ICeremonyParticipantRepository _ceremonyParticipantRepository;
         private readonly ICeremonyAccessInvitationRepository _ceremonyAccessInvitationRepository;
@@ -39,7 +39,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyParticipantService.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="ceremonyTypeParticipantRepository">The ceremony type participants repository.</param>
         /// <param name="ceremonyParticipantRepository">The ceremony participants repository.</param>
         /// <param name="ceremonyAccessInvitationRepository">The ceremony access invitations repository.</param>
@@ -53,14 +53,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="personAddressAuditingService">The person address auditing service.</param>
         /// <param name="uniqueCodeGenerationService">The unique code generation service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyParticipantService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
+        public CeremonyParticipantService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             ICeremonyParticipantRepository ceremonyParticipantRepository, ICeremonyAccessInvitationRepository ceremonyAccessInvitationRepository,
             IPersonRepository personRepository, IPersonPhoneNumberRepository personPhoneNumberRepository, IAddressRepository addressRepository,
             ICeremonyParticipantAuditingService ceremonyParticipantAuditingService, IPersonService personService, IPersonAuditingService personAuditingService,
             IPersonPhoneNumberAuditingService personPhoneNumberAuditingService, IPersonAddressAuditingService personAddressAuditingService,
             IUniqueCodeGenerationService uniqueCodeGenerationService, IMapper mapper)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
             this._ceremonyParticipantRepository = ceremonyParticipantRepository;
             this._ceremonyAccessInvitationRepository = ceremonyAccessInvitationRepository;
@@ -84,10 +84,10 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <returns>The participants for the specified ceremony.</returns>
         public async Task<List<CeremonyParticipantDTO>> GetCeremonyParticipants(int ceremonyId, int currentUserId)
         {
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to view the participants for the ceremony.
-            await this._ceremonyHelpers.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Participants);
+            await this._ceremonyPermissionService.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Participants);
 
             // Get the participants for the ceremony.
             var participants = await this._ceremonyParticipantRepository.GetCeremonyParticipants(ceremonyId, CeremonyTypeParticipantConstants.InvitedGuestCode);
@@ -124,11 +124,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyParticipantNotProvidedException();
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to create the participant.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
 
             // Make sure there is a ceremony type participant with the specified code.
             var ceremonyTypeParticipant = await this._ceremonyTypeParticipantRepository.FindByCode(ceremony.CeremonyTypeId, request.Code);
@@ -261,11 +261,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyParticipantNotFoundException(participant.Id);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(existingParticipant.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(existingParticipant.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to update the participant.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
 
             // Generate audit events for the participant.
             var auditEvents = this._ceremonyParticipantAuditingService.GenerateAuditEvents(existingParticipant, this._mapper.Map<CeremonyParticipant>(participant));
@@ -296,11 +296,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyParticipantNotFoundException(participantId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(participant.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(participant.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to delete the participant.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Participants);
 
             // Delete the participant.
             await this._ceremonyParticipantRepository.Delete(participantId);

@@ -14,7 +14,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyDateService : ICeremonyDateService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly ICeremonyTypeDateRepository _ceremonyTypeDateRepository;
         private readonly ICeremonyDateRepository _ceremonyDateRepository;
         private readonly ICeremonyDateAuditingService _ceremonyDateAuditingService;
@@ -23,15 +23,15 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyDateService.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="ceremonyTypeDateRepository">The ceremony type dates repository.</param>
         /// <param name="ceremonyDateRepository">The ceremony dates repository.</param>
         /// <param name="ceremonyDateAuditingService">The ceremony date auditing service.</param>
         /// <param name="mapper">The mapper.</param>
-        public CeremonyDateService(ICeremonyHelpers ceremonyHelpers, ICeremonyTypeDateRepository ceremonyTypeDateRepository,
+        public CeremonyDateService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyTypeDateRepository ceremonyTypeDateRepository,
             ICeremonyDateRepository ceremonyDateRepository, ICeremonyDateAuditingService ceremonyDateAuditingService, IMapper mapper)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyTypeDateRepository = ceremonyTypeDateRepository;
             this._ceremonyDateRepository = ceremonyDateRepository;
             this._ceremonyDateAuditingService = ceremonyDateAuditingService;
@@ -47,10 +47,10 @@ namespace CelebrancyHQ.Services.Ceremonies
         public async Task<List<CeremonyDateDTO>> GetDates(int ceremonyId, int currentUserId)
         {
             // TODO: Convert the dates to UTC time here based on the current user's time zone setting.
-            var (currentUser, _) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, _) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permission to view the dates of the ceremony.
-            await this._ceremonyHelpers.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Dates);
+            await this._ceremonyPermissionService.CheckCanViewCeremony(ceremonyId, currentUser.PersonId, CeremonyFieldNames.Dates);
 
             var dates = await this._ceremonyDateRepository.GetCeremonyDates(ceremonyId);
             var dtos = this._mapper.Map<List<CeremonyDateDTO>>(dates);
@@ -73,11 +73,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyDateNotProvidedException();
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to add the date.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Dates);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Dates);
 
             // Save the date.
             var otherCeremonyTypeDate = await this._ceremonyTypeDateRepository.FindByCode(CeremonyTypeDateConstants.OtherCode, ceremony.CeremonyTypeId);
@@ -110,11 +110,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyDateNotProvidedException();
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyId, currentUserId);
 
             // Make sure the user has permissions to edit the date.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Dates);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Dates);
 
             bool creatingNewDate;
             bool deletingDate = false;

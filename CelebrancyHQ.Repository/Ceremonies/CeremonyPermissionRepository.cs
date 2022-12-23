@@ -21,6 +21,29 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
+        /// Gets the ceremony permissions for the specified ceremony and person.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="personId">The ID of the person.</param>
+        /// <returns>The ceremony permissions matching the specified criteria.</returns>
+        public async Task<List<CeremonyPermission>> GetCeremonyPermissionsForPerson(int ceremonyId, int personId)
+        {
+            var ceremonyTypeParticipantIds = await this._context.CeremonyParticipants.Where(cp => cp.CeremonyId == ceremonyId && cp.PersonId == personId && !cp.Deleted)
+                                                                                     .Select(cp => cp.CeremonyTypeParticipantId)
+                                                                                     .ToListAsync();
+
+            if (ceremonyTypeParticipantIds.Count == 0)
+            {
+                return new List<CeremonyPermission>();
+            }
+
+            return await this._context.CeremonyPermissions.Where(cp => cp.CeremonyId == ceremonyId
+                                                                    && ceremonyTypeParticipantIds.Contains(cp.CeremonyTypeParticipantId)
+                                                                    && !cp.Deleted)
+                                                          .ToListAsync();
+        }
+
+        /// <summary>
         /// Gets the ceremony permissions for the specified ceremony, person and field.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>

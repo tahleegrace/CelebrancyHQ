@@ -28,8 +28,22 @@ namespace CelebrancyHQ.Repository.Ceremonies
         public async Task<CeremonyFile?> FindById(int id)
         {
             return await this._context.CeremonyFiles.Include(cf => cf.File)
+                                                    .Include(cf => cf.Category)
                                                     .Where(cf => cf.Id == id && !cf.Deleted)
                                                     .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Gets the files for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The files for the specified ceremony.</returns>
+        public async Task<List<CeremonyFile>> GetCeremonyFiles(int ceremonyId)
+        {
+            return await this._context.CeremonyFiles.Include(cf => cf.File)
+                                                    .Include(cf => cf.Category)
+                                                    .Where(cf => cf.CeremonyId == ceremonyId && !cf.Deleted)
+                                                    .ToListAsync();
         }
 
         /// <summary>

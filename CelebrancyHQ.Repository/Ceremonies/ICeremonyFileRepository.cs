@@ -15,6 +15,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         Task<CeremonyFile?> FindById(int id);
 
         /// <summary>
+        /// Gets the files for the specified ceremony.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <returns>The files for the specified ceremony.</returns>
+        Task<List<CeremonyFile>> GetCeremonyFiles(int ceremonyId);
+
+        /// <summary>
         /// Creates a new ceremony file.
         /// </summary>
         /// <param name="file">The file.</param>

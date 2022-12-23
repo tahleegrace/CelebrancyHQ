@@ -12,7 +12,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     /// </summary>
     public class CeremonyMeetingQuestionFileService : ICeremonyMeetingQuestionFileService
     {
-        private readonly ICeremonyHelpers _ceremonyHelpers;
+        private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly ICeremonyFileService _ceremonyFileService;
         private readonly ICeremonyMeetingQuestionRepository _ceremonyMeetingQuestionRepository;
         private readonly ICeremonyMeetingQuestionFileRepository _ceremonyMeetingQuestionFileRepository;
@@ -22,17 +22,17 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <summary>
         /// Creates a new instance of CeremonyMeetingQuestionFileRepository.
         /// </summary>
-        /// <param name="ceremonyHelpers">The ceremony helpers.</param>
+        /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="ceremonyFileService">The ceremony files service.</param>
         /// <param name="ceremonyMeetingQuestionRepository">The ceremony meeting questions repository.</param>
         /// <param name="ceremonyMeetingQuestionFileRepository">The ceremony meeting question files repository.</param>
         /// <param name="ceremonyTypeFileCategoryRepository">The ceremony type file categories repository.</param>
         /// <param name="ceremonyMeetingQuestionFileAuditingService">The ceremony meeting question file auditing service.</param>
-        public CeremonyMeetingQuestionFileService(ICeremonyHelpers ceremonyHelpers, ICeremonyFileService ceremonyFileService,
+        public CeremonyMeetingQuestionFileService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyFileService ceremonyFileService,
             ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, ICeremonyMeetingQuestionFileRepository ceremonyMeetingQuestionFileRepository, 
             ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, ICeremonyMeetingQuestionFileAuditingService ceremonyMeetingQuestionFileAuditingService)
         {
-            this._ceremonyHelpers = ceremonyHelpers;
+            this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyFileService = ceremonyFileService;
             this._ceremonyMeetingQuestionRepository = ceremonyMeetingQuestionRepository;
             this._ceremonyMeetingQuestionFileRepository = ceremonyMeetingQuestionFileRepository;
@@ -62,11 +62,11 @@ namespace CelebrancyHQ.Services.Ceremonies
                 throw new CeremonyMeetingQuestionNotFoundException(questionId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyHelpers.CheckCeremonyIsAccessible(ceremonyMeetingQuestion.CeremonyMeeting.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyMeetingQuestion.CeremonyMeeting.CeremonyId, currentUserId);
 
             // Make sure the user has permissions to add the file.
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
-            await this._ceremonyHelpers.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, CeremonyFieldNames.Meetings);
 
             // Create a ceremony file.
             var ceremonyTypeFileCategory = await this._ceremonyTypeFileCategoryRepository.FindByCode(ceremony.CeremonyTypeId, CeremonyTypeFileCategoryConstants.MeetingCode);
