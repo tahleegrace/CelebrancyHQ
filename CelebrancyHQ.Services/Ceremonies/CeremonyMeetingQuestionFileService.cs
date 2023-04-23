@@ -4,6 +4,7 @@ using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.DTOs.Files;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Repository.Ceremonies;
 
@@ -16,6 +17,7 @@ namespace CelebrancyHQ.Services.Ceremonies
     {
         private readonly ICeremonyPermissionService _ceremonyPermissionService;
         private readonly ICeremonyFileService _ceremonyFileService;
+        private readonly ICeremonyMeetingRepository _ceremonyMeetingRepository;
         private readonly ICeremonyMeetingQuestionRepository _ceremonyMeetingQuestionRepository;
         private readonly ICeremonyMeetingQuestionFileRepository _ceremonyMeetingQuestionFileRepository;
         private readonly ICeremonyTypeFileCategoryRepository _ceremonyTypeFileCategoryRepository;
@@ -27,18 +29,20 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// </summary>
         /// <param name="ceremonyPermissionService">The ceremony permission service.</param>
         /// <param name="ceremonyFileService">The ceremony files service.</param>
+        /// <param name="ceremonyMeetingRepository">The ceremony meetings repository.</param>
         /// <param name="ceremonyMeetingQuestionRepository">The ceremony meeting questions repository.</param>
         /// <param name="ceremonyMeetingQuestionFileRepository">The ceremony meeting question files repository.</param>
         /// <param name="ceremonyTypeFileCategoryRepository">The ceremony type file categories repository.</param>
         /// <param name="ceremonyMeetingQuestionFileAuditingService">The ceremony meeting question file auditing service.</param>
         /// <param name="mapper">The mapper.</param>
         public CeremonyMeetingQuestionFileService(ICeremonyPermissionService ceremonyPermissionService, ICeremonyFileService ceremonyFileService,
-            ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, ICeremonyMeetingQuestionFileRepository ceremonyMeetingQuestionFileRepository, 
-            ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, ICeremonyMeetingQuestionFileAuditingService ceremonyMeetingQuestionFileAuditingService,
-            IMapper mapper)
+            ICeremonyMeetingRepository ceremonyMeetingRepository, ICeremonyMeetingQuestionRepository ceremonyMeetingQuestionRepository, 
+            ICeremonyMeetingQuestionFileRepository ceremonyMeetingQuestionFileRepository, ICeremonyTypeFileCategoryRepository ceremonyTypeFileCategoryRepository, 
+            ICeremonyMeetingQuestionFileAuditingService ceremonyMeetingQuestionFileAuditingService, IMapper mapper)
         {
             this._ceremonyPermissionService = ceremonyPermissionService;
             this._ceremonyFileService = ceremonyFileService;
+            this._ceremonyMeetingRepository = ceremonyMeetingRepository;
             this._ceremonyMeetingQuestionRepository = ceremonyMeetingQuestionRepository;
             this._ceremonyMeetingQuestionFileRepository = ceremonyMeetingQuestionFileRepository;
             this._ceremonyTypeFileCategoryRepository = ceremonyTypeFileCategoryRepository;
@@ -48,28 +52,34 @@ namespace CelebrancyHQ.Services.Ceremonies
         }
 
         /// <summary>
-        /// Gets the files for the specified question.
+        /// Gets the files for the specified ceremony meeting.
         /// </summary>
-        /// <param name="questionId">The ID of the question.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The files for the specified question.</returns>
-        public async Task<List<CeremonyFileDTO>> GetQuestionFiles(int questionId, int currentUserId)
+        /// <returns>The files for the specified ceremony meeting.</returns>
+        public async Task<List<CeremonyFileDTO>> GetMeetingFiles(int meetingId, int currentUserId)
         {
-            // Make sure a ceremony meeting question exists with the specified ID.
-            var ceremonyMeetingQuestion = await this._ceremonyMeetingQuestionRepository.FindById(questionId);
+            // Make sure a ceremony meeting exists with the specified ID.
+            var ceremonyMeeting = await this._ceremonyMeetingRepository.FindById(meetingId);
 
-            if (ceremonyMeetingQuestion == null)
+            if (ceremonyMeeting == null)
             {
-                throw new CeremonyMeetingQuestionNotFoundException(questionId);
+                throw new CeremonyMeetingNotFoundException(meetingId);
             }
 
-            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyMeetingQuestion.CeremonyMeeting.CeremonyId, currentUserId);
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyMeeting.CeremonyId, currentUserId);
 
             // Get the files for the question.
-            var ceremonyMeetingQuestionFiles = await this._ceremonyMeetingQuestionFileRepository.GetQuestionFiles(questionId);
-            var ceremonyFiles = ceremonyMeetingQuestionFiles.Select(cmqf => cmqf.File);
+            var ceremonyMeetingQuestionFiles = await this._ceremonyMeetingQuestionFileRepository.GetMeetingFiles(meetingId);
 
-            var result = this._mapper.Map<List<CeremonyFileDTO>>(ceremonyFiles);
+            var result = ceremonyMeetingQuestionFiles.Select(cmqf =>
+            {
+                var fileDTO = this._mapper.Map<CeremonyFileDTO>(cmqf.File);
+                fileDTO.AdditionalData.questionId = cmqf.QuestionId;
+
+                return fileDTO;
+            }).ToList();
+
             return result;
         }
 
@@ -111,6 +121,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             };
 
             var ceremonyFile = await this._ceremonyFileService.Create(createCeremonyFileRequest, ceremony.Id, currentUserId);
+            ceremonyFile.AdditionalData.questionId = questionId;
 
             // Create a ceremony meeting question file.
             var ceremonyMeetingQuestionFile = new CeremonyMeetingQuestionFile()

@@ -34,15 +34,15 @@ namespace CelebrancyHQ.Repository.Ceremonies
         }
 
         /// <summary>
-        /// Gets the ceremony meeting question files for the specified question.
+        /// Gets the ceremony meeting question files for the specified meeting.
         /// </summary>
-        /// <param name="questionId">The ID of the question.</param>
-        /// <returns>The ceremony meeting question files for the specified question.</returns>
-        public async Task<List<CeremonyMeetingQuestionFile>> GetQuestionFiles(int questionId)
+        /// <param name="meetingId">The ID of the meeting.</param>
+        /// <returns>The ceremony meeting question files for the specified meeting.</returns>
+        public async Task<List<CeremonyMeetingQuestionFile>> GetMeetingFiles(int meetingId)
         {
             return await this._context.CeremonyMeetingQuestionFiles.Include(cmqf => cmqf.File)
                                                                    .Include(cmqf => cmqf.File.File)
-                                                                   .Where(cmqf => cmqf.QuestionId == questionId && !cmqf.Deleted)
+                                                                   .Where(cmqf => cmqf.Question.CeremonyMeetingId == meetingId && !cmqf.Deleted)
                                                                    .ToListAsync();
         }
 

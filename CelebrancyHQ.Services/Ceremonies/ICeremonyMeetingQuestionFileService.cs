@@ -8,12 +8,12 @@ namespace CelebrancyHQ.Services.Ceremonies
     public interface ICeremonyMeetingQuestionFileService
     {
         /// <summary>
-        /// Gets the files for the specified question.
+        /// Gets the files for the specified ceremony meeting.
         /// </summary>
-        /// <param name="questionId">The ID of the question.</param>
+        /// <param name="meetingId">The ID of the meeting.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
-        /// <returns>The files for the specified question.</returns>
-        Task<List<CeremonyFileDTO>> GetQuestionFiles(int questionId, int currentUserId);
+        /// <returns>The files for the specified ceremony meeting.</returns>
+        Task<List<CeremonyFileDTO>> GetMeetingFiles(int meetingId, int currentUserId);
 
         /// <summary>
         /// Creates a new ceremony meeting question file.

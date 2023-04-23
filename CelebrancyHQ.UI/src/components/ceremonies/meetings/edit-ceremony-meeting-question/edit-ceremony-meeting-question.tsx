@@ -6,6 +6,7 @@ import config from "../../../../config";
 import { CeremonyMeetingQuestionTypeCodes } from "../../../../constants/ceremonies/ceremony-meeting-question-type-codes";
 import { CeremonyDetailsContextProps } from "../../../../context/ceremony-details-context";
 import { RootContextProps } from "../../../../context/root-context";
+import { CeremonyFileDTO } from "../../../../interfaces/ceremony-file";
 import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meeting-question";
 import { UpdateCeremonyMeetingQuestionRequest } from "../../../../interfaces/update-ceremony-meeting-question-request";
 import { CeremonyMeetingsService } from "../../../../services/ceremonies/ceremony-meetings.service";
@@ -111,8 +112,13 @@ export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMee
 
     // File questions.
     getFileQuestionAnswerDisplay() {
-        // TODO: Display actual files here.
-        return (<CeremonyFilesList context={this.props.context} ceremonyId={this.props.ceremonyId} files={[]} canEdit={this.props.canEdit}></CeremonyFilesList>);
+        return (
+            <CeremonyFilesList
+                context={this.props.context}
+                ceremonyId={this.props.ceremonyId}
+                files={this.props.files}
+                canEdit={this.props.canEdit}></CeremonyFilesList>
+        );
     }
 }
 
@@ -121,6 +127,7 @@ interface EditCeremonyMeetingQuestionProps {
     context: CeremonyDetailsContextProps;
     ceremonyId: number;
     meetingId: number;
+    files: CeremonyFileDTO[];
     canEdit: boolean;
     questionUpdated: (meeting: CeremonyMeetingQuestionDTO) => void;
 }

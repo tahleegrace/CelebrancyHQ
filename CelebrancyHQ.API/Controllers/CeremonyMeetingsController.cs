@@ -235,22 +235,21 @@ namespace CelebrancyHQ.API.Controllers
         }
 
         /// <summary>
-        /// Gets all the files for the specified ceremony meeting question.
+        /// Gets all the files for the specified ceremony meeting.
         /// </summary>
         /// <param name="ceremonyId">The ID of the ceremony.</param>
         /// <param name="meetingId">The ID of the meeting.</param>
-        /// <param name="questionId">The ID of the question.</param>
-        /// <returns>The files for the specified ceremony.</returns>
-        [HttpGet("{ceremonyId}/meetings/{meetingId}/questions/{questionId}/files")]
-        public async Task<ActionResult<List<CeremonyFileDTO>>> GetAll(int ceremonyId, int meetingId, int questionId)
+        /// <returns>The files for the specified ceremony meeting.</returns>
+        [HttpGet("{ceremonyId}/meetings/{meetingId}/files")]
+        public async Task<ActionResult<List<CeremonyFileDTO>>> GetAllMeetingFiles(int ceremonyId, int meetingId)
         {
             var currentUserId = this._authenticationService.GetCurrentUserId(User);
 
             try
             {
-                return await this._ceremonyMeetingQuestionFileService.GetQuestionFiles(questionId, currentUserId.Value);
+                return await this._ceremonyMeetingQuestionFileService.GetMeetingFiles(meetingId, currentUserId.Value);
             }
-            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingQuestionNotFoundException || ex is UserNotFoundException)
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyMeetingNotFoundException || ex is UserNotFoundException)
             {
                 return NotFound();
             }

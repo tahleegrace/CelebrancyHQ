@@ -1,4 +1,6 @@
-﻿using CelebrancyHQ.Models.DTOs.Files;
+﻿using System.Dynamic;
+
+using CelebrancyHQ.Models.DTOs.Files;
 
 namespace CelebrancyHQ.Models.DTOs.Ceremonies
 {
@@ -11,6 +13,11 @@ namespace CelebrancyHQ.Models.DTOs.Ceremonies
         /// Gets or sets the ID of the ceremony file.
         /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets any additional data for the ceremony file.
+        /// </summary>
+        public dynamic AdditionalData { get; set; } = new ExpandoObject();
 
         /// <summary>
         /// Gets or sets the category.

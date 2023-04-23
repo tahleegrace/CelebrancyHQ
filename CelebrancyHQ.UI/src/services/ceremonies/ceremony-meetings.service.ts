@@ -1,4 +1,5 @@
 import { RootContextProps } from "../../context/root-context";
+import { CeremonyFileDTO } from "../../interfaces/ceremony-file";
 import { CeremonyMeetingDTO } from "../../interfaces/ceremony-meeting";
 import { UpdateCeremonyMeetingQuestionRequest } from "../../interfaces/update-ceremony-meeting-question-request";
 import { UpdateCeremonyMeetingRequest } from "../../interfaces/update-ceremony-meeting-request";
@@ -22,7 +23,7 @@ export class CeremonyMeetingsService {
         return await this.httpService.get<CeremonyMeetingDTO>(url, context);
     }
 
-    public async update(ceremonyId: number, meeting: UpdateCeremonyMeetingRequest, context: RootContextProps): Promise<void> {
+    public async updateMeeting(ceremonyId: number, meeting: UpdateCeremonyMeetingRequest, context: RootContextProps): Promise<void> {
         const url = `ceremonies/${ceremonyId}/meetings/${meeting.id}`;
 
         await this.httpService.putWithNoResponse(url, meeting, context);
@@ -38,5 +39,11 @@ export class CeremonyMeetingsService {
         const url = `ceremonies/${ceremonyId}/meetings/${meetingId}/participants?personId=${personId}`;
 
         return this.httpService.delete(url, context);
+    }
+
+    public async getMeetingFiles(ceremonyId: number, meetingId: number, context: RootContextProps): Promise<CeremonyFileDTO[]> {
+        const url = `ceremonies/${ceremonyId}/meetings/${meetingId}/files`;
+
+        return this.httpService.get<CeremonyFileDTO[]>(url, context);
     }
 }

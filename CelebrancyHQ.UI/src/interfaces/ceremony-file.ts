@@ -3,6 +3,7 @@ import { FileDTO } from "./file";
 
 export interface CeremonyFileDTO {
     id: number;
+    additionalData: any;
     category: CeremonyTypeFileCategoryDTO;
     file: FileDTO;
     description?: string;

@@ -14,6 +14,7 @@ import { EditCeremonyMeetingQuestion } from "../edit-ceremony-meeting-question/e
 import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meeting-question";
 import { CeremonyMeetingParticipantsList } from "../ceremony-meeting-participants-list/ceremony-meeting-participants-list";
 import { PersonDTO } from "../../../../interfaces/person";
+import { CeremonyFileDTO } from "../../../../interfaces/ceremony-file";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
@@ -25,6 +26,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
 
         this.state = {
             meeting: null,
+            files: [],
             oldName: '',
             oldDescription: ''
         };
@@ -38,9 +40,11 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
 
     async openModal(event: React.MouseEvent<HTMLButtonElement>) {
         const meeting = await this.ceremonyMeetingsService.getMeeting(this.props.ceremonyId, this.props.meetingId, this.props.context.rootContext as RootContextProps);
+        const files = await this.ceremonyMeetingsService.getMeetingFiles(this.props.ceremonyId, this.props.meetingId, this.props.context.rootContext as RootContextProps);
 
         this.setState({
             meeting: meeting,
+            files: files,
             oldName: meeting.name,
             oldDescription: meeting.description
         });
@@ -76,7 +80,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                     }
                 };
 
-                await this.ceremonyMeetingsService.update(this.props.ceremonyId, request, this.props.context.rootContext as RootContextProps);
+                await this.ceremonyMeetingsService.updateMeeting(this.props.ceremonyId, request, this.props.context.rootContext as RootContextProps);
                 this.setState({ oldName: this.state.meeting.name });
 
                 if (this.props.meetingUpdated != null) {
@@ -115,7 +119,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                     }
                 };
 
-                await this.ceremonyMeetingsService.update(this.props.ceremonyId, request, this.props.context.rootContext as RootContextProps);
+                await this.ceremonyMeetingsService.updateMeeting(this.props.ceremonyId, request, this.props.context.rootContext as RootContextProps);
                 this.setState({ oldDescription: this.state.meeting.description });
 
                 if (this.props.meetingUpdated != null) {
@@ -155,6 +159,10 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                 this.props.meetingUpdated(this.state.meeting);
             }
         }
+    }
+
+    getQuestionFiles(questionId: number) {
+        return this.state.files.filter(f => f.additionalData.questionId == questionId);
     }
 
     componentDidMount() {
@@ -226,6 +234,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                 (<EditCeremonyMeetingQuestion
                                     key={question.ceremonyTypeQuestionId}
                                     question={question}
+                                    files={this.getQuestionFiles(question.id as number)}
                                     canEdit={this.props.canEdit}
                                     ceremonyId={this.props.ceremonyId}
                                     meetingId={this.props.meetingId}
@@ -254,6 +263,7 @@ interface EditCeremonyMeetingProps {
 
 interface EditCeremonyMeetingState {
     meeting: CeremonyMeetingDTO | null;
+    files: CeremonyFileDTO[];
     oldName: string;
     oldDescription: string;
 }
