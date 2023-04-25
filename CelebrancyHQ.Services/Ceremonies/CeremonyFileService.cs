@@ -3,6 +3,7 @@
 using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.DTOs.Files;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Services.Files;
@@ -64,6 +65,32 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             var result = this._mapper.Map<List<CeremonyFileDTO>>(accessibleFiles);
             return result;
+        }
+
+        /// <summary>
+        /// Downloads the specified file.
+        /// </summary>
+        /// <param name="fileId">The ID of the file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The file to download.</returns>
+        public async Task<DownloadFileDTO> DownloadFile(int fileId, int currentUserId)
+        {
+            // TODO: Block downloading of the file if it hasn't been virus scanned.
+
+            // Retrieve the file and make sure it exists.
+            var ceremonyFile = await this._ceremonyFileRepository.FindById(fileId);
+
+            if (ceremonyFile == null)
+            {
+                throw new CeremonyFileNotFoundException(fileId);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(ceremonyFile.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to download the file.
+            await this._ceremonyPermissionService.CheckCanViewCeremony(ceremony.Id, currentUser.PersonId, ceremonyFile.Category.PermissionCode);
+
+            return await this._fileService.DownloadFile(ceremonyFile.FileId);
         }
 
         /// <summary>

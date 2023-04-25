@@ -17,6 +17,8 @@ namespace CelebrancyHQ.Mappings.Files
                 .ForMember(dest => dest.FileData, source => source.Ignore());
 
             CreateMap<Entities.File, FileDTO>();
+
+            CreateMap<Entities.File, DownloadFileDTO>();
         }
     }
 }

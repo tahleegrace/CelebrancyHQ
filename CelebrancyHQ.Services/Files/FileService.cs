@@ -70,5 +70,23 @@ namespace CelebrancyHQ.Services.Files
             var result = this._mapper.Map<FileDTO>(newFile);
             return result;
         }
+
+        /// <summary>
+        /// Downloads the specified file.
+        /// </summary>
+        /// <param name="fileId">The ID of the file.</param>
+        /// <returns>The file to download.</returns>
+        public async Task<DownloadFileDTO> DownloadFile(int fileId)
+        {
+            var file = await this._fileRepository.FindById(fileId);
+
+            if (file == null)
+            {
+                throw new CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException(fileId);
+            }
+
+            var result = this._mapper.Map<DownloadFileDTO>(file);
+            return result;
+        }
     }
 }

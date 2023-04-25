@@ -1,4 +1,5 @@
 ﻿using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.DTOs.Files;
 
 namespace CelebrancyHQ.Services.Ceremonies
 {
@@ -14,6 +15,14 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The files for the specified ceremony.</returns>
         Task<List<CeremonyFileDTO>> GetCeremonyFiles(int ceremonyId, int currentUserId);
+
+        /// <summary>
+        /// Downloads the specified file.
+        /// </summary>
+        /// <param name="fileId">The ID of the file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The file to download.</returns>
+        Task<DownloadFileDTO> DownloadFile(int fileId, int currentUserId);
 
         /// <summary>
         /// Creates a new ceremony file.

@@ -7,6 +7,7 @@ using CelebrancyHQ.Services.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Files;
+using CelebrancyHQ.Models.DTOs.Files;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -47,6 +48,31 @@ namespace CelebrancyHQ.API.Controllers
                 return await this._ceremonyFileService.GetCeremonyFiles(ceremonyId, currentUserId.Value);
             }
             catch (Exception ex) when (ex is CeremonyNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotViewCeremonyDetailsException)
+            {
+                return Forbid();
+            }
+        }
+
+        /// <summary>
+        /// Gets the file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        /// <returns>The file with the specified id.</returns>
+        [HttpGet("{ceremonyId}/files/{id}")]
+        public async Task<ActionResult<DownloadFileDTO>> Get(int id)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyFileService.DownloadFile(id, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyFileNotFoundException || ex is CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException 
+                || ex is UserNotFoundException)
             {
                 return NotFound();
             }
