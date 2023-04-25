@@ -8,3 +8,7 @@ export interface FileDTO {
     status: string;
     createdBy: PersonDTO;
 }
+
+export interface DownloadFileDTO extends FileDTO {
+    fileData: string; // Stored in Base64.
+}

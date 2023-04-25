@@ -1,8 +1,15 @@
 import React, { Fragment } from "react";
 import { CeremonyDetailsContextProps } from "../../../context/ceremony-details-context";
+import { RootContextProps } from "../../../context/root-context";
 import { CeremonyFileDTO } from "../../../interfaces/ceremony-file";
+import { CeremonyFilesService } from "../../../services/ceremonies/ceremony-files.service";
+import { DependencyService } from "../../../services/dependencies/dependency.service";
+import { FilesService } from "../../../services/files/files.service";
 
 export class CeremonyFilesList extends React.Component<CeremonyFilesListProps, CeremonyFilesListState> {
+    private ceremonyFilesService = DependencyService.getInstance().getDependency<CeremonyFilesService>(CeremonyFilesService.serviceName);
+    private filesService = DependencyService.getInstance().getDependency<FilesService>(FilesService.serviceName);
+
     constructor(props: CeremonyFilesListProps) {
         super(props);
     }
@@ -23,13 +30,13 @@ export class CeremonyFilesList extends React.Component<CeremonyFilesListProps, C
                         {this.props.files.map(file =>
                             <div className="row">
                                 <div className="col-1">
-                                    <button className="btn btn-link" role="link">Edit</button>
+                                    <button>Edit</button>
                                 </div>
                                 <div className="col-1">
-                                    <button className="btn btn-link" role="link">Delete</button>
+                                    <button>Delete</button>
                                 </div>
                                 <div className="col-3">
-                                    {file.file.name}
+                                    <a href="#" onClick={this.downloadFile.bind(this, file)}>{file.file.name}</a>
                                 </div>
                                 <div className="col-3">
                                     {file.description}
@@ -46,6 +53,12 @@ export class CeremonyFilesList extends React.Component<CeremonyFilesListProps, C
                 : ""}
             </Fragment>
         );
+    }
+
+    async downloadFile(file: CeremonyFileDTO) {
+        let fileToDownload = await this.ceremonyFilesService.getFileForDownload(this.props.ceremonyId, file.id, this.props.context.rootContext as RootContextProps);
+
+        this.filesService.downloadFile(fileToDownload);
     }
 }
 
