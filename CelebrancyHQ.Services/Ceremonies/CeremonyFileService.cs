@@ -146,7 +146,8 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         public async Task Update(UpdateCeremonyFileRequest file, int currentUserId)
         {
-            if (file == null)
+            // Make sure the ceremony file has been provided and has an ID.
+            if ((file == null) || (file.Id <= 0))
             {
                 throw new CeremonyFileNotProvidedException();
             }
@@ -164,12 +165,19 @@ namespace CelebrancyHQ.Services.Ceremonies
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, existingFile.Category.PermissionCode);
 
-            // TODO: Generate audit logs for updating the file.
+            // Generate audit logs for the file.
+            var newFileForAuditing = this._mapper.Map<CeremonyFile>(existingFile);
+            this._mapper.Map(file, newFileForAuditing);
+
+            var auditEvents = this._ceremonyFileAuditingService.GenerateAuditEvents(existingFile, newFileForAuditing);
 
             // Save the file.
             this._mapper.Map(file, existingFile);
 
             await this._ceremonyFileRepository.Update(existingFile);
+
+            // Save the audit logs for the file.
+            await this._ceremonyFileAuditingService.SaveAuditEvents(existingFile, ceremony, currentUser.PersonId, auditEvents);
         }
     }
 }
