@@ -32,5 +32,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="currentUserId">The ID of the current user.</param>
         /// <returns>The newly created ceremony file.</returns>
         Task<CeremonyFileDTO> Create(CreateCeremonyFileRequest file, int ceremonyId, int currentUserId);
+
+        /// <summary>
+        /// Updates the details of the specified ceremony file.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Update(UpdateCeremonyFileRequest file, int currentUserId);
     }
 }

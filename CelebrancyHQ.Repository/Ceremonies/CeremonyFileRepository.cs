@@ -63,5 +63,16 @@ namespace CelebrancyHQ.Repository.Ceremonies
             var newFile = await FindById(file.Id);
             return newFile;
         }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony file.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        public async Task Update(CeremonyFile file)
+        {
+            file.Updated = DateTime.UtcNow;
+
+            await this._context.SaveChangesAsync();
+        }
     }
 }

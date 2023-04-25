@@ -27,5 +27,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="file">The file.</param>
         /// <returns>The newly created ceremony file.</returns>
         Task<CeremonyFile> Create(CeremonyFile file);
+
+        /// <summary>
+        /// Updates the details of the specified ceremony file.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        Task Update(CeremonyFile file);
     }
 }

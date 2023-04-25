@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using CelebrancyHQ.Auditing.Ceremonies;
+using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Files;
@@ -136,6 +137,39 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             var result = this._mapper.Map<CeremonyFileDTO>(newCeremonyFile);
             return result;
+        }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony file.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Update(UpdateCeremonyFileRequest file, int currentUserId)
+        {
+            if (file == null)
+            {
+                throw new CeremonyFileNotProvidedException();
+            }
+
+            var existingFile = await this._ceremonyFileRepository.FindById(file.Id);
+
+            if (existingFile == null)
+            {
+                throw new CeremonyFileNotFoundException(file.Id);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(existingFile.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to update the file.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, existingFile.Category.PermissionCode);
+
+            // TODO: Generate audit logs for updating the file.
+
+            // Save the file.
+            this._mapper.Map(file, existingFile);
+
+            await this._ceremonyFileRepository.Update(existingFile);
         }
     }
 }

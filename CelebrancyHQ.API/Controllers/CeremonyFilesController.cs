@@ -110,5 +110,36 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
+
+        /// <summary>
+        /// Updates the details of the specified ceremony file.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="fileId">The ID of the file.</param>
+        /// <param name="request">The file.</param>
+        [HttpPut("{ceremonyId}/files/{fileId}")]
+        public async Task<ActionResult> Update(int ceremonyId, int fileId, UpdateCeremonyFileRequest request)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremonyFileService.Update(request, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyNotFoundException || ex is CeremonyFileNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is CeremonyFileNotProvidedException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
     }
 }

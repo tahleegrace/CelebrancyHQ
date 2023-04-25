@@ -15,6 +15,8 @@ namespace CelebrancyHQ.Mappings.Ceremonies
             CreateMap<CreateCeremonyFileRequest, CeremonyFile>();
 
             CreateMap<CeremonyFile, CeremonyFileDTO>();
+
+            CreateMap<UpdateCeremonyFileRequest, CeremonyFile>();
         }
     }
 }
