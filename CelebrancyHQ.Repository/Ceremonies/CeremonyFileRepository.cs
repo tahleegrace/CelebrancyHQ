@@ -74,5 +74,17 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             await this._context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Deletes the file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        public async Task Delete(int id)
+        {
+            var file = await this.FindById(id);
+            file.Updated = DateTime.UtcNow;
+            file.Deleted = true;
+            await this._context.SaveChangesAsync();
+        }
     }
 }

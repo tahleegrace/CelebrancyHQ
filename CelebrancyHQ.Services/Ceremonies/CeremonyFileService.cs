@@ -123,7 +123,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, ceremonyTypeFileCategory.PermissionCode);
 
             // Save the file.
-            var newFile = await this._fileService.CreateFile(file, currentUser.Person);
+            var newFile = await this._fileService.Create(file, currentUser.Person);
 
             // Save the ceremony file.
             var newCeremonyFile = this._mapper.Map<CeremonyFile>(file);
@@ -178,6 +178,32 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             // Save the audit logs for the file.
             await this._ceremonyFileAuditingService.SaveAuditEvents(existingFile, ceremony, currentUser.PersonId, auditEvents);
+        }
+
+        /// <summary>
+        /// Deletes the specified ceremony file.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Delete(int id, int currentUserId)
+        {
+            var file = await this._ceremonyFileRepository.FindById(id);
+
+            if (file == null)
+            {
+                throw new CeremonyFileNotFoundException(id);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(file.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to delete the file.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, file.Category.PermissionCode);
+
+            // TODO: Generate audit logs for deleting the file.
+
+            await this._ceremonyFileRepository.Delete(id);
+            await this._fileService.Delete(file.FileId);
         }
     }
 }

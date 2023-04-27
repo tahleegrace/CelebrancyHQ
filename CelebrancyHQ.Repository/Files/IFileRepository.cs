@@ -18,5 +18,11 @@
         /// <param name="file">The file.</param>
         /// <returns>The newly created file.</returns>
         Task<Entities.File> Create(Entities.File file);
+
+        /// <summary>
+        /// Deletes the file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        Task Delete(int id);
     }
 }

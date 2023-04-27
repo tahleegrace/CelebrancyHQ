@@ -14,13 +14,19 @@ namespace CelebrancyHQ.Services.Files
         /// <param name="file">The file.</param>
         /// <param name="currentUser">The current user.</param>
         /// <returns>The newly created file.</returns>
-        Task<FileDTO> CreateFile(CreateFileRequest file, Person currentUser);
+        Task<FileDTO> Create(CreateFileRequest file, Person currentUser);
 
         /// <summary>
         /// Downloads the specified file.
         /// </summary>
-        /// <param name="fileId">The ID of the file.</param>
+        /// <param name="id">The ID of the file.</param>
         /// <returns>The file to download.</returns>
-        Task<DownloadFileDTO> DownloadFile(int fileId);
+        Task<DownloadFileDTO> DownloadFile(int id);
+
+        /// <summary>
+        /// Deletes the file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        Task Delete(int id);
     }
 }

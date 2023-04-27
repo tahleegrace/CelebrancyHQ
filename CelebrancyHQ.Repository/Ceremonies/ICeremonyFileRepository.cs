@@ -33,5 +33,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// </summary>
         /// <param name="file">The file.</param>
         Task Update(CeremonyFile file);
+
+        /// <summary>
+        /// Deletes the file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        Task Delete(int id);
     }
 }

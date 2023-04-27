@@ -37,7 +37,7 @@ namespace CelebrancyHQ.Services.Files
         /// <param name="file">The file.</param>
         /// <param name="currentUser">The current user.</param>
         /// <returns>The newly created file.</returns>
-        public async Task<FileDTO> CreateFile(CreateFileRequest file, Person currentUser)
+        public async Task<FileDTO> Create(CreateFileRequest file, Person currentUser)
         {
             if (file == null)
             {
@@ -74,19 +74,37 @@ namespace CelebrancyHQ.Services.Files
         /// <summary>
         /// Downloads the specified file.
         /// </summary>
-        /// <param name="fileId">The ID of the file.</param>
+        /// <param name="id">The ID of the file.</param>
         /// <returns>The file to download.</returns>
-        public async Task<DownloadFileDTO> DownloadFile(int fileId)
+        public async Task<DownloadFileDTO> DownloadFile(int id)
         {
-            var file = await this._fileRepository.FindById(fileId);
+            var file = await this._fileRepository.FindById(id);
 
             if (file == null)
             {
-                throw new CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException(fileId);
+                throw new CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException(id);
             }
 
             var result = this._mapper.Map<DownloadFileDTO>(file);
             return result;
+        }
+
+        /// <summary>
+        /// Deletes the file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        public async Task Delete(int id)
+        {
+            var file = await this._fileRepository.FindById(id);
+
+            if (file == null)
+            {
+                throw new CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException(id);
+            }
+
+            // TODO: Generate audit logs for deleting the file.
+
+            await this._fileRepository.Delete(id);
         }
     }
 }

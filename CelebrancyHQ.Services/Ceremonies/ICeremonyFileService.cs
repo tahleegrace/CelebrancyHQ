@@ -39,5 +39,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="file">The file.</param>
         /// <param name="currentUserId">The ID of the current user.</param>
         Task Update(UpdateCeremonyFileRequest file, int currentUserId);
+
+        /// <summary>
+        /// Deletes the specified ceremony file.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Delete(int id, int currentUserId);
     }
 }
