@@ -165,6 +165,17 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
         return this.state.files.filter(f => f.additionalData.questionId == questionId);
     }
 
+    async fileDeleted(file: CeremonyFileDTO) {
+        // TODO: Show a message box asking the user to confirm whether they wish to delete the file.
+        if (this.state.meeting) {
+            await this.ceremonyMeetingsService.deleteQuestionFile(this.props.ceremonyId, this.state.meeting.id,
+                file.additionalData.questionId, file.additionalData.questionFileId, this.props.context.rootContext as RootContextProps);
+
+            let newFiles = this.state.files.filter(f => f.additionalData.questionId == file.additionalData.questionId && f.id != file.id);
+            this.setState({ files: newFiles });
+        }
+    }
+
     componentDidMount() {
         const handler = (e: any) => {
             if (e.target.closest(".tox-tinymce-aux, .moxman-window, .tam-assetmanager-root") !== null) {
@@ -239,7 +250,8 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     ceremonyId={this.props.ceremonyId}
                                     meetingId={this.props.meetingId}
                                     context={this.props.context}
-                                    questionUpdated={this.questionUpdated.bind(this)} />)) : ""}
+                                    questionUpdated={this.questionUpdated.bind(this)}
+                                    fileDeleted={this.fileDeleted.bind(this)} />)) : ""}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-primary">Save changes</button>

@@ -28,13 +28,16 @@ export class CeremonyFilesList extends React.Component<CeremonyFilesListProps, C
                 {this.props.files && this.props.files.length > 0 ?
                     <Fragment>
                         {this.props.files.map(file =>
-                            <div className="row">
-                                <div className="col-1">
-                                    <button>Edit</button>
-                                </div>
-                                <div className="col-1">
-                                    <button>Delete</button>
-                                </div>
+                            <div className="row" key={file.id}>
+                                {this.props.canEdit ?
+                                <Fragment>
+                                    <div className="col-1">
+                                        <button>Edit</button>
+                                    </div>
+                                    <div className="col-1">
+                                        <button onClick={this.deleteFile.bind(this, file)}>Delete</button>
+                                    </div>
+                                </Fragment>: ""}
                                 <div className="col-3">
                                     <a href="#" onClick={this.downloadFile.bind(this, file)}>{file.file.name}</a>
                                 </div>
@@ -60,6 +63,12 @@ export class CeremonyFilesList extends React.Component<CeremonyFilesListProps, C
 
         this.filesService.downloadFile(fileToDownload);
     }
+
+    deleteFile(file: CeremonyFileDTO) {
+        if (this.props.fileDeleted != null) {
+            this.props.fileDeleted(file);
+        }
+    }
 }
 
 interface CeremonyFilesListProps {
@@ -67,6 +76,7 @@ interface CeremonyFilesListProps {
     ceremonyId: number;
     files: CeremonyFileDTO[];
     canEdit: boolean;
+    fileDeleted: (file: CeremonyFileDTO) => void;
 }
 
 interface CeremonyFilesListState {

@@ -46,4 +46,10 @@ export class CeremonyMeetingsService {
 
         return this.httpService.get<CeremonyFileDTO[]>(url, context);
     }
+
+    public async deleteQuestionFile(ceremonyId: number, meetingId: number, questionId: number, fileId: number, context: RootContextProps): Promise<void> {
+        const url = `ceremonies/${ceremonyId}/meetings/${meetingId}/questions/${questionId}/files/${fileId}`;
+
+        return this.httpService.delete(url, context);
+    }
 }

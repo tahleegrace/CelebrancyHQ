@@ -45,7 +45,7 @@ export class CeremonyMeetingParticipantsList extends React.Component<CeremonyMee
 
     getParticipantDisplay(participant: PersonDTO) {
         return (
-            <div className="row mb-1">
+            <div className="row mb-1" key={participant.personId}>
                 <div className="col-md-9">
                     {getPersonFullName(participant, true)}
                 </div>

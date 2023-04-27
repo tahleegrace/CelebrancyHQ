@@ -76,6 +76,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             {
                 var fileDTO = this._mapper.Map<CeremonyFileDTO>(cmqf.File);
                 fileDTO.AdditionalData.questionId = cmqf.QuestionId;
+                fileDTO.AdditionalData.questionFileId = cmqf.Id;
 
                 return fileDTO;
             }).ToList();
