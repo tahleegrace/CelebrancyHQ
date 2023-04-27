@@ -35,6 +35,10 @@ namespace CelebrancyHQ.Auditing.Files
             {
                 auditEvents.Add(new FileCreatedEvent(newEntity));
             }
+            else if (oldEntity != null && newEntity == null)
+            {
+                auditEvents.Add(new FileDeletedEvent(oldEntity));
+            }
 
             return auditEvents;
         }

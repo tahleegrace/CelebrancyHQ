@@ -93,7 +93,8 @@ namespace CelebrancyHQ.Services.Files
         /// Deletes the file with the specified ID.
         /// </summary>
         /// <param name="id">The ID of the file.</param>
-        public async Task Delete(int id)
+        /// <param name="currentUser">The current user.</param>
+        public async Task Delete(int id, Person currentUser)
         {
             var file = await this._fileRepository.FindById(id);
 
@@ -102,9 +103,10 @@ namespace CelebrancyHQ.Services.Files
                 throw new CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException(id);
             }
 
-            // TODO: Generate audit logs for deleting the file.
-
             await this._fileRepository.Delete(id);
+
+            var auditEvents = this._fileAuditingService.GenerateAuditEvents(file, null);
+            await this._fileAuditingService.SaveAuditEvents(file, currentUser.Id, auditEvents);
         }
     }
 }

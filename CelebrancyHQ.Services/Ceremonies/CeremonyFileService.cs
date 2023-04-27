@@ -200,10 +200,12 @@ namespace CelebrancyHQ.Services.Ceremonies
             // TODO: Handle the scenario where changes to the ceremony need to be approved here.
             await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, file.Category.PermissionCode);
 
-            // TODO: Generate audit logs for deleting the file.
-
             await this._ceremonyFileRepository.Delete(id);
-            await this._fileService.Delete(file.FileId);
+            await this._fileService.Delete(file.FileId, currentUser.Person);
+
+            // Generate and save audit logs for the file.
+            var auditEvents = this._ceremonyFileAuditingService.GenerateAuditEvents(file, null);
+            await this._ceremonyFileAuditingService.SaveAuditEvents(file, ceremony, currentUser.PersonId, auditEvents);
         }
     }
 }

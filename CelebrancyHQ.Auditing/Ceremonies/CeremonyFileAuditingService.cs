@@ -36,6 +36,10 @@ namespace CelebrancyHQ.Auditing.Ceremonies
             {
                 auditEvents.Add(new CeremonyFileCreatedEvent(newEntity.Id, null, newEntity));
             }
+            else if (oldEntity != null && newEntity == null)
+            {
+                auditEvents.Add(new CeremonyFileDeletedEvent(oldEntity.Id, null, oldEntity));
+            }
             else if (oldEntity != null && newEntity != null)
             {
                 if (oldEntity.Description != newEntity.Description)

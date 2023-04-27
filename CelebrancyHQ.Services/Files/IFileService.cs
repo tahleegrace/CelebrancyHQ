@@ -27,6 +27,7 @@ namespace CelebrancyHQ.Services.Files
         /// Deletes the file with the specified ID.
         /// </summary>
         /// <param name="id">The ID of the file.</param>
-        Task Delete(int id);
+        /// <param name="currentUser">The current user.</param>
+        Task Delete(int id, Person currentUser);
     }
 }
