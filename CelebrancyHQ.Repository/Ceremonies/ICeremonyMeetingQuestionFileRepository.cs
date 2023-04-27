@@ -27,5 +27,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="file">The file.</param>
         /// <returns>The newly created ceremony meeting question file.</returns>
         Task<CeremonyMeetingQuestionFile> Create(CeremonyMeetingQuestionFile file);
+
+        /// <summary>
+        /// Deletes the ceremony meeting question file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        Task Delete(int id);
     }
 }

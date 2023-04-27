@@ -22,5 +22,12 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="questionId">The ID of the ceremony meeting question.</param>
         /// <returns>The newly created ceremony file.</returns>
         Task<CeremonyFileDTO> Create(CreateCeremonyMeetingQuestionFileRequest file, int questionId, int currentUserId);
+
+        /// <summary>
+        /// Deletes the specified ceremony meeting question file.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        Task Delete(int id, int currentUserId);
     }
 }

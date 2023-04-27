@@ -138,5 +138,33 @@ namespace CelebrancyHQ.Services.Ceremonies
 
             return ceremonyFile;
         }
+
+        /// <summary>
+        /// Deletes the specified ceremony meeting question file.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        public async Task Delete(int id, int currentUserId)
+        {
+            var file = await this._ceremonyMeetingQuestionFileRepository.FindById(id);
+
+            if (file == null)
+            {
+                throw new CeremonyMeetingQuestionFileNotFoundException(id);
+            }
+
+            var (currentUser, ceremony) = await this._ceremonyPermissionService.CheckCeremonyIsAccessible(file.File.CeremonyId, currentUserId);
+
+            // Make sure the user has permissions to delete the file.
+            // TODO: Handle the scenario where changes to the ceremony need to be approved here.
+            await this._ceremonyPermissionService.CheckCanEditCeremony(ceremony.Id, currentUser.PersonId, file.File.Category.PermissionCode);
+
+            await this._ceremonyMeetingQuestionFileRepository.Delete(id);
+            await this._ceremonyFileService.Delete(file.FileId, currentUserId);
+
+            // Generate and save audit events for the deleted file
+            var auditEvents = this._ceremonyMeetingQuestionFileAuditingService.GenerateAuditEvents(file, null);
+            await this._ceremonyMeetingQuestionFileAuditingService.SaveAuditEvents(file, ceremony, currentUser.PersonId, auditEvents);
+        }
     }
 }

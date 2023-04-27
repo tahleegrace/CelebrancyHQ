@@ -285,5 +285,32 @@ namespace CelebrancyHQ.API.Controllers
                 return Forbid();
             }
         }
+
+        /// <summary>
+        /// Deletes a file from a ceremony meeting question.
+        /// </summary>
+        /// <param name="ceremonyId">The ID of the ceremony.</param>
+        /// <param name="participantId">The ID of the file.</param>
+        [HttpDelete("{ceremonyId}/meetings/{meetingId}/questions/{questionId}/files/{fileId}")]
+        public async Task<ActionResult> Delete(int ceremonyId, int meetingId, int questionId, int fileId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                await this._ceremonyMeetingQuestionFileService.Delete(fileId, currentUserId.Value);
+
+                return NoContent();
+            }
+            catch (Exception ex) when (ex is CeremonyMeetingQuestionFileNotFoundException || ex is CeremonyFileNotFoundException 
+                || ex is CelebrancyHQ.Models.Exceptions.Files.FileNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonNotCeremonyParticipantException || ex is PersonCannotEditCeremonyException)
+            {
+                return Forbid();
+            }
+        }
     }
 }

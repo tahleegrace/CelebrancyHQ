@@ -28,6 +28,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         public async Task<CeremonyMeetingQuestionFile?> FindById(int id)
         {
             return await this._context.CeremonyMeetingQuestionFiles.Include(cmqf => cmqf.File)
+                                                                   .Include(cmqf => cmqf.File.Category)
                                                                    .Include(cmqf => cmqf.File.File)
                                                                    .Where(cmqf => cmqf.Id == id && !cmqf.Deleted)
                                                                    .FirstOrDefaultAsync();
@@ -62,6 +63,18 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             var newFile = await FindById(file.Id);
             return newFile;
+        }
+
+        /// <summary>
+        /// Deletes the ceremony meeting question file with the specified ID.
+        /// </summary>
+        /// <param name="id">The ID of the file.</param>
+        public async Task Delete(int id)
+        {
+            var file = await this.FindById(id);
+            file.Updated = DateTime.UtcNow;
+            file.Deleted = true;
+            await this._context.SaveChangesAsync();
         }
     }
 }
