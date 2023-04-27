@@ -118,6 +118,7 @@ export class EditCeremonyMeetingQuestion extends React.Component<EditCeremonyMee
                 ceremonyId={this.props.ceremonyId}
                 files={this.props.files}
                 canEdit={this.props.canEdit}
+                fileSaved={this.props.fileSaved}
                 fileDeleted={this.props.fileDeleted}></CeremonyFilesList>
         );
     }
@@ -131,6 +132,7 @@ interface EditCeremonyMeetingQuestionProps {
     files: CeremonyFileDTO[];
     canEdit: boolean;
     questionUpdated: (meeting: CeremonyMeetingQuestionDTO) => void;
+    fileSaved: (file: CeremonyFileDTO, newDescription: string | undefined | null) => Promise<void>;
     fileDeleted: (file: CeremonyFileDTO) => void;
 }
 

@@ -6,5 +6,5 @@ export interface CeremonyFileDTO {
     additionalData: any;
     category: CeremonyTypeFileCategoryDTO;
     file: FileDTO;
-    description?: string;
+    description: string | null | undefined;
 }

@@ -15,9 +15,11 @@ import { CeremonyMeetingQuestionDTO } from "../../../../interfaces/ceremony-meet
 import { CeremonyMeetingParticipantsList } from "../ceremony-meeting-participants-list/ceremony-meeting-participants-list";
 import { PersonDTO } from "../../../../interfaces/person";
 import { CeremonyFileDTO } from "../../../../interfaces/ceremony-file";
+import { CeremonyFilesService } from "../../../../services/ceremonies/ceremony-files.service";
 
 export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProps, EditCeremonyMeetingState> {
     private ceremonyMeetingsService = DependencyService.getInstance().getDependency<CeremonyMeetingsService>(CeremonyMeetingsService.serviceName);
+    private ceremonyFilesService = DependencyService.getInstance().getDependency<CeremonyFilesService>(CeremonyFilesService.serviceName);
 
     private nameContentEditable: React.RefObject<HTMLHeadingElement>;
 
@@ -165,6 +167,22 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
         return this.state.files.filter(f => f.additionalData.questionId == questionId);
     }
 
+    async fileSaved(file: CeremonyFileDTO, newDescription: string | null | undefined) {
+        const request = {
+            id: file.id,
+            description: newDescription
+        };
+
+        await this.ceremonyFilesService.update(this.props.ceremonyId, request, this.props.context.rootContext as RootContextProps);
+
+        const newFiles = cloneDeep(this.state.files);
+
+        const updatedFile = newFiles.filter(f => f.id == file.id)[0];
+        updatedFile.description = newDescription;
+
+        this.setState({ files: newFiles });
+    }
+
     async fileDeleted(file: CeremonyFileDTO) {
         // TODO: Show a message box asking the user to confirm whether they wish to delete the file.
         if (this.state.meeting) {
@@ -251,6 +269,7 @@ export class EditCeremonyMeeting extends React.Component<EditCeremonyMeetingProp
                                     meetingId={this.props.meetingId}
                                     context={this.props.context}
                                     questionUpdated={this.questionUpdated.bind(this)}
+                                    fileSaved={this.fileSaved.bind(this)}
                                     fileDeleted={this.fileDeleted.bind(this)} />)) : ""}
                             </div>
                             <div className="modal-footer">
