@@ -103,6 +103,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyTypeFileCategory> CeremonyTypeFileCategories { get; set; }
 
         /// <summary>
+        /// The ceremony type forms table.
+        /// </summary>
+        public DbSet<CeremonyTypeForm> CeremonyTypeForms { get; set; }
+
+        /// <summary>
         /// The ceremonies table.
         /// </summary>
         public DbSet<Ceremony> Ceremonies { get; set; }
