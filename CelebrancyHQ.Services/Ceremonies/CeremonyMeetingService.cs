@@ -2,6 +2,7 @@
 
 using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Constants.Ceremonies;
+using CelebrancyHQ.Constants.Forms;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
@@ -305,7 +306,7 @@ namespace CelebrancyHQ.Services.Ceremonies
             // TODO: Handle field types other than text fields here.
             List<AuditEvent> auditEvents = null;
 
-            if (ceremonyTypeMeetingQuestion.QuestionType.Code == CeremonyTypeMeetingQuestionTypeConstants.TextFieldCode)
+            if (ceremonyTypeMeetingQuestion.QuestionType.Code == FormFieldTypeConstants.TextFieldCode)
             {
                 // Generate audit logs for the question.
                 var newQuestionForAuditing = new CeremonyMeetingQuestion()

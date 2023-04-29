@@ -1,9 +1,9 @@
-﻿namespace CelebrancyHQ.Constants.Ceremonies
+﻿namespace CelebrancyHQ.Constants.Forms
 {
     /// <summary>
-    /// Constants specific to ceremony type meeting question types.
+    /// Constants specific to form field types.
     /// </summary>
-    public static class CeremonyTypeMeetingQuestionTypeConstants
+    public static class FormFieldTypeConstants
     {
         public const string TextFieldCode = "Text";
         public const string DropdownCode = "Dropdown";

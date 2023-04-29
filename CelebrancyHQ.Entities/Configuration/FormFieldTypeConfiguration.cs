@@ -7,16 +7,16 @@ using FormConstants = CelebrancyHQ.Constants.Forms;
 namespace CelebrancyHQ.Entities.Configuration
 {
     /// <summary>
-    /// Sets up seed data for the ceremony type meeting question types table.
+    /// Sets up seed data for the form field types table.
     /// </summary>
-    public class CeremonyTypeMeetingQuestionTypeConfiguration : IEntityTypeConfiguration<CeremonyTypeMeetingQuestionType>
+    public class FormFieldTypeConfiguration : IEntityTypeConfiguration<FormFieldType>
     {
-        public void Configure(EntityTypeBuilder<CeremonyTypeMeetingQuestionType> builder)
+        public void Configure(EntityTypeBuilder<FormFieldType> builder)
         {
             // Text field.
             builder.HasData
             (
-                new CeremonyTypeMeetingQuestionType()
+                new FormFieldType()
                 {
                     Id = EntitiesConstants.Forms.FormFieldTypeConstants.TextFieldId,
                     Code = FormConstants.FormFieldTypeConstants.TextFieldCode,
@@ -29,7 +29,7 @@ namespace CelebrancyHQ.Entities.Configuration
             // Dropdown.
             builder.HasData
             (
-                new CeremonyTypeMeetingQuestionType()
+                new FormFieldType()
                 {
                     Id = EntitiesConstants.Forms.FormFieldTypeConstants.DropdownId,
                     Code = FormConstants.FormFieldTypeConstants.DropdownCode,
@@ -42,7 +42,7 @@ namespace CelebrancyHQ.Entities.Configuration
             // Checkboxes.
             builder.HasData
             (
-                new CeremonyTypeMeetingQuestionType()
+                new FormFieldType()
                 {
                     Id = EntitiesConstants.Forms.FormFieldTypeConstants.CheckboxesId,
                     Code = FormConstants.FormFieldTypeConstants.CheckboxesCode,
@@ -55,7 +55,7 @@ namespace CelebrancyHQ.Entities.Configuration
             // Image.
             builder.HasData
             (
-                new CeremonyTypeMeetingQuestionType()
+                new FormFieldType()
                 {
                     Id = EntitiesConstants.Forms.FormFieldTypeConstants.ImageId,
                     Code = FormConstants.FormFieldTypeConstants.ImageCode,
@@ -68,7 +68,7 @@ namespace CelebrancyHQ.Entities.Configuration
             // File.
             builder.HasData
             (
-                new CeremonyTypeMeetingQuestionType()
+                new FormFieldType()
                 {
                     Id = EntitiesConstants.Forms.FormFieldTypeConstants.FileId,
                     Code = FormConstants.FormFieldTypeConstants.FileCode,

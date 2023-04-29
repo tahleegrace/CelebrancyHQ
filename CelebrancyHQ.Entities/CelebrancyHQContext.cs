@@ -38,6 +38,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<FileAuditLog> FileAuditLogs { get; set; }
 
         /// <summary>
+        /// The form field types table.
+        /// </summary>
+        public DbSet<FormFieldType> FormFieldTypes { get; set; }
+
+        /// <summary>
         /// The person phone numbers table.
         /// </summary>
         public DbSet<PersonPhoneNumber> PersonPhoneNumbers { get; set; }
@@ -196,6 +201,7 @@ namespace CelebrancyHQ.Entities
             modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new FormFieldTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeParticipantConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeDateConfiguration());
