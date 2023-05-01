@@ -118,6 +118,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<CeremonyTypeFormSection> CeremonyTypeFormSections { get; set; }
 
         /// <summary>
+        /// The ceremony type form fields table.
+        /// </summary>
+        public DbSet<CeremonyTypeFormField> CeremonyTypeFormFields { get; set; }
+
+        /// <summary>
         /// The ceremonies table.
         /// </summary>
         public DbSet<Ceremony> Ceremonies { get; set; }
