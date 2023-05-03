@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony type service providers repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeServiceProviderRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type service provider for the specified ceremony type with the specified code.</returns>
         public async Task<CeremonyTypeServiceProvider?> FindByCode(int ceremonyTypeId, string code)
         {
-            return await this._context.CeremonyTypeServiceProviders.Where(tsp => tsp.CeremonyTypeId == ceremonyTypeId && tsp.Code == code && !tsp.Deleted)
+            return await _context.CeremonyTypeServiceProviders.Where(tsp => tsp.CeremonyTypeId == ceremonyTypeId && tsp.Code == code && !tsp.Deleted)
                                                                    .FirstOrDefaultAsync();
         }
     }

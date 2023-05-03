@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony types repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type with the specified ID.</returns>
         public async Task<CeremonyType?> FindById(int id)
         {
-            return await this._context.CeremonyTypes.Where(t => t.Id == id && !t.Deleted).FirstOrDefaultAsync();
+            return await _context.CeremonyTypes.Where(t => t.Id == id && !t.Deleted).FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -41,11 +41,11 @@ namespace CelebrancyHQ.Repository.Ceremonies
 
             if (organisationId == null)
             {
-                ceremonyTypes = await this._context.CeremonyTypes.Where(t => t.OrganisationId == null && !t.Deleted).ToListAsync();
+                ceremonyTypes = await _context.CeremonyTypes.Where(t => t.OrganisationId == null && !t.Deleted).ToListAsync();
             }
             else
             {
-                ceremonyTypes = await this._context.CeremonyTypes.Where(t => (t.OrganisationId == organisationId || t.OrganisationId == null) && !t.Deleted).ToListAsync();
+                ceremonyTypes = await _context.CeremonyTypes.Where(t => (t.OrganisationId == organisationId || t.OrganisationId == null) && !t.Deleted).ToListAsync();
             }
 
             return ceremonyTypes;

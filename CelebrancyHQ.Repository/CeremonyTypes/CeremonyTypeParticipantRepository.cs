@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony type participants repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeParticipantRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -30,13 +30,13 @@ namespace CelebrancyHQ.Repository.Ceremonies
         {
             IQueryable<CeremonyTypeParticipant> query;
 
-            if (!String.IsNullOrWhiteSpace(codeToExclude))
+            if (!string.IsNullOrWhiteSpace(codeToExclude))
             {
-                query = this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code != codeToExclude && !tp.Deleted);
+                query = _context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code != codeToExclude && !tp.Deleted);
             }
             else
             {
-                query = this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && !tp.Deleted);
+                query = _context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && !tp.Deleted);
             }
 
             return await query.OrderBy(tp => tp.SortOrder).ToListAsync();
@@ -49,7 +49,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The IDs of the ceremony type participants with the specified code.</returns>
         public async Task<List<int>> FindIdsByCode(string code)
         {
-            var ids = await this._context.CeremonyTypeParticipants.Where(tp => tp.Code == code && !tp.Deleted)
+            var ids = await _context.CeremonyTypeParticipants.Where(tp => tp.Code == code && !tp.Deleted)
                                                                   .Select(tp => tp.Id)
                                                                   .ToListAsync();
 
@@ -64,7 +64,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type participant for the specified ceremony type with the specified code.</returns>
         public async Task<CeremonyTypeParticipant?> FindByCode(int ceremonyTypeId, string code)
         {
-            return await this._context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code == code && !tp.Deleted)
+            return await _context.CeremonyTypeParticipants.Where(tp => tp.CeremonyTypeId == ceremonyTypeId && tp.Code == code && !tp.Deleted)
                                                                .FirstOrDefaultAsync();
         }
     }

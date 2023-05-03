@@ -1,5 +1,6 @@
 ﻿using CelebrancyHQ.Repository.Addresses;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.CeremonyTypes;
 using CelebrancyHQ.Repository.Files;
 using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;

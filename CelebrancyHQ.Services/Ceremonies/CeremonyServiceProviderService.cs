@@ -11,6 +11,7 @@ using CelebrancyHQ.Models.DTOs.PhoneNumbers;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Repository.Addresses;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.CeremonyTypes;
 using CelebrancyHQ.Repository.Organisations;
 
 namespace CelebrancyHQ.Services.Ceremonies

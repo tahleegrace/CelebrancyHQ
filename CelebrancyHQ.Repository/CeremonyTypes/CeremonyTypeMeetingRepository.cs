@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony type meeting repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeMeetingRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type meeting with the specified ID.</returns>
         public async Task<CeremonyTypeMeeting?> FindById(int ceremonyTypeMeetingId)
         {
-            return await this._context.CeremonyTypeMeetings.Where(ctm => ctm.Id == ceremonyTypeMeetingId && !ctm.Deleted).FirstOrDefaultAsync();
+            return await _context.CeremonyTypeMeetings.Where(ctm => ctm.Id == ceremonyTypeMeetingId && !ctm.Deleted).FirstOrDefaultAsync();
         }
     }
 }

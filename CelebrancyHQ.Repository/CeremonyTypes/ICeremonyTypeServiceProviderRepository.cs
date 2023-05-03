@@ -1,6 +1,6 @@
 ﻿using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// A ceremony type service provider repository.

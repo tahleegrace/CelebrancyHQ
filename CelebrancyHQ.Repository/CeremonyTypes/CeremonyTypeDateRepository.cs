@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony type date repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeDateRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type date with the specified code.</returns>
         public async Task<CeremonyTypeDate?> FindByCode(string code, int ceremonyTypeId)
         {
-            return await this._context.CeremonyTypeDates.Where(ctd => ctd.Code == code && ctd.CeremonyTypeId == ceremonyTypeId && !ctd.Deleted)
+            return await _context.CeremonyTypeDates.Where(ctd => ctd.Code == code && ctd.CeremonyTypeId == ceremonyTypeId && !ctd.Deleted)
                                                         .FirstOrDefaultAsync();
         }
     }

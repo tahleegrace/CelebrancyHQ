@@ -8,6 +8,7 @@ using CelebrancyHQ.Models.DTOs.Organisations;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.CeremonyTypes;
 using CelebrancyHQ.Repository.Organisations;
 using CelebrancyHQ.Repository.Persons;
 using CelebrancyHQ.Repository.Users;

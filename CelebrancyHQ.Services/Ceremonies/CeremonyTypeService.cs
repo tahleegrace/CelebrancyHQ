@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Users;
-using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.CeremonyTypes;
 using CelebrancyHQ.Repository.Users;
 
 namespace CelebrancyHQ.Services.Ceremonies

@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using CelebrancyHQ.Entities;
+using CelebrancyHQ.Repository.Ceremonies;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony service providers repository.
@@ -17,7 +18,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyServiceProviderRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony service provider with the specified ID.</returns>
         public async Task<CeremonyServiceProvider?> FindById(int ceremonyServiceProviderId)
         {
-            return await this._context.CeremonyServiceProviders.Include(csp => csp.CeremonyTypeServiceProvider)
+            return await _context.CeremonyServiceProviders.Include(csp => csp.CeremonyTypeServiceProvider)
                                                                .Include(csp => csp.Organisation)
                                                                .Where(csp => csp.Id == ceremonyServiceProviderId && !csp.Deleted)
                                                                .FirstOrDefaultAsync();
@@ -42,7 +43,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>Whether the specified organisation is a service provider of the specified type in the specified ceremony.</returns>
         public async Task<bool> OrganisationIsCeremonyServiceProvider(int organisationId, int ceremonyId, string code)
         {
-            return await this._context.CeremonyServiceProviders.Include(csp => csp.CeremonyTypeServiceProvider)
+            return await _context.CeremonyServiceProviders.Include(csp => csp.CeremonyTypeServiceProvider)
                                                                .Where(csp => csp.OrganisationId == organisationId && csp.CeremonyId == ceremonyId
                                                                           && csp.CeremonyTypeServiceProvider.Code == code && !csp.Deleted)
                                                                .AnyAsync();
@@ -57,7 +58,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>Whether the specified organisation is a service provider other than the specified type in the specified ceremony.</returns>
         public async Task<bool> OrganisationIsCeremonyServiceProviderOfOtherType(int organisationId, int ceremonyId, string codeToExclude)
         {
-            return await this._context.CeremonyServiceProviders.Include(csp => csp.CeremonyTypeServiceProvider)
+            return await _context.CeremonyServiceProviders.Include(csp => csp.CeremonyTypeServiceProvider)
                                                                .Where(csp => csp.OrganisationId == organisationId && csp.CeremonyId == ceremonyId
                                                                           && csp.CeremonyTypeServiceProvider.Code != codeToExclude && !csp.Deleted)
                                                                .AnyAsync();
@@ -71,7 +72,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>Whether the specified organisation is a service provider for any ceremonies other than the specified ceremony.</returns>
         public async Task<bool> OrganisationIsServiceProviderForOtherCeremonies(int organistionId, int ceremonyToExcludeId)
         {
-            return await this._context.CeremonyServiceProviders.Where(csp => csp.OrganisationId == organistionId && csp.CeremonyId != ceremonyToExcludeId
+            return await _context.CeremonyServiceProviders.Where(csp => csp.OrganisationId == organistionId && csp.CeremonyId != ceremonyToExcludeId
                                                                           && !csp.Deleted)
                                                                .AnyAsync();
         }
@@ -86,9 +87,9 @@ namespace CelebrancyHQ.Repository.Ceremonies
             serviceProvider.Created = DateTime.UtcNow;
             serviceProvider.Updated = DateTime.UtcNow;
 
-            this._context.CeremonyServiceProviders.Add(serviceProvider);
+            _context.CeremonyServiceProviders.Add(serviceProvider);
 
-            await this._context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             var newServiceProvider = await FindById(serviceProvider.Id);
             return newServiceProvider;
@@ -100,10 +101,10 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="id">The ID of the service provider.</param>
         public async Task Delete(int id)
         {
-            var serviceProvider = await this.FindById(id);
+            var serviceProvider = await FindById(id);
             serviceProvider.Updated = DateTime.UtcNow;
             serviceProvider.Deleted = true;
-            await this._context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

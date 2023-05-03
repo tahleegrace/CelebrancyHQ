@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony type meeting questions repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeMeetingQuestionRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type meeting question with the specified ID.</returns>
         public async Task<CeremonyTypeMeetingQuestion?> FindById(int ceremonyTypeMeetingQuestionId)
         {
-            return await this._context.CeremonyTypeMeetingQuestions.Include(ctmq => ctmq.QuestionType)
+            return await _context.CeremonyTypeMeetingQuestions.Include(ctmq => ctmq.QuestionType)
                                                                    .Where(ctmq => ctmq.Id == ceremonyTypeMeetingQuestionId && !ctmq.Deleted)
                                                                    .FirstOrDefaultAsync();
         }
@@ -39,7 +39,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The questions for the specified ceremony type meeting.</returns>
         public async Task<List<CeremonyTypeMeetingQuestion>> FindByCeremonyTypeMeetingId(int ceremonyTypeMeetingId)
         {
-            return await this._context.CeremonyTypeMeetingQuestions.Include(ctmq => ctmq.QuestionType)
+            return await _context.CeremonyTypeMeetingQuestions.Include(ctmq => ctmq.QuestionType)
                                                                    .Where(ctmq => ctmq.CeremonyTypeMeetingId == ceremonyTypeMeetingId && !ctmq.Deleted)
                                                                    .ToListAsync();
         }

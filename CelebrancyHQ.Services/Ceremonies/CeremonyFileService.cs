@@ -7,6 +7,7 @@ using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Files;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.CeremonyTypes;
 using CelebrancyHQ.Services.Files;
 
 namespace CelebrancyHQ.Services.Ceremonies

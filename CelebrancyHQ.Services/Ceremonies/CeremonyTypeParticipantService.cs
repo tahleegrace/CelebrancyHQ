@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
-using CelebrancyHQ.Repository.Ceremonies;
+using CelebrancyHQ.Repository.CeremonyTypes;
 
 namespace CelebrancyHQ.Services.Ceremonies
 {

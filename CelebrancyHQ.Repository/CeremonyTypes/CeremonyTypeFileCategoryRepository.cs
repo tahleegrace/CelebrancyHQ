@@ -2,7 +2,7 @@
 
 using CelebrancyHQ.Entities;
 
-namespace CelebrancyHQ.Repository.Ceremonies
+namespace CelebrancyHQ.Repository.CeremonyTypes
 {
     /// <summary>
     /// The ceremony type file categories repository.
@@ -17,7 +17,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <param name="context">The database context.</param>
         public CeremonyTypeFileCategoryRepository(CelebrancyHQContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The ceremony type file category with the specified ID.</returns>
         public async Task<CeremonyTypeFileCategory?> FindById(int id)
         {
-            return await this._context.CeremonyTypeFileCategories.Where(ctfc => ctfc.Id == id && !ctfc.Deleted)
+            return await _context.CeremonyTypeFileCategories.Where(ctfc => ctfc.Id == id && !ctfc.Deleted)
                                                                  .FirstOrDefaultAsync();
         }
 
@@ -39,7 +39,7 @@ namespace CelebrancyHQ.Repository.Ceremonies
         /// <returns>The file category for the specified ceremony type with the specified code.</returns>
         public async Task<CeremonyTypeFileCategory?> FindByCode(int ceremonyTypeId, string code)
         {
-            return await this._context.CeremonyTypeFileCategories.Where(ctfc => ctfc.CeremonyTypeId == ceremonyTypeId && ctfc.Code == code && !ctfc.Deleted)
+            return await _context.CeremonyTypeFileCategories.Where(ctfc => ctfc.CeremonyTypeId == ceremonyTypeId && ctfc.Code == code && !ctfc.Deleted)
                                                                  .FirstOrDefaultAsync();
         }
     }
