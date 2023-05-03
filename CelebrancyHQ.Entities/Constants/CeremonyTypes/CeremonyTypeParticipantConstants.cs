@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Entities.Constants.Ceremonies
+﻿namespace CelebrancyHQ.Entities.Constants.CeremonyTypes
 {
     /// <summary>
     /// Constants specific to ceremony type participants.

@@ -1,10 +1,11 @@
-﻿namespace CelebrancyHQ.Constants.Ceremonies
+﻿namespace CelebrancyHQ.Entities.Constants.CeremonyTypes
 {
     /// <summary>
     /// Constants specific to ceremony type file categories.
     /// </summary>
     public static class CeremonyTypeFileCategoryConstants
     {
-        public const string MeetingCode = "Meeting";
+        public const int MarriageMeetingId = 1;
+        public const int FuneralMeetingId = 2;
     }
 }

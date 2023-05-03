@@ -3,6 +3,7 @@
 using CelebrancyHQ.Auditing.Ceremonies;
 using CelebrancyHQ.Auditing.Persons;
 using CelebrancyHQ.Constants.Ceremonies;
+using CelebrancyHQ.Constants.CeremonyTypes;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Addresses;
 using CelebrancyHQ.Models.DTOs.Ceremonies;

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-using CelebrancyHQ.Constants.Ceremonies;
+using CelebrancyHQ.Constants.CeremonyTypes;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Repository.Ceremonies;

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using EntitiesConstants = CelebrancyHQ.Entities.Constants;
-using CeremonyConstants = CelebrancyHQ.Constants.Ceremonies;
+using CelebrancyHQ.Constants.CeremonyTypes;
 
 namespace CelebrancyHQ.Entities.Configuration
 {
@@ -18,9 +18,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeFileCategory()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeFileCategoryConstants.MarriageMeetingId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeFileCategoryConstants.MeetingCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeFileCategoryConstants.MarriageMeetingId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeFileCategoryConstants.MeetingCode,
                     PermissionCode = "Meetings",
                     Name = "Meeting",
                     Description = "A meeting with another ceremony participant."
@@ -32,9 +32,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeFileCategory()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeFileCategoryConstants.FuneralMeetingId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeFileCategoryConstants.MeetingCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeFileCategoryConstants.FuneralMeetingId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeFileCategoryConstants.MeetingCode,
                     PermissionCode = "Meetings",
                     Name = "Meeting",
                     Description = "A meeting with another ceremony participant."

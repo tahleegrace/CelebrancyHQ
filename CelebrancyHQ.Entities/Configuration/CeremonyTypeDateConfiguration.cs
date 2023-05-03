@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using EntitiesConstants = CelebrancyHQ.Entities.Constants;
-using CeremonyConstants = CelebrancyHQ.Constants.Ceremonies;
+using CelebrancyHQ.Constants.CeremonyTypes;
 
 namespace CelebrancyHQ.Entities.Configuration
 {
@@ -20,9 +20,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.MarriageInitialPhoneCallId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.InitialPhoneCallCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.MarriageInitialPhoneCallId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeDateConstants.InitialPhoneCallCode,
                     Name = "Initial phone call",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -34,9 +34,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.MarriageInitialInterviewId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.InitialInterviewCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.MarriageInitialInterviewId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeDateConstants.InitialInterviewCode,
                     Name = "Initial interview",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -48,9 +48,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.MarriageRehearsalId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.RehearsalCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.MarriageRehearsalId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeDateConstants.RehearsalCode,
                     Name = "Rehearsal",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -62,9 +62,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.MarriageCeremonyId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.CeremonyCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.MarriageCeremonyId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeDateConstants.CeremonyCode,
                     Name = "Ceremony",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -76,9 +76,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.MarriageReceptionId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.ReceptionCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.MarriageReceptionId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeDateConstants.ReceptionCode,
                     Name = "Reception",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -90,9 +90,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.MarriageOtherId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.MarriageCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.OtherCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.MarriageOtherId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.MarriageCeremonyId,
+                    Code = CeremonyTypeDateConstants.OtherCode,
                     Name = "Other",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -106,9 +106,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralInitialPhoneCallId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.InitialPhoneCallCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralInitialPhoneCallId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.InitialPhoneCallCode,
                     Name = "Initial phone call",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -120,9 +120,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralInitialInterviewId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.InitialInterviewCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralInitialInterviewId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.InitialInterviewCode,
                     Name = "Initial interview",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -134,9 +134,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralRehearsalId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.RehearsalCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralRehearsalId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.RehearsalCode,
                     Name = "Rehearsal",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -148,9 +148,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralCeremonyId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.CeremonyCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralCeremonyId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.CeremonyCode,
                     Name = "Ceremony",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -162,9 +162,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralWakeId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.WakeCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralWakeId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.WakeCode,
                     Name = "Wake",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -176,9 +176,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralOtherId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.OtherCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralOtherId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.OtherCode,
                     Name = "Other",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate
@@ -190,9 +190,9 @@ namespace CelebrancyHQ.Entities.Configuration
             (
                 new CeremonyTypeDate()
                 {
-                    Id = EntitiesConstants.Ceremonies.CeremonyTypeDateConstants.FuneralDateOfDeathId,
-                    CeremonyTypeId = EntitiesConstants.Ceremonies.CeremonyTypeConstants.FuneralCeremonyId,
-                    Code = CeremonyConstants.CeremonyTypeDateConstants.DateOfDeathCode,
+                    Id = EntitiesConstants.CeremonyTypes.CeremonyTypeDateConstants.FuneralDateOfDeathId,
+                    CeremonyTypeId = EntitiesConstants.CeremonyTypes.CeremonyTypeConstants.FuneralCeremonyId,
+                    Code = CeremonyTypeDateConstants.DateOfDeathCode,
                     Name = "Death",
                     Created = EntitiesConstants.GeneralConstants.SeedDataCreationDate,
                     Updated = EntitiesConstants.GeneralConstants.SeedDataCreationDate

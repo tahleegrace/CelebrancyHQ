@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Constants.Ceremonies
+﻿namespace CelebrancyHQ.Constants.CeremonyTypes
 {
     /// <summary>
     /// Constants specific to ceremony type dates.
