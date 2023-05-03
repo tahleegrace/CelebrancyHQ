@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Models.DTOs.Ceremonies
+﻿namespace CelebrancyHQ.Models.DTOs.CeremonyTypes
 {
     /// <summary>
     /// Stores information about a ceremony type participant.

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using CelebrancyHQ.Models.DTOs.Ceremonies;
-using CelebrancyHQ.Services.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Models.DTOs.CeremonyTypes;using CelebrancyHQ.Services.Ceremonies;
 
 namespace CelebrancyHQ.API.Controllers
 {

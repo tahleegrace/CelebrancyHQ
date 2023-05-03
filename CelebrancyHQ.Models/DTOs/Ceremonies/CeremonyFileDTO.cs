@@ -1,5 +1,5 @@
 ﻿using System.Dynamic;
-
+using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 using CelebrancyHQ.Models.DTOs.Files;
 
 namespace CelebrancyHQ.Models.DTOs.Ceremonies

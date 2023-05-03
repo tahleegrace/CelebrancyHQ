@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 using CelebrancyHQ.Entities;
-using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 
 namespace CelebrancyHQ.Mappings.Ceremonies
 {

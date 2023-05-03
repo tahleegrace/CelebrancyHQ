@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Models.DTOs.Ceremonies
+﻿namespace CelebrancyHQ.Models.DTOs.CeremonyTypes
 {
     /// <summary>
     /// A type of ceremony that can be offered (such as a wedding or funeral).

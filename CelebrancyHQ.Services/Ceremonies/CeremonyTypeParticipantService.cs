@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CelebrancyHQ.Models.DTOs.Ceremonies;
+using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Repository.CeremonyTypes;
 

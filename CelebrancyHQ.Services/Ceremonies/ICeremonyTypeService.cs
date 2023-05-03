@@ -1,4 +1,4 @@
-﻿using CelebrancyHQ.Models.DTOs.Ceremonies;
+﻿using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 
 namespace CelebrancyHQ.Services.Ceremonies
 {
