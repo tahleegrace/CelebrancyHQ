@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Models.Exceptions.Ceremonies
+﻿namespace CelebrancyHQ.Models.Exceptions.CeremonyTypes
 {
     /// <summary>
     /// An exception that occurs when a ceremony type date is not found with the specified code.
@@ -16,7 +16,7 @@
         /// <param name="code">The code of the date.</param>
         public CeremonyTypeDateNotFoundWithCodeException(string code)
         {
-            this.Code = code;
+            Code = code;
         }
     }
 }

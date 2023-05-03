@@ -8,6 +8,7 @@ using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Files;
 using CelebrancyHQ.Models.DTOs.Files;
+using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
 
 namespace CelebrancyHQ.API.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace CelebrancyHQ.Models.Exceptions.Ceremonies
+﻿namespace CelebrancyHQ.Models.Exceptions.CeremonyTypes
 {
     /// <summary>
     /// An exception that occurs when a ceremony type is not found.
@@ -17,7 +17,7 @@
         public CeremonyTypeNotFoundException(int ceremonyTypeId)
             : base()
         {
-            this.CeremonyTypeId = ceremonyTypeId;
+            CeremonyTypeId = ceremonyTypeId;
         }
     }
 }

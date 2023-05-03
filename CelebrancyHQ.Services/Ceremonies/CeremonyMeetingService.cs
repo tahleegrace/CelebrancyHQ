@@ -8,6 +8,7 @@ using CelebrancyHQ.Entities.Auditing;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.Persons;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.CeremonyTypes;
 

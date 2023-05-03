@@ -5,6 +5,7 @@ using CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.CeremonyTypes;
 

@@ -9,6 +9,7 @@ using CelebrancyHQ.Models.DTOs.Addresses;
 using CelebrancyHQ.Models.DTOs.Ceremonies;
 using CelebrancyHQ.Models.DTOs.PhoneNumbers;
 using CelebrancyHQ.Models.Exceptions.Ceremonies;
+using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
 using CelebrancyHQ.Repository.Addresses;
 using CelebrancyHQ.Repository.Ceremonies;
 using CelebrancyHQ.Repository.CeremonyTypes;
