@@ -18,7 +18,7 @@ namespace CelebrancyHQ.Services.Ceremonies
         private readonly ICeremonyPermissionRepository _ceremonyPermissionRepository;
 
         /// <summary>
-        /// Creates a new instance of ceremonyPermissionService.
+        /// Creates a new instance of CeremonyPermissionService.
         /// </summary>
         /// <param name="userRepository">The users repository.</param>
         /// <param name="ceremonyRepository">The ceremonies repository.</param>
