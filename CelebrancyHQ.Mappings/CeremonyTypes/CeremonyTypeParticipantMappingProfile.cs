@@ -3,7 +3,7 @@
 using CelebrancyHQ.Entities;
 using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 
-namespace CelebrancyHQ.Mappings.Ceremonies
+namespace CelebrancyHQ.Mappings.CeremonyTypes
 {
     /// <summary>
     /// Defines mappings between ceremony type participant domain model and entity classes.
