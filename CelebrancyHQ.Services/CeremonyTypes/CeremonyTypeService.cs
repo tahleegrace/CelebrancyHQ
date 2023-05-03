@@ -5,7 +5,7 @@ using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Repository.CeremonyTypes;
 using CelebrancyHQ.Repository.Users;
 
-namespace CelebrancyHQ.Services.Ceremonies
+namespace CelebrancyHQ.Services.CeremonyTypes
 {
     /// <summary>
     /// Provides functions for managing the types of ceremonies that can be offered.
@@ -24,9 +24,9 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <param name="mapper">The mapper.</param>
         public CeremonyTypeService(IUserRepository userRepository, ICeremonyTypeRepository ceremonyTypeRepository, IMapper mapper)
         {
-            this._userRepository = userRepository;
-            this._ceremonyTypeRepository = ceremonyTypeRepository;
-            this._mapper = mapper;
+            _userRepository = userRepository;
+            _ceremonyTypeRepository = ceremonyTypeRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,15 +36,15 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <returns>The types of ceremonies the user can offer.</returns>
         public async Task<List<CeremonyTypeDTO>> GetCeremonyTypes(int userId)
         {
-            var user = await this._userRepository.FindById(userId);
+            var user = await _userRepository.FindById(userId);
 
             if (user == null)
             {
                 throw new UserNotFoundException(userId);
             }
 
-            var ceremonyTypes = await this._ceremonyTypeRepository.FindByOrganisationId(user.Person.OrganisationId);
-            var result = this._mapper.Map<List<CeremonyTypeDTO>>(ceremonyTypes);
+            var ceremonyTypes = await _ceremonyTypeRepository.FindByOrganisationId(user.Person.OrganisationId);
+            var result = _mapper.Map<List<CeremonyTypeDTO>>(ceremonyTypes);
 
             return result;
         }

@@ -3,7 +3,7 @@ using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
 using CelebrancyHQ.Repository.CeremonyTypes;
 
-namespace CelebrancyHQ.Services.Ceremonies
+namespace CelebrancyHQ.Services.CeremonyTypes
 {
     /// <summary>
     /// Provides functions for managing ceremony type participants.
@@ -23,9 +23,9 @@ namespace CelebrancyHQ.Services.Ceremonies
         public CeremonyTypeParticipantService(ICeremonyTypeRepository ceremonyTypeRepository, ICeremonyTypeParticipantRepository ceremonyTypeParticipantRepository,
             IMapper mapper)
         {
-            this._ceremonyTypeRepository = ceremonyTypeRepository;
-            this._ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
-            this._mapper = mapper;
+            _ceremonyTypeRepository = ceremonyTypeRepository;
+            _ceremonyTypeParticipantRepository = ceremonyTypeParticipantRepository;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -36,15 +36,15 @@ namespace CelebrancyHQ.Services.Ceremonies
         /// <returns>The ceremony type participants for the specified ceremony type.</returns>
         public async Task<List<CeremonyTypeParticipantDTO>> GetCeremonyTypeParticipants(int ceremonyTypeId, string? codeToExclude)
         {
-            var ceremonyType = await this._ceremonyTypeRepository.FindById(ceremonyTypeId);
+            var ceremonyType = await _ceremonyTypeRepository.FindById(ceremonyTypeId);
 
             if (ceremonyType == null)
             {
                 throw new CeremonyTypeNotFoundException(ceremonyTypeId);
             }
 
-            var typeParticipants = await this._ceremonyTypeParticipantRepository.FindByCeremonyTypeId(ceremonyTypeId, codeToExclude);
-            var result = this._mapper.Map<List<CeremonyTypeParticipantDTO>>(typeParticipants);
+            var typeParticipants = await _ceremonyTypeParticipantRepository.FindByCeremonyTypeId(ceremonyTypeId, codeToExclude);
+            var result = _mapper.Map<List<CeremonyTypeParticipantDTO>>(typeParticipants);
 
             return result;
         }

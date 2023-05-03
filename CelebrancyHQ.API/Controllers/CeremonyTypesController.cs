@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 
 using CelebrancyHQ.Models.Exceptions.Users;
-using CelebrancyHQ.Models.DTOs.CeremonyTypes;using CelebrancyHQ.Services.Authentication;
-using CelebrancyHQ.Services.Ceremonies;
+using CelebrancyHQ.Models.DTOs.CeremonyTypes;
+using CelebrancyHQ.Services.Authentication;
+using CelebrancyHQ.Services.CeremonyTypes;
 
 namespace CelebrancyHQ.API.Controllers
 {

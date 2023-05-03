@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
-using CelebrancyHQ.Services.Ceremonies;
+using CelebrancyHQ.Services.CeremonyTypes;
 
 namespace CelebrancyHQ.API.Controllers
 {

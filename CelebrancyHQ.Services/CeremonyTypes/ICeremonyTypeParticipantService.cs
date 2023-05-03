@@ -1,6 +1,6 @@
 ﻿using CelebrancyHQ.Models.DTOs.CeremonyTypes;
 
-namespace CelebrancyHQ.Services.Ceremonies
+namespace CelebrancyHQ.Services.CeremonyTypes
 {
     /// <summary>
     /// A ceremony type participant service.

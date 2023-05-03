@@ -1,5 +1,6 @@
 ﻿using CelebrancyHQ.Services.Authentication;
 using CelebrancyHQ.Services.Ceremonies;
+using CelebrancyHQ.Services.CeremonyTypes;
 using CelebrancyHQ.Services.Files;
 using CelebrancyHQ.Services.Persons;
 
