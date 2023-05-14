@@ -13,5 +13,13 @@ namespace CelebrancyHQ.Repository.CeremonyTypes
         /// <param name="formId">The ID of the form.</param>
         /// <returns>The ceremony type form with the specified ID.</returns>
         Task<CeremonyTypeForm?> FindById(int formId);
+
+        /// <summary>
+        /// Finds the ceremony type forms that can be offered by the specified organisation.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <param name="organisationId">The ID of the organisation.</param>
+        /// <returns>The ceremony type forms that can be offered by the specified organisation for the specified ceremony type.</returns>
+        Task<List<CeremonyTypeForm>> FindByOrganisationId(int ceremonyTypeId, int? organisationId);
     }
 }

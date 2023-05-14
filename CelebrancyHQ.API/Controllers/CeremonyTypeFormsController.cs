@@ -6,6 +6,7 @@ using CelebrancyHQ.Models.Exceptions.CeremonyTypes;
 using CelebrancyHQ.Models.Exceptions.Users;
 using CelebrancyHQ.Services.Authentication;
 using CelebrancyHQ.Services.CeremonyTypes;
+using System.Diagnostics;
 
 namespace CelebrancyHQ.API.Controllers
 {
@@ -29,6 +30,29 @@ namespace CelebrancyHQ.API.Controllers
         {
             this._authenticationService = authenticationService;
             this._ceremonyTypeFormService = ceremonyTypeFormService;
+        }
+
+        /// <summary>
+        /// Finds the ceremony type forms that can be offered by the current user's organisation.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <returns>The ceremony type forms that can be offered by the current user's organisation for the specified ceremony type.</returns>
+        public async Task<ActionResult<List<CeremonyTypeFormDTO>>> GetAll(int ceremonyTypeId)
+        {
+            var currentUserId = this._authenticationService.GetCurrentUserId(User);
+
+            try
+            {
+                return await this._ceremonyTypeFormService.GetAllCeremonyTypeForms(ceremonyTypeId, currentUserId.Value);
+            }
+            catch (Exception ex) when (ex is CeremonyTypeFormNotFoundException || ex is CeremonyTypeNotFoundException || ex is UserNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex) when (ex is PersonCannotViewCeremonyTypeDetailsException)
+            {
+                return Forbid();
+            }
         }
 
         /// <summary>

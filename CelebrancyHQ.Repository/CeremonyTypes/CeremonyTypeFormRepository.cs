@@ -29,5 +29,27 @@ namespace CelebrancyHQ.Repository.CeremonyTypes
         {
             return await this._context.CeremonyTypeForms.Where(ctf => ctf.Id == formId && !ctf.Deleted).FirstOrDefaultAsync();
         }
+
+        /// <summary>
+        /// Finds the ceremony type forms that can be offered by the specified organisation.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <param name="organisationId">The ID of the organisation.</param>
+        /// <returns>The ceremony type forms that can be offered by the specified organisation for the specified ceremony type.</returns>
+        public async Task<List<CeremonyTypeForm>> FindByOrganisationId(int ceremonyTypeId, int? organisationId)
+        {
+            List<CeremonyTypeForm> forms;
+
+            if (organisationId == null)
+            {
+                forms = await _context.CeremonyTypeForms.Where(t => t.OrganisationId == null && !t.Deleted).ToListAsync();
+            }
+            else
+            {
+                forms = await _context.CeremonyTypeForms.Where(t => (t.OrganisationId == organisationId || t.OrganisationId == null) && !t.Deleted).ToListAsync();
+            }
+
+            return forms;
+        }
     }
 }

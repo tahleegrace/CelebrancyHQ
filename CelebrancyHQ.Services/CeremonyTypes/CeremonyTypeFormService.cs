@@ -48,9 +48,28 @@ namespace CelebrancyHQ.Services.CeremonyTypes
             // Make sure the user has permissions to view the forms for the ceremony type.
             var (currentUser, _) = await this._ceremonyTypePermissionService.CheckCeremonyTypeIsAccessible(form.CeremonyTypeId, currentUserId);
 
-            //await this._ceremonyTypePermissionService.CheckCanViewCeremony(form.CeremonyTypeId, currentUser.PersonId, CeremonyTypeFieldNames.Forms);
+            //await this._ceremonyTypePermissionService.CheckCanViewCeremonyType(form.CeremonyTypeId, currentUser.PersonId, CeremonyTypeFieldNames.Forms);
 
             var result = this._mapper.Map<CeremonyTypeFormDTO>(form);
+            return result;
+        }
+
+        /// <summary>
+        /// Finds the ceremony type forms that can be offered by the current user's organisation.
+        /// </summary>
+        /// <param name="ceremonyTypeId">The ID of the ceremony type.</param>
+        /// <param name="currentUserId">The ID of the current user.</param>
+        /// <returns>The ceremony type forms that can be offered by the current user's organisation for the specified ceremony type.</returns>
+        public async Task<List<CeremonyTypeFormDTO>> GetAllCeremonyTypeForms(int ceremonyTypeId, int currentUserId)
+        {
+            // Make sure the user has permissions to view the forms for the ceremony type.
+            var (currentUser, _) = await this._ceremonyTypePermissionService.CheckCeremonyTypeIsAccessible(ceremonyTypeId, currentUserId);
+
+            //await this._ceremonyTypePermissionService.CheckCanViewCeremonyType(ceremonyTypeId, currentUser.PersonId, CeremonyTypeFieldNames.Forms);
+
+            var forms = await this._ceremonyTypeFormRepository.FindByOrganisationId(ceremonyTypeId, currentUser.Person.OrganisationId);
+
+            var result = this._mapper.Map<List<CeremonyTypeFormDTO>>(forms);
             return result;
         }
     }
