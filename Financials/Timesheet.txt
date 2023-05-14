@@ -19,4 +19,6 @@ CelebrancyHQ timesheet:
 3/05/2023 6:15PM - 6:45PM: CHQ-15: Adding API for completing a form for a ceremony.
 3/05/2023 10:00PM - 11:00PM: CHQ-15: Adding API for completing a form for a ceremony.
 8/05/2023 5:45PM - 6:00PM: CHQ-15: Adding API for completing a form for a ceremony.
-14/05/2023 4:00PM - : CHQ-15: Adding API for completing a form for a ceremony.
+14/05/2023 4:00PM - 4:15PM: CHQ-15: Adding API for completing a form for a ceremony.
+14/05/2023: 4:15PM - 5:00PM: CHQ-16: Adding core infrastructure for notifying users of events.
+14/05/2023: 10:15PM - 11:15PM: CHQ-16: Adding core infrastructure for notifying users of events.

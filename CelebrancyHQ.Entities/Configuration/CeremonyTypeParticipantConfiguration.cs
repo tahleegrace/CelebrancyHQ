@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using EntitiesConstants = CelebrancyHQ.Entities.Constants;
-using CeremonyConstants = CelebrancyHQ.Constants.Ceremonies;
 using CelebrancyHQ.Constants.CeremonyTypes;
 
 namespace CelebrancyHQ.Entities.Configuration

@@ -28,6 +28,11 @@ namespace CelebrancyHQ.Entities
         public DbSet<PersonAuditLog> PersonAuditLogs { get; set; }
 
         /// <summary>
+        /// The notification categories table.
+        /// </summary>
+        public DbSet<NotificationCategory> NotificationCategories { get; set; }
+
+        /// <summary>
         /// The files table.
         /// </summary>
         public DbSet<File> Files { get; set; }
@@ -216,6 +221,7 @@ namespace CelebrancyHQ.Entities
             modelBuilder.ApplyConfiguration(new OrganisationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new NotificationCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new FormFieldTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CeremonyTypeParticipantConfiguration());
